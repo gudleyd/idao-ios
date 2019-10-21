@@ -1,6 +1,6 @@
 
-# Created by https://www.gitignore.io/api/git,swift,xcode
-# Edit at https://www.gitignore.io/?templates=git,swift,xcode
+# Created by https://www.gitignore.io/api/git,swift,xcode,macos
+# Edit at https://www.gitignore.io/?templates=git,swift,xcode,macos
 
 ### Git ###
 # Created by git for backups. To disable backups in Git:
@@ -16,6 +16,34 @@
 *_BASE_*.txt
 *_LOCAL_*.txt
 *_REMOTE_*.txt
+
+### macOS ###
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must end with two \r
+Icon
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
 
 ### Swift ###
 # Xcode
@@ -116,4 +144,4 @@ iOSInjectionProject/
 ### Xcode Patch ###
 **/xcshareddata/WorkspaceSettings.xcsettings
 
-# End of https://www.gitignore.io/api/git,swift,xcode
+# End of https://www.gitignore.io/api/git,swift,xcode,macos
