@@ -87,10 +87,10 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yib-YT-cZt">
-                                <rect key="frame" x="52" y="504.5" width="310.5" height="44"/>
+                                <rect key="frame" x="52" y="504.5" width="310.5" height="52"/>
                                 <color key="backgroundColor" systemColor="systemGray5Color" red="0.8980392157" green="0.8980392157" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="qMJ-lM-WnR"/>
+                                    <constraint firstAttribute="height" constant="52" id="qMJ-lM-WnR"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <state key="normal" title="Sign In">
@@ -98,18 +98,21 @@
                                 </state>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wqv-1X-BQG">
-                                <rect key="frame" x="52" y="786" width="310.5" height="44"/>
+                                <rect key="frame" x="52" y="778" width="310.5" height="52"/>
                                 <color key="backgroundColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="Kc1-dg-Y3W"/>
+                                    <constraint firstAttribute="height" constant="52" id="Kc1-dg-Y3W"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <state key="normal" title="Sign Up">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="signUpButtonTapped:" destination="Seu-2l-Rk7" eventType="touchUpInside" id="Dar-92-xyR"/>
+                                </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Don't have account?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="si5-yE-j6r">
-                                <rect key="frame" x="64" y="765" width="286" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Don't have an account?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="si5-yE-j6r">
+                                <rect key="frame" x="64" y="757" width="286" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="oqE-AJ-iXK"/>
                                 </constraints>
@@ -147,8 +150,10 @@
                     </view>
                     <navigationItem key="navigationItem" id="tBI-l3-tTp"/>
                     <connections>
+                        <outlet property="passwordField" destination="I73-Aj-mIh" id="jIr-Wa-roH"/>
                         <outlet property="signInButton" destination="yib-YT-cZt" id="6tq-Zm-mlN"/>
                         <outlet property="signUpButton" destination="wqv-1X-BQG" id="EF7-ge-T61"/>
+                        <outlet property="usernameField" destination="zkR-76-Lwq" id="Bz2-7c-mSK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sfr-Aj-nNO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -159,7 +164,7 @@
                     <viewLayoutGuide key="safeArea" id="1ol-x9-h1R"/>
                 </view>
             </objects>
-            <point key="canvasLocation" x="-310" y="177"/>
+            <point key="canvasLocation" x="-364" y="177"/>
         </scene>
     </scenes>
     <resources>

@@ -8,10 +8,13 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var signInButton: UIButton!
     @IBOutlet weak var signUpButton: UIButton!
+    
+    @IBOutlet weak var usernameField: UITextField!
+    @IBOutlet weak var passwordField: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,8 +23,19 @@ class ViewController: UIViewController {
         signInButton.layer.cornerRadius = 8
         signUpButton.layer.cornerRadius = 8
         
+        usernameField.delegate = self
+        passwordField.delegate = self
+    }
+    
+    @IBAction func signUpButtonTapped(_ sender: Any) {
         let newViewController = RegistrationViewController()
-        self.navigationController?.pushViewController(newViewController, animated: true)
+        let newNavController = UINavigationController(rootViewController: newViewController)
+        self.navigationController?.present(newNavController, animated: true, completion: nil)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
     }
     
     override func viewWillAppear(_ animated: Bool) {

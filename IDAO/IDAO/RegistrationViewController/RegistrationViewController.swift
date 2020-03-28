@@ -15,7 +15,14 @@ class RegistrationViewController: FormViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .done, target: self, action: #selector(cancelRegistration))
+        self.title = "Registration"
+        
         self.buildForm()
+    }
+    
+    @objc func cancelRegistration() {
+        self.dismiss(animated: true, completion: nil)
     }
     
     func buildForm() {
@@ -78,7 +85,6 @@ class RegistrationViewController: FormViewController {
             <<< TextRow("university") {
                 $0.placeholder = "University"
                 $0.hidden = Condition.function(["currentOccupation"], { form in
-                    print((form.rowBy(tag: "currentOccupation") as? ActionSheetRow<String>)?.value!)
                     return ((form.rowBy(tag: "currentOccupation") as? ActionSheetRow<String>)?.value! == "Student")
                 })
             }
