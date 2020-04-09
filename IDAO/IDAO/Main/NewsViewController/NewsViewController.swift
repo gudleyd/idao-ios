@@ -22,7 +22,7 @@ class NewsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        IdaoManager.shared.idaoStorage.newsTableDelegate = self
+        IdaoManager.shared.idaoStorage.setNewsTableDelegate(delegate: self)
         
         self.tableView.estimatedRowHeight = 120
         self.tableView.rowHeight = UITableView.automaticDimension

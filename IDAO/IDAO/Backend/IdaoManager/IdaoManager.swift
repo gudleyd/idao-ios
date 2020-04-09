@@ -28,8 +28,4 @@ class IdaoManager {
             self.jwtExpirationDate = Date(timeIntervalSince1970: TimeInterval(Int(expDateString)! / 1000))
         }
     }
-    
-    func setTeamsTableDelegate(delegate: TeamsTableDelegate) {
-        self.idaoStorage.teamsTableDelegate = delegate
-    }
 }

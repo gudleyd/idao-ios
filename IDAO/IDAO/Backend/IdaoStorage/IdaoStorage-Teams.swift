@@ -33,6 +33,27 @@ extension IdaoStorage {
             }
         }
     }
+    
+    func getTeam(byId: Int, withMembers: Bool = false, completionHandler: @escaping (Team) -> ()) {
+        self.teamsQueue.sync() {
+            let team = self.teamsArray.first { team in return team.id == byId }
+            if let team = team {
+                completionHandler(team)
+            } else {
+                IdaoManager.shared.getTeam(byId: byId) { team in
+                    var teamMutable = team
+                    if withMembers {
+                        IdaoManager.shared.getTeamMembers(teamId: byId) { members in
+                            teamMutable.teamMembers = members
+                            completionHandler(teamMutable)
+                        }
+                    } else {
+                        completionHandler(teamMutable)
+                    }
+                }
+            }
+        }
+    }
 
     func getTeams(completionHandler: @escaping ([Team]) -> ()) {
         self.teamsQueue.sync() {

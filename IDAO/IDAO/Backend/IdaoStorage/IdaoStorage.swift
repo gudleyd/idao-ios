@@ -19,14 +19,26 @@ class IdaoStorage {
     internal let invitesQueue = DispatchQueue(label: "invites-queue-\(UUID())", attributes: .concurrent)
     internal var invitesArray = [Int]()
     
-    weak var teamsTableDelegate: TeamsTableDelegate?
-    weak var newsTableDelegate: NewsTableDelegate?
-    weak var invitesTableDelegate: InvitesTableDelegate?
+    internal weak var teamsTableDelegate: TeamsTableDelegate?
+    internal weak var newsTableDelegate: NewsTableDelegate?
+    internal weak var invitesTableDelegate: InvitesTableDelegate?
     
     init() {
         self.updateTeams(completionHandler: {})
         self.updateNews(completionHandler: {})
         self.updateInvites(completionHandler: {})
+    }
+    
+    func setTeamsTableDelegate(delegate: TeamsTableDelegate) {
+        self.teamsTableDelegate = delegate
+    }
+    
+    func setNewsTableDelegate(delegate: NewsTableDelegate) {
+        self.newsTableDelegate = delegate
+    }
+    
+    func setInvitesTableDelegate(delegate: InvitesTableDelegate) {
+        self.invitesTableDelegate = delegate
     }
 }
 

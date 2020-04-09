@@ -21,7 +21,7 @@ class TeamsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        IdaoManager.shared.setTeamsTableDelegate(delegate: self)
+        IdaoManager.shared.idaoStorage.setTeamsTableDelegate(delegate: self)
         IdaoManager.shared.idaoStorage.getTeams { [weak self] teams in
             DispatchQueue.main.async {
                 self?.teams = teams

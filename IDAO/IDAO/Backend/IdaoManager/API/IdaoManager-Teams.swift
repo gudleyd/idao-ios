@@ -42,8 +42,6 @@ extension IdaoManager {
     }
     
     func getMyTeams(completionHandler: @escaping ([Team]) -> ()) {
-        
-        self.getTeamMembers(teamId: 1010, completionHandler: {_ in })
 
         let request = self.baseRequest(mapping: "/api/teams/my")
 

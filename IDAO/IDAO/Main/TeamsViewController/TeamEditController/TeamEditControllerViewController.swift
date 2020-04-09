@@ -57,11 +57,7 @@ class TeamEditController: UIViewController, UITableViewDelegate, UITableViewData
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TeamMemberCell", for: indexPath) as! UITableViewCell
-//        if (cell == nil) {
-//            cell = UITableViewCell(style: UITableViewCell.CellStyle.subtitle,
-//                        reuseIdentifier: "TeamMemberCell")
-//        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TeamMemberCell", for: indexPath)
         cell.textLabel?.text = self.team?.teamMembers?[indexPath.row].name
         cell.detailTextLabel?.text = self.team?.teamMembers?[indexPath.row].username
         cell.backgroundColor = .clear

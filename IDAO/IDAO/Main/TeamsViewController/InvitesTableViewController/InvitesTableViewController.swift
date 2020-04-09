@@ -8,10 +8,11 @@
 
 import UIKit
 
-protocol InvitesTableDelegate {
+protocol InvitesTableDelegate: AnyObject {
     func setInvites(invites: [Int])
     func reloadTable()
 }
+
 
 class InvitesTableViewController: UITableViewController {
     
@@ -19,6 +20,14 @@ class InvitesTableViewController: UITableViewController {
         
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        IdaoManager.shared.idaoStorage.setInvitesTableDelegate(delegate: self)
+        IdaoManager.shared.idaoStorage.getInvites { [weak self] invites in
+            DispatchQueue.main.async {
+                self?.invites = invites
+                self?.reloadTable()
+            }
+        }
         
         self.title = "Invites"
         self.navigationController?.navigationBar.prefersLargeTitles = true
@@ -37,63 +46,70 @@ class InvitesTableViewController: UITableViewController {
         
         return self.invites.count
     }
+    
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "TeamInviteCell", for: indexPath)
-        cell.textLabel?.text = "MyTestTeam"
-        cell.detailTextLabel?.text = "leader: iplebedev"
-        if #available(iOS 13.0, *) {
-            cell.detailTextLabel?.textColor = .systemGray5
-        } else {
-            // Fallback on earlier versions
+        IdaoManager.shared.idaoStorage.getTeam(byId: self.invites[indexPath.row], withMembers: true) { team in
+            DispatchQueue.main.async {
+                cell.textLabel?.text = team.name
+                let leader = team.teamMembers?.first { member in return member.isLeader()}
+                cell.detailTextLabel?.text = "leader: \(leader?.username ?? "Unknown")"
+                if #available(iOS 13.0, *) {
+                    cell.detailTextLabel?.textColor = .systemGray2
+                } else {
+                    // Fallback on earlier versions
+                }
+            }
         }
         return cell
     }
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+    
+    // MARK: - Table view delegate
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70
     }
-    */
+    
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
 
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+
+        let acceptAction = UITableViewRowAction(style: .default, title: "Accept", handler: { (action, indexPath) in
+            IdaoManager.shared.acceptInvite(teamId: self.invites[indexPath.row]) {
+                IdaoManager.shared.idaoStorage.updateInvites(completionHandler: {})
+            }
+        })
+        acceptAction.backgroundColor = .systemGreen
+
+        let declineAction = UITableViewRowAction(style: .default, title: "Decline", handler: { (action, indexPath) in
+            IdaoManager.shared.declineInvite(teamId: self.invites[indexPath.row]) {
+                IdaoManager.shared.idaoStorage.updateInvites(completionHandler: {})
+            }
+        })
+        declineAction.backgroundColor = .systemRed
+
+        return [acceptAction, declineAction]
     }
-    */
 
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
+}
 
+
+extension InvitesTableViewController: InvitesTableDelegate {
+    
+    func setInvites(invites: [Int]) {
+        DispatchQueue.main.async { [weak self] in
+            self?.invites = invites
+        }
     }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
+    
+    func reloadTable() {
+        DispatchQueue.main.async { [weak self] in
+            self?.tableView.reloadData()
+        }
     }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
 }
