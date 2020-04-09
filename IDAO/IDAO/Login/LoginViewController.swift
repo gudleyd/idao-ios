@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITextFieldDelegate {
+class LoginViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var signInButton: UIButton!
     @IBOutlet weak var signUpButton: UIButton!
@@ -16,6 +16,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
     
+    @IBOutlet weak var mainLoginView: UIView!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -25,6 +27,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
         usernameField.delegate = self
         passwordField.delegate = self
+        
+        mainLoginView.layer.cornerRadius = 12
+    }
+    
+    @IBAction func signInButtonTapped(_ sender: Any) {
+        let newViewController = UIStoryboard(name: "Main", bundle: .main).instantiateInitialViewController()
+        self.addChild(newViewController!)
+        self.view.addSubview(newViewController!.view)
     }
     
     @IBAction func signUpButtonTapped(_ sender: Any) {
