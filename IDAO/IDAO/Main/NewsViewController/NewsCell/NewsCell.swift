@@ -16,6 +16,8 @@ class NewsCell: UITableViewCell {
     @IBOutlet weak var bodyView: UIView!
     @IBOutlet weak var bodyHeight: NSLayoutConstraint!
     
+    weak var automaticHeightTV: AutomaticHeightCellDelegate?
+    
     private let bodyMd = MarkdownView()
     
     func setNews(news: News, completionHandler: @escaping () -> ()) {
@@ -23,8 +25,7 @@ class NewsCell: UITableViewCell {
             DispatchQueue.main.async {
                 print(height)
                 self?.bodyView.heightAnchor.constraint(equalToConstant: height).isActive = true
-                self?.setNeedsLayout()
-                self?.layoutIfNeeded()
+                self?.automaticHeightTV?.contentDidChange()
                 completionHandler()
             }
         }

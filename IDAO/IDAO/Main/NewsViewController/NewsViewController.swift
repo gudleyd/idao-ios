@@ -14,6 +14,10 @@ protocol NewsTableDelegate: AnyObject {
     func reloadTable()
 }
 
+protocol AutomaticHeightCellDelegate: AnyObject {
+    func contentDidChange()
+}
+
 class NewsTableViewController: UITableViewController {
     
     var news: [News] = []
@@ -43,6 +47,7 @@ class NewsTableViewController: UITableViewController {
         cell.setNews(news: self.news[indexPath.row]) {
             print("completionHandler")
         }
+        cell.automaticHeightTV = self
         return cell
     }
     
@@ -57,6 +62,13 @@ class NewsTableViewController: UITableViewController {
     }
     */
 
+}
+
+extension NewsTableViewController: AutomaticHeightCellDelegate {
+    func contentDidChange() {
+        self.tableView.beginUpdates()
+        self.tableView.endUpdates()
+    }
 }
 
 
