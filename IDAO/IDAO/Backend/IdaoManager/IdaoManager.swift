@@ -18,8 +18,6 @@ class IdaoManager {
     internal var jwtoken: String = ""
     internal var jwtExpirationDate: Date = Date()
 
-    internal var idaoStorage = IdaoStorage()
-
     private init() {
         let keychain = KeychainSwift()
         if let token = keychain.get("jwtoken"),

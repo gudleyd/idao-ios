@@ -21,8 +21,8 @@ class TeamsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        IdaoManager.shared.idaoStorage.setTeamsTableDelegate(delegate: self)
-        IdaoManager.shared.idaoStorage.getTeams { [weak self] teams in
+        IdaoStorage.shared.setTeamsTableDelegate(delegate: self)
+        IdaoStorage.shared.getTeams { [weak self] teams in
             DispatchQueue.main.async {
                 self?.teams = teams
                 self?.reloadTable()
@@ -52,9 +52,12 @@ class TeamsTableViewController: UITableViewController {
     
     @objc
     func refreshTeams() {
-        IdaoManager.shared.idaoStorage.updateTeams {
-            DispatchQueue.main.async { [weak self] in
-                self?.tableView.refreshControl?.endRefreshing()
+        IdaoStorage.shared.updateTeams {
+            DispatchQueue(label: "refresh-waiting-\(UUID())").async {
+                usleep(500000) // sleep for .5 seconds
+                DispatchQueue.main.async { [weak self] in
+                    self?.tableView.refreshControl?.endRefreshing()
+                }
             }
         }
     }
@@ -114,7 +117,7 @@ extension TeamsTableViewController {
                         self?.presentedViewController?.dismiss(animated: true, completion: nil)
                     }
                     if status == .created {
-                        IdaoManager.shared.idaoStorage.updateTeams(completionHandler: {})
+                        IdaoStorage.shared.updateTeams(completionHandler: {})
                     } else if status == .teamAlreadyExists {
                         DispatchQueue.main.async {
                             self?.present(AlertViewsFactory.teamAlreadyExists(), animated: true, completion: nil)

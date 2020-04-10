@@ -21,8 +21,8 @@ class InvitesTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        IdaoManager.shared.idaoStorage.setInvitesTableDelegate(delegate: self)
-        IdaoManager.shared.idaoStorage.getInvites { [weak self] invites in
+        IdaoStorage.shared.setInvitesTableDelegate(delegate: self)
+        IdaoStorage.shared.getInvites { [weak self] invites in
             DispatchQueue.main.async {
                 self?.invites = invites
                 self?.reloadTable()
@@ -54,7 +54,7 @@ class InvitesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "TeamInviteCell", for: indexPath)
-        IdaoManager.shared.idaoStorage.getTeam(byId: self.invites[indexPath.row], withMembers: true) { team in
+        IdaoStorage.shared.getTeam(byId: self.invites[indexPath.row], withMembers: true) { team in
             DispatchQueue.main.async {
                 cell.textLabel?.text = team.name
                 let leader = team.teamMembers?.first { member in return member.isLeader()}
@@ -80,14 +80,14 @@ class InvitesTableViewController: UITableViewController {
 
         let acceptAction = UITableViewRowAction(style: .default, title: "Accept", handler: { (action, indexPath) in
             IdaoManager.shared.acceptInvite(teamId: self.invites[indexPath.row]) {
-                IdaoManager.shared.idaoStorage.updateInvites(completionHandler: {})
+                IdaoStorage.shared.updateInvites(completionHandler: {})
             }
         })
         acceptAction.backgroundColor = .systemGreen
 
         let declineAction = UITableViewRowAction(style: .default, title: "Decline", handler: { (action, indexPath) in
             IdaoManager.shared.declineInvite(teamId: self.invites[indexPath.row]) {
-                IdaoManager.shared.idaoStorage.updateInvites(completionHandler: {})
+                IdaoStorage.shared.updateInvites(completionHandler: {})
             }
         })
         declineAction.backgroundColor = .systemRed

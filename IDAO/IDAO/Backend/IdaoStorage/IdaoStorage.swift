@@ -9,6 +9,8 @@
 import Foundation
 
 class IdaoStorage {
+    
+    static let shared: IdaoStorage = IdaoStorage()
 
     internal let teamsQueue = DispatchQueue(label: "teams-queue-\(UUID())", attributes: .concurrent)
     internal var teamsArray = [Team]()
@@ -23,7 +25,7 @@ class IdaoStorage {
     internal weak var newsTableDelegate: NewsTableDelegate?
     internal weak var invitesTableDelegate: InvitesTableDelegate?
     
-    init() {
+    private init() {
         self.updateTeams(completionHandler: {})
         self.updateNews(completionHandler: {})
         self.updateInvites(completionHandler: {})

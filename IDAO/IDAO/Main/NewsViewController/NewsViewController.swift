@@ -17,27 +17,20 @@ protocol NewsTableDelegate: AnyObject {
 class NewsTableViewController: UITableViewController {
     
     var news: [News] = []
-    var cellCached = Dictionary<Int,AnyObject>()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        IdaoManager.shared.idaoStorage.setNewsTableDelegate(delegate: self)
-        
-        self.tableView.estimatedRowHeight = 120
-        self.tableView.rowHeight = UITableView.automaticDimension
+        IdaoStorage.shared.setNewsTableDelegate(delegate: self)
         
         self.title = "News"
         self.navigationController?.navigationBar.prefersLargeTitles = true
+        
+        tableView.estimatedRowHeight = 80
+        tableView.rowHeight = UITableView.automaticDimension
 
-        // Do any additional setup after loading the view.
         let nib = UINib(nibName: "NewsCell", bundle: .main)
         tableView.register(nib, forCellReuseIdentifier: "NewsCell")
-    }
-    
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

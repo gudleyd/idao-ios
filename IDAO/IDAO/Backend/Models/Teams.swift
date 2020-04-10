@@ -20,6 +20,10 @@ struct Team: Codable {
         func isLeader() -> Bool {
             return self.role == "LEADER"
         }
+        
+        func isInvited() -> Bool {
+            return self.status == "INVITED"
+        }
     }
     var id: Int
     var name: String

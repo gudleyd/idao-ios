@@ -20,10 +20,13 @@ class NewsCell: UITableViewCell {
     
     func setNews(news: News, completionHandler: @escaping () -> ()) {
         self.bodyMd.onRendered = { [weak self] height in
-            self?.bodyHeight.constant = height
-            self?.setNeedsLayout()
-            self?.layoutIfNeeded()
-            completionHandler()
+            DispatchQueue.main.async {
+                print(height)
+                self?.bodyView.heightAnchor.constraint(equalToConstant: height).isActive = true
+                self?.setNeedsLayout()
+                self?.layoutIfNeeded()
+                completionHandler()
+            }
         }
         newsTitleLabel.text = news.header
         self.bodyMd.load(markdown: news.body)
@@ -35,13 +38,16 @@ class NewsCell: UITableViewCell {
 
         self.mainView.layer.cornerRadius = 8
         
+        self.contentView.autoresizingMask = [.flexibleHeight]
+        
         self.bodyView.layer.cornerRadius = 4
         bodyView.addSubview(bodyMd)
         bodyMd.translatesAutoresizingMaskIntoConstraints = false
         bodyMd.topAnchor.constraint(equalTo: bodyView.topAnchor).isActive = true
-        bodyMd.leadingAnchor.constraint(equalTo: bodyView.leadingAnchor, constant: 8).isActive = true
-        bodyMd.trailingAnchor.constraint(equalTo: bodyView.trailingAnchor, constant: -8).isActive = true
+        bodyMd.leadingAnchor.constraint(equalTo: bodyView.leadingAnchor).isActive = true
+        bodyMd.trailingAnchor.constraint(equalTo: bodyView.trailingAnchor).isActive = true
         bodyMd.bottomAnchor.constraint(equalTo: bodyView.bottomAnchor).isActive = true
+        bodyMd.isScrollEnabled = false
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
