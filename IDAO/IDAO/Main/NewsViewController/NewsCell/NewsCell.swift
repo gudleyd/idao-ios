@@ -9,6 +9,7 @@
 import UIKit
 import MarkdownView
 
+
 class NewsCell: UITableViewCell {
 
     @IBOutlet weak var mainView: UIView!
@@ -30,8 +31,16 @@ class NewsCell: UITableViewCell {
                 self?.delegate?.contentDidChange()
             }
         }
+        
+        var isDarkMode: Bool = false
+        if #available(iOS 12.0, *) {
+            isDarkMode = traitCollection.userInterfaceStyle == .dark
+        }
+        
+        let styleString: String = "<style>body{background-color:\(isDarkMode ? "rgb(0, 0, 0)" : "rgb(255, 255, 255)");color:\(isDarkMode ? "rgb(255, 255, 255)" : "rgb(0, 0, 0)");}</style>\n"
+        
         newsTitleLabel.text = news.header
-        self.bodyMd.load(markdown: news.body)
+        self.bodyMd.load(markdown: styleString + news.body)
     }
     
     override func awakeFromNib() {
@@ -50,6 +59,18 @@ class NewsCell: UITableViewCell {
         bodyMd.trailingAnchor.constraint(equalTo: bodyView.trailingAnchor).isActive = true
         bodyMd.bottomAnchor.constraint(equalTo: bodyView.bottomAnchor).isActive = true
         bodyMd.isScrollEnabled = false
+        
+        self.bodyMd.onTouchLink = { request in
+            guard let url = request.url else { return false }
+            if url.scheme == "file" {
+                return false
+            } else if url.scheme == "https" {
+                UIApplication.shared.open(url)
+                return false
+            } else {
+                return false
+            }
+        }
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
