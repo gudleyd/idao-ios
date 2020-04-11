@@ -11,36 +11,11 @@ import Foundation
 class IdaoStorage {
     
     static let shared: IdaoStorage = IdaoStorage()
-
-    internal let teamsQueue = DispatchQueue(label: "teams-queue-\(UUID())", attributes: .concurrent)
-    internal var teamsArray = [Team]()
     
-    internal let newsQueue = DispatchQueue(label: "news-queue-\(UUID())", attributes: .concurrent)
-    internal var newsArray = [News]()
+    static private(set) var news = NewsStorage()
+    static private(set) var teams = TeamsStorage()
+    static private(set) var invites = InvitesStorage()
     
-    internal let invitesQueue = DispatchQueue(label: "invites-queue-\(UUID())", attributes: .concurrent)
-    internal var invitesArray = [Int]()
-    
-    internal weak var teamsTableDelegate: TeamsTableDelegate?
-    internal weak var newsTableDelegate: NewsTableDelegate?
-    internal weak var invitesTableDelegate: InvitesTableDelegate?
-    
-    private init() {
-        self.updateTeams(completionHandler: {})
-        self.updateNews(completionHandler: {})
-        self.updateInvites(completionHandler: {})
-    }
-    
-    func setTeamsTableDelegate(delegate: TeamsTableDelegate) {
-        self.teamsTableDelegate = delegate
-    }
-    
-    func setNewsTableDelegate(delegate: NewsTableDelegate) {
-        self.newsTableDelegate = delegate
-    }
-    
-    func setInvitesTableDelegate(delegate: InvitesTableDelegate) {
-        self.invitesTableDelegate = delegate
-    }
+    private init() { }
 }
 

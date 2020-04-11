@@ -9,11 +9,6 @@
 import UIKit
 import MarkdownView
 
-protocol NewsTableDelegate: AnyObject {
-    func setNews(news: [News])
-    func reloadTable()
-}
-
 protocol AutomaticHeightCellDelegate: AnyObject {
     func contentDidChange()
 }
@@ -25,16 +20,23 @@ class NewsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        IdaoStorage.shared.setNewsTableDelegate(delegate: self)
+        IdaoStorage.news.subscribe(NewsStorage.StorageObserver(delegate: self))
+        IdaoStorage.news.get { [weak self] news in
+            DispatchQueue.main.async {
+                self?.news = news
+                self?.tableView.reloadData()
+            }
+        }
         
         self.title = "News"
         self.navigationController?.navigationBar.prefersLargeTitles = true
-        
-        tableView.estimatedRowHeight = 80
-        tableView.rowHeight = UITableView.automaticDimension
 
         let nib = UINib(nibName: "NewsCell", bundle: .main)
         tableView.register(nib, forCellReuseIdentifier: "NewsCell")
+    }
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -44,10 +46,8 @@ class NewsTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "NewsCell", for: indexPath) as! NewsCell
-        cell.setNews(news: self.news[indexPath.row]) {
-            print("completionHandler")
-        }
-        cell.automaticHeightTV = self
+        cell.delegate = self
+        cell.setNews(news: self.news[indexPath.row])
         return cell
     }
     
@@ -64,25 +64,19 @@ class NewsTableViewController: UITableViewController {
 
 }
 
+extension NewsTableViewController: StorageObserverDelegate {
+    func update(_ sender: Any?, _ data: Any?) {
+        DispatchQueue.main.async { [weak self] in
+            guard let news = data as? [News] else { return }
+            self?.news = news
+            self?.tableView.reloadData()
+        }
+    }
+}
+
 extension NewsTableViewController: AutomaticHeightCellDelegate {
     func contentDidChange() {
         self.tableView.beginUpdates()
         self.tableView.endUpdates()
-    }
-}
-
-
-extension NewsTableViewController: NewsTableDelegate {
-    func reloadTable() {
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-        }
-    }
-    
-    func setNews(news: [News]) {
-        DispatchQueue.main.async {
-            self.news = news
-            print(news)
-        }
     }
 }

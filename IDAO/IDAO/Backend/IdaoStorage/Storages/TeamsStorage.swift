@@ -1,18 +1,18 @@
 //
-//  IdaoStorage-Teams.swift
+//  TeamsStorage.swift
 //  IDAO
 //
-//  Created by Ivan Lebedev on 04.04.2020.
+//  Created by Ivan Lebedev on 11.04.2020.
 //  Copyright © 2020 Ivan Lebedev. All rights reserved.
 //
 
 import Foundation
 
 
-extension IdaoStorage {
+class TeamsStorage: BaseStorage<Team> {
     
-    func updateTeams(completionHandler: @escaping () -> ()) {
-        self.teamsQueue.async(flags: .barrier) {
+    override func update(completionHandler: @escaping () -> ()) {
+        self.queue.async(flags: .barrier) {
             var teams: [Team] = []
             IdaoManager.shared.getMyTeams { myTeams in
                 teams = myTeams
@@ -24,9 +24,9 @@ extension IdaoStorage {
                         mainGroup.leave()
                     }
                 }
-                self.teamsQueue.async {
+                self.queue.async {
                     mainGroup.wait()
-                    self.setTeams(teams: teams) {
+                    self.set(teams) {
                         completionHandler()
                     }
                 }
@@ -34,9 +34,9 @@ extension IdaoStorage {
         }
     }
     
-    func getTeam(byId: Int, withMembers: Bool = false, completionHandler: @escaping (Team) -> ()) {
-        self.teamsQueue.sync() {
-            let team = self.teamsArray.first { team in return team.id == byId }
+    func get(byId: Int, withMembers: Bool = false, completionHandler: @escaping (Team) -> ()) {
+        self.queue.sync() {
+            let team = self.items.first { team in return team.id == byId }
             if let team = team {
                 completionHandler(team)
             } else {
@@ -52,21 +52,6 @@ extension IdaoStorage {
                     }
                 }
             }
-        }
-    }
-
-    func getTeams(completionHandler: @escaping ([Team]) -> ()) {
-        self.teamsQueue.sync() {
-            completionHandler(self.teamsArray)
-        }
-    }
-
-    func setTeams(teams: [Team], completionHandler: @escaping () -> ()) {
-        self.teamsQueue.async(flags: .barrier) {
-            self.teamsArray = teams
-            self.teamsTableDelegate?.setTeams(teams: self.teamsArray)
-            self.teamsTableDelegate?.reloadTable()
-            completionHandler()
         }
     }
 }

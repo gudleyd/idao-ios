@@ -20,12 +20,15 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Er3-7J-o9V">
                         <rect key="frame" x="8" y="4" width="304" height="117"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5rD-iX-1ew">
-                                <rect key="frame" x="8" y="36" width="288" height="73"/>
+                            <view autoresizesSubviews="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5rD-iX-1ew">
+                                <rect key="frame" x="8" y="29" width="288" height="80"/>
                                 <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" priority="999" constant="80" id="epp-YZ-KgW"/>
+                                </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qCd-Us-2Ob">
-                                <rect key="frame" x="8" y="8" width="288" height="24"/>
+                                <rect key="frame" x="8" y="8" width="288" height="17"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -52,11 +55,12 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="bodyHeight" destination="epp-YZ-KgW" id="6q7-xv-Ah7"/>
                 <outlet property="bodyView" destination="5rD-iX-1ew" id="05e-0Z-Ph0"/>
                 <outlet property="mainView" destination="Er3-7J-o9V" id="PVU-ET-GIf"/>
                 <outlet property="newsTitleLabel" destination="qCd-Us-2Ob" id="8R8-wE-o1s"/>
             </connections>
-            <point key="canvasLocation" x="-62" y="36"/>
+            <point key="canvasLocation" x="-71" y="-164"/>
         </tableViewCell>
     </objects>
 </document>

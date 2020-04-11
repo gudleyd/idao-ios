@@ -9,11 +9,6 @@
 import UIKit
 
 
-protocol TeamsTableDelegate: AnyObject {
-    func setTeams(teams: [Team])
-    func reloadTable()
-}
-
 class TeamsTableViewController: UITableViewController {
     
     var teams: [Team] = []
@@ -21,11 +16,11 @@ class TeamsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        IdaoStorage.shared.setTeamsTableDelegate(delegate: self)
-        IdaoStorage.shared.getTeams { [weak self] teams in
+        IdaoStorage.teams.subscribe(TeamsStorage.StorageObserver(delegate: self))
+        IdaoStorage.teams.get { [weak self] teams in
             DispatchQueue.main.async {
                 self?.teams = teams
-                self?.reloadTable()
+                self?.tableView.reloadData()
             }
         }
         
@@ -52,7 +47,7 @@ class TeamsTableViewController: UITableViewController {
     
     @objc
     func refreshTeams() {
-        IdaoStorage.shared.updateTeams {
+        IdaoStorage.teams.update {
             DispatchQueue(label: "refresh-waiting-\(UUID())").async {
                 usleep(500000) // sleep for .5 seconds
                 DispatchQueue.main.async { [weak self] in
@@ -117,7 +112,7 @@ extension TeamsTableViewController {
                         self?.presentedViewController?.dismiss(animated: true, completion: nil)
                     }
                     if status == .created {
-                        IdaoStorage.shared.updateTeams(completionHandler: {})
+                        IdaoStorage.teams.update(completionHandler: {})
                     } else if status == .teamAlreadyExists {
                         DispatchQueue.main.async {
                             self?.present(AlertViewsFactory.teamAlreadyExists(), animated: true, completion: nil)
@@ -135,17 +130,12 @@ extension TeamsTableViewController {
 }
 
 
-extension TeamsTableViewController: TeamsTableDelegate {
-    
-    func setTeams(teams: [Team]) {
-        DispatchQueue.main.async {
-            self.teams = teams
-        }
-    }
-    
-    func reloadTable() {
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
+extension TeamsTableViewController: StorageObserverDelegate {
+    func update(_ sender: Any?, _ data: Any?) {
+        DispatchQueue.main.async { [weak self] in
+            guard let teams = data as? [Team] else { return }
+            self?.teams = teams
+            self?.tableView.reloadData()
         }
     }
 }

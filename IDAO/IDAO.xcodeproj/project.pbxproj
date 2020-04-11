@@ -10,7 +10,6 @@
 		2303D2AC243A19BA00CA1EDB /* TeamEditControllerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2303D2AB243A19BA00CA1EDB /* TeamEditControllerViewController.swift */; };
 		2303D2B0243CB74200CA1EDB /* NewsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2303D2AE243CB74200CA1EDB /* NewsCell.swift */; };
 		2303D2B1243CB74200CA1EDB /* NewsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2303D2AF243CB74200CA1EDB /* NewsCell.xib */; };
-		2303D2B3243CFFBA00CA1EDB /* IdaoStorage-News.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2303D2B2243CFFBA00CA1EDB /* IdaoStorage-News.swift */; };
 		2303D2B6243DEE3400CA1EDB /* IdaoManager-Teams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2303D2B5243DEE3400CA1EDB /* IdaoManager-Teams.swift */; };
 		2303D2B9243E0D2400CA1EDB /* AlertViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2303D2B8243E0D2400CA1EDB /* AlertViews.swift */; };
 		230D86AF242F8C1C00AFCF04 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230D86AE242F8C1C00AFCF04 /* RegistrationViewController.swift */; };
@@ -19,7 +18,6 @@
 		23437CC4243798BC00322757 /* Teams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23437CC3243798BC00322757 /* Teams.swift */; };
 		23437CC92438926100322757 /* IdaoStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23437CC82438926100322757 /* IdaoStorage.swift */; };
 		23437CCD24389C9400322757 /* IdaoManager-Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23437CCC24389C9400322757 /* IdaoManager-Base.swift */; };
-		23437CCF24389D4700322757 /* IdaoStorage-Teams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23437CCE24389D4700322757 /* IdaoStorage-Teams.swift */; };
 		236DE7672432222600FBF8AB /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236DE7662432222600FBF8AB /* NewsViewController.swift */; };
 		236DE76C2432290600FBF8AB /* IdaoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236DE76B2432290600FBF8AB /* IdaoManager.swift */; };
 		237F55992434B4EA001D1A86 /* TeamsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237F55982434B4EA001D1A86 /* TeamsTableViewController.swift */; };
@@ -36,9 +34,12 @@
 		238D6BD3235E4CEB008BF849 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 238D6BD2235E4CEB008BF849 /* Assets.xcassets */; };
 		238D6BD6235E4CEB008BF849 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 238D6BD4235E4CEB008BF849 /* LaunchScreen.storyboard */; };
 		238D6BE6235F43A5008BF849 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D6BE5235F43A5008BF849 /* ProfileViewController.swift */; };
-		23BB0428243F496600B4CB6B /* IdaoStorage-Invites.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23BB0427243F496600B4CB6B /* IdaoStorage-Invites.swift */; };
 		23BB042A243F532300B4CB6B /* IdaoManager-Invites.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23BB0429243F532300B4CB6B /* IdaoManager-Invites.swift */; };
 		23BB042C243F533700B4CB6B /* IdaoManager-News.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23BB042B243F533700B4CB6B /* IdaoManager-News.swift */; };
+		23BB042F2441DBB100B4CB6B /* BaseStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23BB042E2441DBB100B4CB6B /* BaseStorage.swift */; };
+		23BB04312441DCB300B4CB6B /* TeamsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23BB04302441DCB300B4CB6B /* TeamsStorage.swift */; };
+		23BB04332441FB9100B4CB6B /* NewsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23BB04322441FB9100B4CB6B /* NewsStorage.swift */; };
+		23BB04352441FBEB00B4CB6B /* InvitesStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23BB04342441FBEB00B4CB6B /* InvitesStorage.swift */; };
 		46F1DEBBEFA95937EC730EBC /* Pods_IDAO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 298EE67C573699E7B7DF2746 /* Pods_IDAO.framework */; };
 /* End PBXBuildFile section */
 
@@ -47,7 +48,6 @@
 		2303D2AB243A19BA00CA1EDB /* TeamEditControllerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamEditControllerViewController.swift; sourceTree = "<group>"; };
 		2303D2AE243CB74200CA1EDB /* NewsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCell.swift; sourceTree = "<group>"; };
 		2303D2AF243CB74200CA1EDB /* NewsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsCell.xib; sourceTree = "<group>"; };
-		2303D2B2243CFFBA00CA1EDB /* IdaoStorage-News.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IdaoStorage-News.swift"; sourceTree = "<group>"; };
 		2303D2B5243DEE3400CA1EDB /* IdaoManager-Teams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IdaoManager-Teams.swift"; sourceTree = "<group>"; };
 		2303D2B8243E0D2400CA1EDB /* AlertViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViews.swift; sourceTree = "<group>"; };
 		230D86AE242F8C1C00AFCF04 /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
@@ -56,7 +56,6 @@
 		23437CC3243798BC00322757 /* Teams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Teams.swift; sourceTree = "<group>"; };
 		23437CC82438926100322757 /* IdaoStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdaoStorage.swift; sourceTree = "<group>"; };
 		23437CCC24389C9400322757 /* IdaoManager-Base.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IdaoManager-Base.swift"; sourceTree = "<group>"; };
-		23437CCE24389D4700322757 /* IdaoStorage-Teams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IdaoStorage-Teams.swift"; sourceTree = "<group>"; };
 		236DE7662432222600FBF8AB /* NewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
 		236DE76B2432290600FBF8AB /* IdaoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdaoManager.swift; sourceTree = "<group>"; };
 		237F55982434B4EA001D1A86 /* TeamsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamsTableViewController.swift; sourceTree = "<group>"; };
@@ -75,9 +74,12 @@
 		238D6BD5235E4CEB008BF849 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		238D6BD7235E4CEB008BF849 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		238D6BE5235F43A5008BF849 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
-		23BB0427243F496600B4CB6B /* IdaoStorage-Invites.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IdaoStorage-Invites.swift"; sourceTree = "<group>"; };
 		23BB0429243F532300B4CB6B /* IdaoManager-Invites.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IdaoManager-Invites.swift"; sourceTree = "<group>"; };
 		23BB042B243F533700B4CB6B /* IdaoManager-News.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IdaoManager-News.swift"; sourceTree = "<group>"; };
+		23BB042E2441DBB100B4CB6B /* BaseStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseStorage.swift; sourceTree = "<group>"; };
+		23BB04302441DCB300B4CB6B /* TeamsStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamsStorage.swift; sourceTree = "<group>"; };
+		23BB04322441FB9100B4CB6B /* NewsStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsStorage.swift; sourceTree = "<group>"; };
+		23BB04342441FBEB00B4CB6B /* InvitesStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitesStorage.swift; sourceTree = "<group>"; };
 		298EE67C573699E7B7DF2746 /* Pods_IDAO.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IDAO.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4338BECDB83D42DA1042F33C /* Pods-IDAO.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IDAO.debug.xcconfig"; path = "Target Support Files/Pods-IDAO/Pods-IDAO.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -172,10 +174,8 @@
 		23437CCB24389C1300322757 /* IdaoStorage */ = {
 			isa = PBXGroup;
 			children = (
+				23BB042D2441DB9800B4CB6B /* Storages */,
 				23437CC82438926100322757 /* IdaoStorage.swift */,
-				23437CCE24389D4700322757 /* IdaoStorage-Teams.swift */,
-				2303D2B2243CFFBA00CA1EDB /* IdaoStorage-News.swift */,
-				23BB0427243F496600B4CB6B /* IdaoStorage-Invites.swift */,
 			);
 			path = IdaoStorage;
 			sourceTree = "<group>";
@@ -278,6 +278,17 @@
 				238D6BE5235F43A5008BF849 /* ProfileViewController.swift */,
 			);
 			path = ProfileViewController;
+			sourceTree = "<group>";
+		};
+		23BB042D2441DB9800B4CB6B /* Storages */ = {
+			isa = PBXGroup;
+			children = (
+				23BB042E2441DBB100B4CB6B /* BaseStorage.swift */,
+				23BB04322441FB9100B4CB6B /* NewsStorage.swift */,
+				23BB04302441DCB300B4CB6B /* TeamsStorage.swift */,
+				23BB04342441FBEB00B4CB6B /* InvitesStorage.swift */,
+			);
+			path = Storages;
 			sourceTree = "<group>";
 		};
 		8DDE167902E7DC713642C713 /* Frameworks */ = {
@@ -428,19 +439,20 @@
 				236DE76C2432290600FBF8AB /* IdaoManager.swift in Sources */,
 				23437CC4243798BC00322757 /* Teams.swift in Sources */,
 				23BB042A243F532300B4CB6B /* IdaoManager-Invites.swift in Sources */,
-				2303D2B3243CFFBA00CA1EDB /* IdaoStorage-News.swift in Sources */,
 				237F55AA243672F2001D1A86 /* News.swift in Sources */,
-				23BB0428243F496600B4CB6B /* IdaoStorage-Invites.swift in Sources */,
+				23BB04332441FB9100B4CB6B /* NewsStorage.swift in Sources */,
 				2303D2B0243CB74200CA1EDB /* NewsCell.swift in Sources */,
 				237F559D2434B5A5001D1A86 /* TeamTableViewCell.swift in Sources */,
 				2303D2B6243DEE3400CA1EDB /* IdaoManager-Teams.swift in Sources */,
-				23437CCF24389D4700322757 /* IdaoStorage-Teams.swift in Sources */,
 				2303D2AC243A19BA00CA1EDB /* TeamEditControllerViewController.swift in Sources */,
 				236DE7672432222600FBF8AB /* NewsViewController.swift in Sources */,
 				23BB042C243F533700B4CB6B /* IdaoManager-News.swift in Sources */,
 				230D86AF242F8C1C00AFCF04 /* RegistrationViewController.swift in Sources */,
 				230D86B5242F9FDA00AFCF04 /* Rules.swift in Sources */,
 				23437CCD24389C9400322757 /* IdaoManager-Base.swift in Sources */,
+				23BB042F2441DBB100B4CB6B /* BaseStorage.swift in Sources */,
+				23BB04312441DCB300B4CB6B /* TeamsStorage.swift in Sources */,
+				23BB04352441FBEB00B4CB6B /* InvitesStorage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

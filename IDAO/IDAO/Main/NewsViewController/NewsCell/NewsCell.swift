@@ -16,17 +16,18 @@ class NewsCell: UITableViewCell {
     @IBOutlet weak var bodyView: UIView!
     @IBOutlet weak var bodyHeight: NSLayoutConstraint!
     
-    weak var automaticHeightTV: AutomaticHeightCellDelegate?
+    weak var delegate: AutomaticHeightCellDelegate?
     
     private let bodyMd = MarkdownView()
     
-    func setNews(news: News, completionHandler: @escaping () -> ()) {
+    func setNews(news: News) {
         self.bodyMd.onRendered = { [weak self] height in
             DispatchQueue.main.async {
-                print(height)
-                self?.bodyView.heightAnchor.constraint(equalToConstant: height).isActive = true
-                self?.automaticHeightTV?.contentDidChange()
-                completionHandler()
+                self?.bodyHeight.constant = height
+                self?.layoutIfNeeded()
+                self?.bodyMd.layoutIfNeeded()
+
+                self?.delegate?.contentDidChange()
             }
         }
         newsTitleLabel.text = news.header

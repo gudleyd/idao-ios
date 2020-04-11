@@ -8,11 +8,6 @@
 
 import UIKit
 
-protocol InvitesTableDelegate: AnyObject {
-    func setInvites(invites: [Int])
-    func reloadTable()
-}
-
 
 class InvitesTableViewController: UITableViewController {
     
@@ -21,11 +16,11 @@ class InvitesTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        IdaoStorage.shared.setInvitesTableDelegate(delegate: self)
-        IdaoStorage.shared.getInvites { [weak self] invites in
+        IdaoStorage.invites.subscribe(InvitesStorage.StorageObserver(delegate: self))
+        IdaoStorage.invites.get { [weak self] invites in
             DispatchQueue.main.async {
                 self?.invites = invites
-                self?.reloadTable()
+                self?.tableView.reloadData()
             }
         }
         
@@ -54,7 +49,7 @@ class InvitesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "TeamInviteCell", for: indexPath)
-        IdaoStorage.shared.getTeam(byId: self.invites[indexPath.row], withMembers: true) { team in
+        IdaoStorage.teams.get(byId: self.invites[indexPath.row], withMembers: true) { team in
             DispatchQueue.main.async {
                 cell.textLabel?.text = team.name
                 let leader = team.teamMembers?.first { member in return member.isLeader()}
@@ -80,14 +75,14 @@ class InvitesTableViewController: UITableViewController {
 
         let acceptAction = UITableViewRowAction(style: .default, title: "Accept", handler: { (action, indexPath) in
             IdaoManager.shared.acceptInvite(teamId: self.invites[indexPath.row]) {
-                IdaoStorage.shared.updateInvites(completionHandler: {})
+                IdaoStorage.invites.update(completionHandler: {})
             }
         })
         acceptAction.backgroundColor = .systemGreen
 
         let declineAction = UITableViewRowAction(style: .default, title: "Decline", handler: { (action, indexPath) in
             IdaoManager.shared.declineInvite(teamId: self.invites[indexPath.row]) {
-                IdaoStorage.shared.updateInvites(completionHandler: {})
+                IdaoStorage.invites.update(completionHandler: {})
             }
         })
         declineAction.backgroundColor = .systemRed
@@ -98,18 +93,14 @@ class InvitesTableViewController: UITableViewController {
 }
 
 
-extension InvitesTableViewController: InvitesTableDelegate {
-    
-    func setInvites(invites: [Int]) {
+extension InvitesTableViewController: StorageObserverDelegate {
+    func update(_ sender: Any?, _ data: Any?) {
         DispatchQueue.main.async { [weak self] in
+            guard let invites = data as? [Int] else { return }
             self?.invites = invites
-        }
-    }
-    
-    func reloadTable() {
-        DispatchQueue.main.async { [weak self] in
             self?.tableView.reloadData()
         }
     }
+    
     
 }
