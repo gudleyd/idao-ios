@@ -24,13 +24,20 @@ class TeamsTableViewController: UITableViewController {
             }
         }
         
+        IdaoStorage.invites.subscribe(InvitesStorage.StorageObserver(delegate: self))
+        IdaoStorage.invites.get { [weak self] invites in
+            DispatchQueue.main.async {
+                self?.navigationItem.leftBarButtonItem?.title = "Invites(\(invites.count))"
+            }
+        }
+        
         self.title = "Teams"
         self.navigationController?.navigationBar.prefersLargeTitles = true
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.addTeamButtonTapped))
         
 
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Invites(99)", style: .plain, target: self, action: #selector(self.openInvitesView))
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Invites(--)", style: .plain, target: self, action: #selector(self.openInvitesView))
         
         let nib = UINib(nibName: "TeamTableViewCell", bundle: .main)
         tableView.register(nib, forCellReuseIdentifier: "TeamCell")
@@ -73,6 +80,7 @@ class TeamsTableViewController: UITableViewController {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "TeamCell", for: indexPath) as! TeamTableViewCell
         cell.setTeam(team: self.teams[indexPath.row])
+        cell.layoutIfNeeded()
         return cell
     }
 
@@ -132,10 +140,17 @@ extension TeamsTableViewController {
 
 extension TeamsTableViewController: StorageObserverDelegate {
     func update(_ sender: Any?, _ data: Any?) {
-        DispatchQueue.main.async { [weak self] in
-            guard let teams = data as? [Team] else { return }
-            self?.teams = teams
-            self?.tableView.reloadData()
+        if let sender = sender as? TeamsStorage {
+            DispatchQueue.main.async { [weak self] in
+                guard let teams = data as? [Team] else { return }
+                self?.teams = teams
+                self?.tableView.reloadData()
+            }
+        } else {
+            DispatchQueue.main.async { [weak self] in
+                guard let invites = data as? [Int] else { return }
+                self?.navigationItem.leftBarButtonItem?.title = "Invites(\(invites.count))"
+            }
         }
     }
 }

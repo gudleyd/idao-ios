@@ -10,37 +10,54 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TeamCell" rowHeight="218" id="KGk-i7-Jjw" customClass="TeamTableViewCell" customModule="IDAO" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="321" height="218"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TeamCell" rowHeight="497" id="KGk-i7-Jjw" customClass="TeamTableViewCell" customModule="IDAO" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="321" height="497"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="321" height="218"/>
+                <rect key="frame" x="0.0" y="0.0" width="321" height="497"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mEF-EW-kef">
-                        <rect key="frame" x="20" y="8" width="281" height="202"/>
+                        <rect key="frame" x="20" y="8" width="281" height="481"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MyTeamName" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g68-w3-V7Y">
-                                <rect key="frame" x="16" y="8" width="257" height="29"/>
+                                <rect key="frame" x="16" y="24" width="257" height="29"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="DN5-Ze-1PE">
-                                <rect key="frame" x="8" y="45" width="265" height="149"/>
-                            </stackView>
+                            <view autoresizesSubviews="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6Al-w5-Uzw">
+                                <rect key="frame" x="8" y="65" width="265" height="408"/>
+                                <subviews>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="cy3-sd-hHd">
+                                        <rect key="frame" x="0.0" y="0.0" width="265" height="408"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" priority="750" constant="30" id="xpm-rn-x7v"/>
+                                        </constraints>
+                                    </tableView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstItem="cy3-sd-hHd" firstAttribute="leading" secondItem="6Al-w5-Uzw" secondAttribute="leading" id="35T-VN-ZDY"/>
+                                    <constraint firstAttribute="bottom" secondItem="cy3-sd-hHd" secondAttribute="bottom" id="omn-WZ-5zM"/>
+                                    <constraint firstItem="cy3-sd-hHd" firstAttribute="top" secondItem="6Al-w5-Uzw" secondAttribute="top" id="siF-Ri-b6E"/>
+                                    <constraint firstAttribute="trailing" secondItem="cy3-sd-hHd" secondAttribute="trailing" id="yRr-vV-LLA"/>
+                                </constraints>
+                            </view>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemGray5Color" red="0.8980392157" green="0.8980392157" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="DN5-Ze-1PE" firstAttribute="leading" secondItem="mEF-EW-kef" secondAttribute="leading" constant="8" id="1ym-wA-f2V"/>
                             <constraint firstItem="g68-w3-V7Y" firstAttribute="leading" secondItem="mEF-EW-kef" secondAttribute="leading" constant="16" id="ABg-RD-I85"/>
-                            <constraint firstAttribute="trailing" secondItem="DN5-Ze-1PE" secondAttribute="trailing" constant="8" id="Lbu-RG-SD0"/>
-                            <constraint firstItem="DN5-Ze-1PE" firstAttribute="top" secondItem="g68-w3-V7Y" secondAttribute="bottom" constant="8" id="MoD-et-FjY"/>
-                            <constraint firstAttribute="bottom" secondItem="DN5-Ze-1PE" secondAttribute="bottom" constant="8" id="VHQ-tr-aA8"/>
+                            <constraint firstAttribute="bottom" secondItem="6Al-w5-Uzw" secondAttribute="bottom" constant="8" id="B9F-eT-0ih"/>
+                            <constraint firstAttribute="trailing" secondItem="6Al-w5-Uzw" secondAttribute="trailing" constant="8" id="SCL-qb-Pds"/>
                             <constraint firstAttribute="trailing" secondItem="g68-w3-V7Y" secondAttribute="trailing" constant="8" id="eIt-6Q-Uip"/>
-                            <constraint firstItem="g68-w3-V7Y" firstAttribute="top" secondItem="mEF-EW-kef" secondAttribute="top" constant="8" id="qfA-Gg-JnO"/>
+                            <constraint firstItem="6Al-w5-Uzw" firstAttribute="top" secondItem="g68-w3-V7Y" secondAttribute="bottom" priority="999" constant="12" id="f10-sn-6hY"/>
+                            <constraint firstItem="6Al-w5-Uzw" firstAttribute="leading" secondItem="mEF-EW-kef" secondAttribute="leading" constant="8" id="iJQ-d2-DhY"/>
+                            <constraint firstItem="g68-w3-V7Y" firstAttribute="top" secondItem="mEF-EW-kef" secondAttribute="top" constant="24" id="qfA-Gg-JnO"/>
                         </constraints>
                     </view>
                 </subviews>
+                <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="mEF-EW-kef" secondAttribute="bottom" constant="8" id="0rV-ws-PW8"/>
                     <constraint firstItem="mEF-EW-kef" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="28C-p8-KUa"/>
@@ -51,10 +68,11 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="mainView" destination="mEF-EW-kef" id="m7j-ng-xOd"/>
-                <outlet property="membersStackView" destination="DN5-Ze-1PE" id="aS7-Lt-IKR"/>
+                <outlet property="tableHeight" destination="xpm-rn-x7v" id="CTQ-y0-yfN"/>
+                <outlet property="tableView" destination="cy3-sd-hHd" id="Ssb-UV-3b9"/>
                 <outlet property="teamNameLabel" destination="g68-w3-V7Y" id="SC7-hZ-l7e"/>
             </connections>
-            <point key="canvasLocation" x="136.95652173913044" y="96.428571428571431"/>
+            <point key="canvasLocation" x="100.72463768115942" y="102.12053571428571"/>
         </tableViewCell>
     </objects>
 </document>

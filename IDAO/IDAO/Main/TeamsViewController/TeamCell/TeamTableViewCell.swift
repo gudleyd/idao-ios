@@ -8,73 +8,55 @@
 
 import UIKit
 
-class TeamCellStackViews {
 
-    static func LeaderBadge() -> UIView {
-        let mainView = UIView()
-        let view = UIView(frame: CGRect(x: 100, y: 1000, width: 60, height: 40))
-        view.backgroundColor = .systemGreen
-        view.layer.cornerRadius = 8
-        mainView.addSubview(view)
-        return mainView
-    }
-
-    static func othersCell(count: Int) -> UIView {
-        let othersLabel = UILabel()
-        othersLabel.text = "and \(count) more"
-        othersLabel.textAlignment = .center
-        
-        return othersLabel
+class TeamTableViewCell: UITableViewCell, UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return team?.teamMembers?.count ?? 0
     }
     
-    static func personCell(name: String, username: String, isLeader: Bool) -> UIView {
-        let hStackView = UIStackView()
-        hStackView.axis = .horizontal
-        hStackView.backgroundColor = UIColor.blue
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TeamMemberCell") ?? UITableViewCell(style: .subtitle, reuseIdentifier: "TeamMemberCell")
         
-        let vStackView = UIStackView()
-        vStackView.axis = .vertical
+        cell.backgroundColor = .clear
+        cell.textLabel?.text = self.team?.teamMembers?[indexPath.row].name
+        cell.detailTextLabel?.text = self.team?.teamMembers?[indexPath.row].username
+        cell.backgroundColor = .clear
+        cell.accessoryView = nil
         
-        let nameLabel = UILabel()
-        nameLabel.text = name
-        nameLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        if self.team?.teamMembers?[indexPath.row].isLeader() ?? false {
+            let label = UILabel.init(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
+            label.text = "Leader"
+            label.textColor = .systemGreen
+            cell.accessoryView = label
+        }
         
-        let usernameLabel = UILabel()
-        usernameLabel.text = username
-        usernameLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        
-        vStackView.addArrangedSubview(nameLabel)
-        vStackView.addArrangedSubview(usernameLabel)
-        
-        hStackView.addArrangedSubview(vStackView)
-        if isLeader {
-            hStackView.addArrangedSubview(LeaderBadge())
+        if self.team?.teamMembers?[indexPath.row].isInvited() ?? false {
+            let label = UILabel.init(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
+            label.text = "Invited"
+            label.textColor = .systemBlue
+            cell.accessoryView = label
         }
 
-        return hStackView
+        return cell
     }
-}
+    
+    
+    var team: Team?
 
-class TeamTableViewCell: UITableViewCell {
-
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var tableHeight: NSLayoutConstraint!
+    
     @IBOutlet weak var mainView: UIView!
-    @IBOutlet weak var membersStackView: UIStackView!
     @IBOutlet weak var teamNameLabel: UILabel!
     
     func setTeam(team: Team) {
-        for _ in 0..<self.membersStackView.arrangedSubviews.count {
-            self.membersStackView.arrangedSubviews[0].removeFromSuperview()
-        }
+        self.team = team
         self.teamNameLabel.text = team.name
-        if let teamMembers = team.teamMembers {
-            for i in 0..<min(3, teamMembers.count) {
-                self.membersStackView.addArrangedSubview(TeamCellStackViews.personCell(name: teamMembers[i].name, username: teamMembers[i].username, isLeader: teamMembers[i].isLeader()))
-            }
-            if (teamMembers.count > 3) {
-                self.membersStackView.addArrangedSubview(TeamCellStackViews.othersCell(count: teamMembers.count - 3))
-            }
-            self.membersStackView.translatesAutoresizingMaskIntoConstraints = false
-        }
+        self.tableView.reloadData()
+        self.tableView.layoutIfNeeded()
+        self.tableHeight.constant = self.tableView.contentSize.height
     }
     
     override func awakeFromNib() {
@@ -83,10 +65,25 @@ class TeamTableViewCell: UITableViewCell {
         
         self.mainView.layer.cornerRadius = 8
         self.selectionStyle = .none
+        
+        self.contentView.autoresizingMask = [.flexibleHeight]
+        
+        self.mainView.layer.shadowOffset = CGSize(width: 5, height: 3)
+        self.mainView.layer.shadowColor = UIColor.black.cgColor
+        self.mainView.layer.shadowRadius = 3
+        self.mainView.layer.shadowOpacity = 0.1
+        
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
+        self.tableView.isScrollEnabled = false
+        self.tableView.isUserInteractionEnabled = false
+        
+        self.tableView.estimatedRowHeight = 57
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
+        
     }
     
 }
