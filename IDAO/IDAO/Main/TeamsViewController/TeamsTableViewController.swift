@@ -98,7 +98,7 @@ class TeamsTableViewController: UITableViewController {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
         
-        (segue.destination as! TeamEditController).team = sender as? Team
+        (segue.destination as? TeamEditController)?.team = sender as? Team
     }
 
 }
@@ -140,7 +140,7 @@ extension TeamsTableViewController {
 
 extension TeamsTableViewController: StorageObserverDelegate {
     func update(_ sender: Any?, _ data: Any?) {
-        if let sender = sender as? TeamsStorage {
+        if (sender as? TeamsStorage) != nil {
             DispatchQueue.main.async { [weak self] in
                 guard let teams = data as? [Team] else { return }
                 self?.teams = teams

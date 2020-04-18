@@ -24,14 +24,8 @@ class TeamEditController: UIViewController, UITableViewDelegate, UITableViewData
         self.addMemberButton.layer.cornerRadius = 8
         self.tableView.layer.cornerRadius = 8
         self.tableView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+        
         nameLabel.text = team?.name
-        if #available(iOS 13.0, *) {
-            self.navigationController?.navigationBar.setNeedsLayout()
-        }
     }
 
     @IBAction func closeView(_ sender: Any) {
@@ -48,35 +42,49 @@ class TeamEditController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            self.tableView.beginUpdates()
-            self.team?.teamMembers?.remove(at: indexPath.row)
-            self.tableView.deleteRows(at: [indexPath], with: .automatic)
-            self.tableView.endUpdates()
+            if let memberToRemove = self.team?.teamMembers?[indexPath.row], let teamId = self.team?.id {
+                self.present(AlertViewsFactory.removingMember(), animated: true)
+                IdaoManager.shared.removeMember(teamId: teamId, userId: memberToRemove.userId) { [weak self] in
+                    DispatchQueue.main.async {
+                        self?.team?.teamMembers?.remove(at: indexPath.row)
+                        self?.presentedViewController?.dismiss(animated: true, completion: nil)
+                        self?.tableView.beginUpdates()
+                        self?.tableView.deleteRows(at: [indexPath], with: .automatic)
+                        self?.tableView.endUpdates()
+                    }
+                }
+            }
         }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TeamMemberCell", for: indexPath)
-        cell.textLabel?.text = self.team?.teamMembers?[indexPath.row].name
-        cell.detailTextLabel?.text = self.team?.teamMembers?[indexPath.row].username
-        cell.backgroundColor = .clear
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TeamMemberCell") ?? UITableViewCell(style: .subtitle, reuseIdentifier: "TeamMemberCell")
+            
+            cell.backgroundColor = .clear
+            cell.accessoryView = nil
         
-        if self.team?.teamMembers?[indexPath.row].isLeader() ?? false {
-            let label = UILabel.init(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
-            label.text = "Leader"
-            label.textColor = .systemGreen
-            cell.accessoryView = label
-        }
-        
-        if self.team?.teamMembers?[indexPath.row].isInvited() ?? false {
-            let label = UILabel.init(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
-            label.text = "Invited"
-            label.textColor = .systemBlue
-            cell.accessoryView = label
-        }
+            if let member = self.team?.teamMembers?[indexPath.row] {
+                cell.textLabel?.text = member.name
+                cell.detailTextLabel?.text = "@\(member.username)"
+                cell.detailTextLabel?.textColor = .systemGray
+                
+                if member.isLeader() {
+                    let label = UILabel.init(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
+                    label.text = "Leader"
+                    label.textColor = .systemGreen
+                    cell.accessoryView = label
+                }
+                
+                if member.isInvited() {
+                    let label = UILabel.init(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
+                    label.text = "Invited"
+                    label.textColor = .systemBlue
+                    cell.accessoryView = label
+                }
+            }
 
-        return cell
+            return cell
     }
 
 }

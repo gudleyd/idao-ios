@@ -11,11 +11,16 @@ import Foundation
 
 extension IdaoManager {
     
-    func getJsonDecoder() -> JSONDecoder {
-        let decoder = JSONDecoder()
+    func getDateFormatter() -> DateFormatter {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
-        decoder.dateDecodingStrategy = .formatted(dateFormatter)
+        
+        return dateFormatter
+    }
+    
+    func getJsonDecoder() -> JSONDecoder {
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .formatted(self.getDateFormatter())
         
         return decoder
     }

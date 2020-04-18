@@ -86,4 +86,17 @@ extension IdaoManager {
         }
         task.resume()
     }
+    
+    func removeMember(teamId: Int, userId: Int, completionHandler: @escaping () -> ()) {
+        
+        var request = self.baseRequest(mapping: "/api/teams/remove-member?teamId=\(teamId)&userId=\(userId)")
+        request.httpMethod = "DELETE"
+        
+        let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
+            guard let data = data else { return }
+            print(String(data: data, encoding: .utf8) ?? "")
+            completionHandler()
+        }
+        task.resume()
+    }
 }

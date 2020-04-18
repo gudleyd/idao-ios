@@ -17,4 +17,5 @@ struct News: Decodable {
     var header: String
     var body: String
     var publicationDate: Date
+    var author: Author
 }

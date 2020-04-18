@@ -13,7 +13,6 @@ protocol StorageObserverDelegate: class {
     func update(_ sender: Any?, _ data: Any?)
 }
 
-
 class BaseStorage<Item> {
     
     class StorageObserver {

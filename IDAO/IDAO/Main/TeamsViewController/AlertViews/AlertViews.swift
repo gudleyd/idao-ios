@@ -22,6 +22,11 @@ class AlertViewsFactory {
         return pending
     }
     
+    static func removingMember() -> UIAlertController {
+        let pending = UIAlertController(title: "Deleting...", message: nil, preferredStyle: .alert)
+        return pending
+    }
+    
     static func emptyTeamName() -> UIAlertController {
         let alertController = UIAlertController(title: "Error", message: "Team name is empty", preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))

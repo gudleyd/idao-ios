@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import MarkdownView
 
 protocol AutomaticHeightCellDelegate: AnyObject {
     func contentDidChange()
@@ -51,16 +50,20 @@ class NewsTableViewController: UITableViewController {
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    
+        self.tableView.deselectRow(at: indexPath, animated: false)
 
-    /*
+        self.performSegue(withIdentifier: "DetailNews", sender: self.news[indexPath.row])
+    }
+    
+
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        (segue.destination as? DetailNewsViewController)?.news = sender as? News
     }
-    */
 
 }
 
@@ -76,7 +79,9 @@ extension NewsTableViewController: StorageObserverDelegate {
 
 extension NewsTableViewController: AutomaticHeightCellDelegate {
     func contentDidChange() {
-        self.tableView.beginUpdates()
-        self.tableView.endUpdates()
+        UIView.animate(withDuration: 0) {
+            self.tableView.beginUpdates()
+            self.tableView.endUpdates()
+        }
     }
 }

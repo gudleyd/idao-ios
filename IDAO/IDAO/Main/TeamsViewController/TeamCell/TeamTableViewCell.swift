@@ -20,23 +20,26 @@ class TeamTableViewCell: UITableViewCell, UITableViewDelegate, UITableViewDataSo
         let cell = tableView.dequeueReusableCell(withIdentifier: "TeamMemberCell") ?? UITableViewCell(style: .subtitle, reuseIdentifier: "TeamMemberCell")
         
         cell.backgroundColor = .clear
-        cell.textLabel?.text = self.team?.teamMembers?[indexPath.row].name
-        cell.detailTextLabel?.text = self.team?.teamMembers?[indexPath.row].username
-        cell.backgroundColor = .clear
         cell.accessoryView = nil
-        
-        if self.team?.teamMembers?[indexPath.row].isLeader() ?? false {
-            let label = UILabel.init(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
-            label.text = "Leader"
-            label.textColor = .systemGreen
-            cell.accessoryView = label
-        }
-        
-        if self.team?.teamMembers?[indexPath.row].isInvited() ?? false {
-            let label = UILabel.init(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
-            label.text = "Invited"
-            label.textColor = .systemBlue
-            cell.accessoryView = label
+    
+        if let member = self.team?.teamMembers?[indexPath.row] {
+            cell.textLabel?.text = member.name
+            cell.detailTextLabel?.text = "@\(member.username)"
+            cell.detailTextLabel?.textColor = .systemGray
+            
+            if member.isLeader() {
+                let label = UILabel.init(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
+                label.text = "Leader"
+                label.textColor = .systemGreen
+                cell.accessoryView = label
+            }
+            
+            if member.isInvited() {
+                let label = UILabel.init(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
+                label.text = "Invited"
+                label.textColor = .systemBlue
+                cell.accessoryView = label
+            }
         }
 
         return cell
