@@ -15,17 +15,22 @@ protocol AutomaticHeightCellDelegate: AnyObject {
 class NewsTableViewController: UITableViewController {
     
     var news: [News] = []
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
-        IdaoStorage.news.subscribe(NewsStorage.StorageObserver(delegate: self))
         IdaoStorage.news.get { [weak self] news in
             DispatchQueue.main.async {
                 self?.news = news
                 self?.tableView.reloadData()
             }
         }
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        IdaoStorage.news.subscribe(NewsStorage.StorageObserver(delegate: self))
         
         self.title = "News"
         self.navigationController?.navigationBar.prefersLargeTitles = true

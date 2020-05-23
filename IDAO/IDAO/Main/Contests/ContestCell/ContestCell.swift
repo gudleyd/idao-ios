@@ -1,31 +1,31 @@
 //
-//  NewsCell.swift
+//  ContestCell.swift
 //  IDAO
 //
-//  Created by Ivan Lebedev on 07.04.2020.
+//  Created by Ivan Lebedev on 24.04.2020.
 //  Copyright © 2020 Ivan Lebedev. All rights reserved.
 //
 
 import UIKit
 import MarkdownView
 
-class NewsCell: UITableViewCell {
 
-    @IBOutlet weak var mainView: UIView!
-    @IBOutlet weak var newsTitleLabel: UILabel!
-    @IBOutlet weak var bodyView: UIView!
-    @IBOutlet weak var bodyHeight: NSLayoutConstraint!
-    @IBOutlet weak var detailView: UIView!
-    @IBOutlet weak var dateLabel: UILabel!
-    @IBOutlet weak var authorLabel: UILabel!
+class ContestCell: UITableViewCell {
+
     @IBOutlet weak var parentView: UIView!
+    @IBOutlet weak var mainView: UIView!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var bodyView: UIView!
+    @IBOutlet weak var registrationLabel: UILabel!
+    @IBOutlet weak var detailView: UIView!
+    @IBOutlet weak var bodyHeight: NSLayoutConstraint!
     
     weak var delegate: AutomaticHeightCellDelegate?
     
     private let bodyMd = MarkdownView()
     private let gradient = CAGradientLayer()
     
-    func setNews(news: News) {
+    func setContest(contest: Contest) {
         self.bodyMd.onRendered = { [weak self] height in
             DispatchQueue.main.async {
     
@@ -49,17 +49,25 @@ class NewsCell: UITableViewCell {
             }
         }
         
-        self.newsTitleLabel.text = news.header
-        self.dateLabel.text = "\(IdaoManager.shared.getDateFormatter().string(from: news.publicationDate))"
-        self.authorLabel.text = "@\(news.author.username)"
-        self.bodyMd.load(markdown: news.body)
+        self.titleLabel.text = contest.name
+        let now = Date()
+        if Calendar.current.compare(now, to: contest.startDate, toGranularity: .day) == .orderedAscending {
+            self.registrationLabel.text = "Registration will open on \(IdaoManager.shared.getDateFormatter().string(from: contest.startDate))"
+            self.registrationLabel.textColor = .systemIndigo
+        } else if Calendar.current.compare(now, to: contest.endDate, toGranularity: .day) == .orderedAscending {
+            self.registrationLabel.text = "Registration is open until \(IdaoManager.shared.getDateFormatter().string(from:contest.endDate))"
+            self.registrationLabel.textColor = UIColor.systemGreen
+        } else if Calendar.current.compare(now, to: contest.endDate, toGranularity: .day) == .orderedDescending {
+            self.registrationLabel.text = "Registration is closed"
+            self.registrationLabel.textColor = UIColor.systemRed
+        }
+        self.bodyMd.load(markdown: contest.description)
     }
     
-
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        
         self.selectionStyle = .none
         
         self.parentView.layer.cornerRadius = 8

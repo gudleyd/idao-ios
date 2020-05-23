@@ -16,6 +16,7 @@ extension IdaoManager {
         
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
             guard let data = data else { return }
+            //print(String(data: data, encoding: .utf8)!)
             let news = try! self.getJsonDecoder().decode([News].self, from: data)
             completionHandler(news)
         }

@@ -8,12 +8,13 @@
 
 import UIKit
 
-class TeamEditController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class DetailTeamController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var addMemberButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
-
+    @IBOutlet weak var teamStatusLabel: UILabel!
+    
     var team: Team?
 
     override func viewDidLoad() {
@@ -26,6 +27,19 @@ class TeamEditController: UIViewController, UITableViewDelegate, UITableViewData
         self.tableView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         
         nameLabel.text = team?.name
+        if let status = team?.status {
+            if status == "LOCKED" {
+                teamStatusLabel.isHidden = false
+                teamStatusLabel.text = "Team locked"
+                teamStatusLabel.textColor = .systemRed
+                addMemberButton.isEnabled = false
+                addMemberButton.backgroundColor = .systemGray4
+            } else {
+                teamStatusLabel.isHidden = true
+                addMemberButton.isEnabled = true
+                addMemberButton.backgroundColor = .systemBlue
+            }
+        }
     }
 
     @IBAction func closeView(_ sender: Any) {
@@ -37,7 +51,7 @@ class TeamEditController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
+        return !(self.team?.teamMembers?[indexPath.row].isLeader() ?? true)
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {

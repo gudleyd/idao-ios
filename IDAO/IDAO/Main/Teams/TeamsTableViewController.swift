@@ -12,24 +12,30 @@ import UIKit
 class TeamsTableViewController: UITableViewController {
     
     var teams: [Team] = []
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        //self.viewWillAppear(animated)
         
-        IdaoStorage.teams.subscribe(TeamsStorage.StorageObserver(delegate: self))
         IdaoStorage.teams.get { [weak self] teams in
             DispatchQueue.main.async {
+                print(teams)
                 self?.teams = teams
                 self?.tableView.reloadData()
             }
         }
         
-        IdaoStorage.invites.subscribe(InvitesStorage.StorageObserver(delegate: self))
         IdaoStorage.invites.get { [weak self] invites in
             DispatchQueue.main.async {
                 self?.navigationItem.leftBarButtonItem?.title = "Invites(\(invites.count))"
             }
         }
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        IdaoStorage.teams.subscribe(TeamsStorage.StorageObserver(delegate: self))
+        IdaoStorage.invites.subscribe(InvitesStorage.StorageObserver(delegate: self))
         
         self.title = "Teams"
         self.navigationController?.navigationBar.prefersLargeTitles = true
@@ -98,7 +104,7 @@ class TeamsTableViewController: UITableViewController {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
         
-        (segue.destination as? TeamEditController)?.team = sender as? Team
+        (segue.destination as? DetailTeamController)?.team = sender as? Team
     }
 
 }

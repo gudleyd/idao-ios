@@ -12,6 +12,9 @@ import MarkdownView
 class DetailNewsViewController: UIViewController {
     @IBOutlet weak var newsTitleLabel: UILabel!
     @IBOutlet weak var bodyView: UIView!
+    @IBOutlet weak var bodyHeight: NSLayoutConstraint!
+    @IBOutlet weak var authorLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
     
     private let bodyMd = MarkdownView()
     
@@ -22,12 +25,15 @@ class DetailNewsViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         
+        bodyHeight.isActive = false
+        
         self.bodyView.addSubview(self.bodyMd)
         self.bodyMd.translatesAutoresizingMaskIntoConstraints = false
         self.bodyMd.topAnchor.constraint(equalTo: self.bodyView.topAnchor).isActive = true
         self.bodyMd.leadingAnchor.constraint(equalTo: self.bodyView.leadingAnchor).isActive = true
         self.bodyMd.trailingAnchor.constraint(equalTo: self.bodyView.trailingAnchor).isActive = true
         self.bodyMd.bottomAnchor.constraint(equalTo: self.bodyView.bottomAnchor).isActive = true
+        self.bodyMd.isScrollEnabled = false
         
         self.bodyMd.onTouchLink = { request in
             guard let url = request.url else { return false }
@@ -42,7 +48,9 @@ class DetailNewsViewController: UIViewController {
         }
         
         self.newsTitleLabel.text = self.news?.header
-        self.bodyMd.load(markdown: self.news?.body)
+        self.bodyMd.load(markdown: "<style>body {background-color: #f2f2f7;}</style><font color=\"#000000\">\n" + (self.news?.body ?? ""))
+        self.authorLabel.text = "@\(self.news?.authorAccount?.username ?? "unknown")"
+        self.dateLabel.text = "\(IdaoManager.shared.getDateFormatter().string(from: news?.publicationDate ?? Date()))"
     }
     
     @IBAction func closeButtonTapped(_ sender: Any) {

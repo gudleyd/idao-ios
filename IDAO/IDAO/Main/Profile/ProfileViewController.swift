@@ -18,20 +18,13 @@ class ProfileViewController: UITableViewController {
     
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var usernameLabel: UILabel!
-
-    @IBOutlet weak var birthdayLabel: UILabel!
-    @IBOutlet weak var genderLabel: UILabel!
-    @IBOutlet weak var phoneLabel: UILabel!
-    @IBOutlet weak var countryLabel: UILabel!
-    @IBOutlet weak var emailLabel: UILabel!
     
     
     var user: User?
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
-        IdaoStorage.appUser.subscribe(AppUserStorage.StorageObserver(delegate: self))
         IdaoStorage.appUser.get { [weak self] user in
             if user.count > 0 {
                 DispatchQueue.main.async {
@@ -40,6 +33,12 @@ class ProfileViewController: UITableViewController {
                 }
             }
         }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        IdaoStorage.appUser.subscribe(AppUserStorage.StorageObserver(delegate: self))
         
         self.shadowView.layer.cornerRadius = 8
         self.shadowView.layer.shadowOffset = CGSize(width: 5, height: 3)
@@ -55,16 +54,9 @@ class ProfileViewController: UITableViewController {
     }
     
     func updateInfo() {
-        if let account = user?.account,
-            let personalData = user?.personalData {
+        if let account = user?.account {
             self.nameLabel.text = account.name
             self.usernameLabel.text = "@\(account.username)"
-            
-            self.birthdayLabel.text = "Birthday: \(IdaoManager.shared.getDateFormatter().string(from: personalData.birthday))"
-            self.genderLabel.text = "Gender: \(personalData.gender)"
-            self.phoneLabel.text = "Phone: \(personalData.phoneNumber)"
-            self.countryLabel.text = "Country: \(personalData.countryOfResidence)"
-            self.emailLabel.text = "Email: \(personalData.email)"
         }
     }
 

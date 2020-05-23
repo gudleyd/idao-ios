@@ -9,13 +9,11 @@
 import Foundation
 
 struct News: Decodable {
-    struct Author: Codable {
-        var id: Int
-        var username: String
-    }
+    
     var id: Int
     var header: String
     var body: String
     var publicationDate: Date
-    var author: Author
+    var authorId: Int
+    var authorAccount: User.Account?
 }

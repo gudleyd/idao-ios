@@ -18,21 +18,21 @@ struct User: Codable {
         var id: Int
         var name: String
         var username: String
-        var roles: [Role]
+        var roles: [Role]?
     }
     
     struct PersonalData: Codable {
         var userId: Int
-        var email: String
-        var birthday: Date
-        var phoneNumber: String
-        var gender: String
-        var countryOfResidence: String
-        var university: String
-        var studyProgram: String
-        var levelOfStudy: String
-        var company: String
-        var registrationDate: Date
+        var email: String?
+        var birthday: Date?
+        var phoneNumber: String?
+        var gender: String?
+        var countryOfResidence: String?
+        var university: String?
+        var studyProgram: String?
+        var levelOfStudy: String?
+        var company: String?
+        var registrationDate: Date?
     }
     
     var account: Account

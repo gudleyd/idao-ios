@@ -29,16 +29,33 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         passwordField.delegate = self
         
         mainLoginView.layer.cornerRadius = 12
+        
+        moveIfAuthorized()
+    }
+    
+    func moveIfAuthorized() {
+        if (IdaoManager.shared.isAuthorized()) {
+            let newViewController = UIStoryboard(name: "Main", bundle: .main).instantiateInitialViewController()
+            self.addChild(newViewController!)
+            self.view.addSubview(newViewController!.view)
+        }
     }
     
     @IBAction func signInButtonTapped(_ sender: Any) {
-        let newViewController = UIStoryboard(name: "Main", bundle: .main).instantiateInitialViewController()
-        self.addChild(newViewController!)
-        self.view.addSubview(newViewController!.view)
+        IdaoManager.shared.auth(username: usernameField.text ?? "", password: usernameField.text ?? "")
+        
+        if (IdaoManager.shared.isAuthorized()) {
+            moveIfAuthorized()
+        } else {
+            let alert = UIAlertController(title: "Wrong credentials", message: "Wrong username or password", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     @IBAction func signUpButtonTapped(_ sender: Any) {
-        let newViewController = RegistrationViewController()
+        let newViewController = PersonalDataViewController()
+        newViewController.setStyle(style: .registration)
         let newNavController = UINavigationController(rootViewController: newViewController)
         self.navigationController?.present(newNavController, animated: true, completion: nil)
     }

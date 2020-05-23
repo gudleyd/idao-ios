@@ -42,11 +42,21 @@ extension IdaoManager {
     }
     
     func getMyTeams(completionHandler: @escaping ([Team]) -> ()) {
-
-        let request = self.baseRequest(mapping: "/api/teams/my")
+        
+        var myUser: User?
+        IdaoStorage.appUser.get { users in
+            if users.count > 0 {
+                myUser = users[0]
+            }
+        }
+        
+        guard let me = myUser else { return }
+        
+        let request = self.baseRequest(mapping: "/api/teams/members/\(me.account.id)")
 
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
             guard let data = data else { return }
+            print(String(data: data, encoding: .utf8)!)
             let teams = try! self.getJsonDecoder().decode([Team].self, from: data)
             completionHandler(teams)
         }

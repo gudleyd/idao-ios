@@ -15,15 +15,30 @@ class IdaoManager {
     static let shared: IdaoManager = IdaoManager()
 
     internal var baseUrl: String = "https://api.idao.world"
-    internal var jwtoken: String = ""
+    internal var apptoken: String = "sJ6-Pz7ufOpkZzppLbGOqE8lUS5YuWXhkNLudL1pWS4="
+    internal var token: Token?
     internal var jwtExpirationDate: Date = Date()
+    
+    private var appUserId: Int?
+    
 
     private init() {
         let keychain = KeychainSwift()
-        if let token = keychain.get("jwtoken"),
-            let expDateString = keychain.get("jwtExpirationDate") {
-            self.jwtoken = token
-            self.jwtExpirationDate = Date(timeIntervalSince1970: TimeInterval(Int(expDateString)! / 1000))
+        if let accessToken = keychain.get("accessToken"),
+            let tokenType = keychain.get("tokenType") {
+            self.token = Token(accessToken: accessToken, tokenType: tokenType)
+        
+            let dec = decode(jwtToken: self.token?.accessToken ?? "")
+            self.appUserId = dec["id"] as? Int
         }
+        //self.auth(username: "iplebedev", password: "7nbr0$GH+a")
+    }
+    
+    func myUserId() -> Int? {
+        return self.appUserId
+    }
+    
+    func isAuthorized() -> Bool {
+        return self.token != nil
     }
 }

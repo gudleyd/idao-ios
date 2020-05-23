@@ -10,13 +10,28 @@ import Foundation
 import UIKit
 import Eureka
 
-class RegistrationViewController: FormViewController {
+
+class PersonalDataViewController: FormViewController {
+    
+    enum PersonalDataViewStyle {
+        case registration
+        case view
+    }
+    
+    var user: User?
+    var style: PersonalDataViewStyle = .view
+    
+    
+    func setStyle(style: PersonalDataViewStyle) {
+        self.style = style
+        
+        self.buildForm()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .done, target: self, action: #selector(cancelRegistration))
-        self.title = "Registration"
         
         self.buildForm()
     }
@@ -26,11 +41,25 @@ class RegistrationViewController: FormViewController {
     }
     
     func buildForm() {
+        self.form.removeAll()
+        
+        self.title = style == .view ? "Personal Data" : "Registration"
+        
+        self.buildPersonalInformationSection()
+        self.buildOccupationSection()
         self.buildCredentialsSection()
         
         form +++ Section()
-            <<< ButtonRow("register") {
+            <<< ButtonRow("registerButton") {
                 $0.title = "Register"
+                $0.hidden = Condition.init(booleanLiteral: self.style != .registration)
+            }
+            .onCellSelection { [weak self] (cell, row) in
+                self?.form.validate()
+            }
+            <<< ButtonRow("saveChangesButton") {
+                $0.title = "Save Changes"
+                $0.hidden = Condition.init(booleanLiteral: self.style != .view)
             }
             .onCellSelection { [weak self] (cell, row) in
                 self?.form.validate()
@@ -42,6 +71,7 @@ class RegistrationViewController: FormViewController {
             <<< TextRow("firstName") {
                 $0.placeholder = "First name"
                 $0.titlePercentage = 0.4
+                $0.add(rule: RuleRequired())
             }
             .cellUpdate { cell, row in
                 cell.textField.textAlignment = .left
@@ -50,6 +80,7 @@ class RegistrationViewController: FormViewController {
             <<< TextRow("lastName") {
                 $0.placeholder = "Last name"
                 $0.titlePercentage = 0.4
+                $0.add(rule: RuleRequired())
             }
             .cellUpdate { cell, row in
                 cell.textField.textAlignment = .left
@@ -57,6 +88,7 @@ class RegistrationViewController: FormViewController {
 
             <<< DateRow("birthday"){
                 $0.title = "Birthday"
+                $0.add(rule: RuleRequired())
             }
 
             <<< PhoneRow("phoneNumber") {

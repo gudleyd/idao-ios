@@ -37,4 +37,13 @@ struct Team: Codable {
         case status
         case registrationDate
     }
+    
+    func amILeader() -> Bool {
+        var leader: Bool = false
+        IdaoStorage.appUser.get { users in
+            let me = users[0]
+            leader = (self.teamMembers?.filter({ $0.userId == me.account.id }).count != 0)
+        }
+        return leader
+    }
 }
