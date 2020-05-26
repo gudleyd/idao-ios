@@ -11,9 +11,9 @@ import Foundation
 
 struct Team: Codable {
     struct TeamMember: Codable {
+        var id: Int
+        var teamId: Int
         var userId: Int
-        var username: String
-        var name: String
         var role: String
         var status: String
         

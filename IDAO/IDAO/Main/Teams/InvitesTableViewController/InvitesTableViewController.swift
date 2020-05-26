@@ -49,11 +49,11 @@ class InvitesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "TeamInviteCell", for: indexPath)
-        IdaoStorage.teams.get(byId: self.invites[indexPath.row], withMembers: true) { team in
+        IdaoStorage.teams.get(teamId: self.invites[indexPath.row]) { team in
             DispatchQueue.main.async {
                 cell.textLabel?.text = team.name
                 let leader = team.teamMembers?.first { member in return member.isLeader()}
-                cell.detailTextLabel?.text = "leader: \(leader?.username ?? "Unknown")"
+                //cell.detailTextLabel?.text = "leader: \(leader?.username ?? "Unknown")"
                 if #available(iOS 13.0, *) {
                     cell.detailTextLabel?.textColor = .systemGray2
                 } else {

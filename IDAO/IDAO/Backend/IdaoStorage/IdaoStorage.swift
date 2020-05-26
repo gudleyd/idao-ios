@@ -17,6 +17,7 @@ class IdaoStorage {
     static private(set) var invites = InvitesStorage()
     static private(set) var contests = ContestsStorage()
     static private(set) var appUser = AppUserStorage()
+    static private(set) var accounts = UserAccountsStorage()
     
     private init() { }
 }

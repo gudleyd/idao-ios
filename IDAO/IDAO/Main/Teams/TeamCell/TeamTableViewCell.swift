@@ -23,22 +23,24 @@ class TeamTableViewCell: UITableViewCell, UITableViewDelegate, UITableViewDataSo
         cell.accessoryView = nil
     
         if let member = self.team?.teamMembers?[indexPath.row] {
-            cell.textLabel?.text = member.name
-            cell.detailTextLabel?.text = "@\(member.username)"
-            cell.detailTextLabel?.textColor = .systemGray
-            
-            if member.isLeader() {
-                let label = UILabel.init(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
-                label.text = "Leader"
-                label.textColor = .systemGreen
-                cell.accessoryView = label
-            }
-            
-            if member.isInvited() {
-                let label = UILabel.init(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
-                label.text = "Invited"
-                label.textColor = .systemBlue
-                cell.accessoryView = label
+            IdaoStorage.accounts.get(userId: member.userId) { account in
+                cell.textLabel?.text = "\(account.name)"
+                cell.detailTextLabel?.text = "@\(account.username)"
+                cell.detailTextLabel?.textColor = .systemGray
+                
+                if member.isLeader() {
+                    let label = UILabel.init(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
+                    label.text = "Leader"
+                    label.textColor = .systemGreen
+                    cell.accessoryView = label
+                }
+                
+                if member.isInvited() {
+                    let label = UILabel.init(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
+                    label.text = "Invited"
+                    label.textColor = .systemBlue
+                    cell.accessoryView = label
+                }
             }
         }
 
@@ -54,12 +56,14 @@ class TeamTableViewCell: UITableViewCell, UITableViewDelegate, UITableViewDataSo
     @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var teamNameLabel: UILabel!
     
-    func setTeam(team: Team) {
-        self.team = team
-        self.teamNameLabel.text = team.name
-        self.tableView.reloadData()
-        self.tableView.layoutIfNeeded()
-        self.tableHeight.constant = self.tableView.contentSize.height
+    func setTeam(teamId: Int) {
+        IdaoStorage.teams.get(teamId: teamId) { team in
+            self.team = team
+            self.teamNameLabel.text = team.name
+            self.tableView.reloadData()
+            self.tableView.layoutIfNeeded()
+            self.tableHeight.constant = self.tableView.contentSize.height
+        }
     }
     
     override func awakeFromNib() {

@@ -16,8 +16,11 @@ class NewsTableViewController: UITableViewController {
     
     var news: [News] = []
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        IdaoStorage.news.subscribe(NewsStorage.StorageObserver(delegate: self))
         
         IdaoStorage.news.get { [weak self] news in
             DispatchQueue.main.async {
@@ -25,12 +28,6 @@ class NewsTableViewController: UITableViewController {
                 self?.tableView.reloadData()
             }
         }
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        IdaoStorage.news.subscribe(NewsStorage.StorageObserver(delegate: self))
         
         self.title = "News"
         self.navigationController?.navigationBar.prefersLargeTitles = true

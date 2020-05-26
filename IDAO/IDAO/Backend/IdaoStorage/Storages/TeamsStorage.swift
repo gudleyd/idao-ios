@@ -9,48 +9,43 @@
 import Foundation
 
 
-class TeamsStorage: BaseStorage<Team> {
+class TeamsStorage: BaseStorage<Int> {
+    
+    private var teamsIds: [Int] = []
+    private var teamsCache: [Int: Team] = [:]
     
     override func update(completionHandler: @escaping () -> ()) {
         self.queue.async(flags: .barrier) {
-            var teams: [Team] = []
-            IdaoManager.shared.getMyTeams { myTeams in
-                teams = myTeams
-                let mainGroup = DispatchGroup()
-                for i in 0..<teams.count {
-                    mainGroup.enter()
-                    IdaoManager.shared.getTeamMembers(teamId: teams[i].id) { members in
-                        teams[i].teamMembers = members
-                        mainGroup.leave()
-                    }
-                }
-                self.queue.async {
-                    mainGroup.wait()
-                    self.set(teams) {
-                        completionHandler()
-                    }
+            IdaoManager.shared.getMyTeamsIds { [weak self] myTeams in
+                self?.set(myTeams) {
+                    completionHandler()
                 }
             }
         }
     }
     
-    func get(byId: Int, withMembers: Bool = false, completionHandler: @escaping (Team) -> ()) {
+    func get(teamId: Int, completionHandler: @escaping (Team) -> ()) {
         self.queue.sync() {
-            let team = self.items.first { team in return team.id == byId }
-            if let team = team {
+            if let team = teamsCache[teamId] {
                 completionHandler(team)
             } else {
-                IdaoManager.shared.getTeam(byId: byId) { team in
-                    var teamMutable = team
-                    if withMembers {
-                        IdaoManager.shared.getTeamMembers(teamId: byId) { members in
-                            teamMutable.teamMembers = members
-                            completionHandler(teamMutable)
-                        }
-                    } else {
-                        completionHandler(teamMutable)
+                var retTeam = Team(id: -1, name: "", status: "NONEXISTS", registrationDate: Date(), teamMembers: nil)
+                let mainGroup = DispatchGroup()
+                mainGroup.enter()
+                IdaoManager.shared.getTeam(byId: teamId) { team in
+                    retTeam = team
+                    mainGroup.enter()
+                    IdaoManager.shared.getTeamMembers(teamId: teamId) { teamMembers in
+                        retTeam.teamMembers = teamMembers
+                        mainGroup.leave()
                     }
+                    mainGroup.leave()
                 }
+                mainGroup.wait()
+                self.queue.async(flags: .barrier) {
+                    self.teamsCache[teamId] = retTeam
+                }
+                completionHandler(retTeam)
             }
         }
     }

@@ -11,10 +11,13 @@ import UIKit
 
 class TeamsTableViewController: UITableViewController {
     
-    var teams: [Team] = []
-    
-    override func viewWillAppear(_ animated: Bool) {
-        //self.viewWillAppear(animated)
+    var teams: [Int] = []
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        IdaoStorage.teams.subscribe(TeamsStorage.StorageObserver(delegate: self))
+        IdaoStorage.invites.subscribe(InvitesStorage.StorageObserver(delegate: self))
         
         IdaoStorage.teams.get { [weak self] teams in
             DispatchQueue.main.async {
@@ -29,13 +32,6 @@ class TeamsTableViewController: UITableViewController {
                 self?.navigationItem.leftBarButtonItem?.title = "Invites(\(invites.count))"
             }
         }
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        IdaoStorage.teams.subscribe(TeamsStorage.StorageObserver(delegate: self))
-        IdaoStorage.invites.subscribe(InvitesStorage.StorageObserver(delegate: self))
         
         self.title = "Teams"
         self.navigationController?.navigationBar.prefersLargeTitles = true
@@ -85,7 +81,7 @@ class TeamsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "TeamCell", for: indexPath) as! TeamTableViewCell
-        cell.setTeam(team: self.teams[indexPath.row])
+        cell.setTeam(teamId: self.teams[indexPath.row])
         cell.layoutIfNeeded()
         return cell
     }
@@ -104,7 +100,7 @@ class TeamsTableViewController: UITableViewController {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
         
-        (segue.destination as? DetailTeamController)?.team = sender as? Team
+        (segue.destination as? DetailTeamController)?.setTeam(teamId: sender as! Int)
     }
 
 }
@@ -148,7 +144,7 @@ extension TeamsTableViewController: StorageObserverDelegate {
     func update(_ sender: Any?, _ data: Any?) {
         if (sender as? TeamsStorage) != nil {
             DispatchQueue.main.async { [weak self] in
-                guard let teams = data as? [Team] else { return }
+                guard let teams = data as? [Int] else { return }
                 self?.teams = teams
                 self?.tableView.reloadData()
             }

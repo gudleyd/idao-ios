@@ -13,8 +13,8 @@ class InvitesStorage: BaseStorage<Int> {
     
     override func update(completionHandler: @escaping () -> ()) {
         self.queue.async(flags: .barrier) {
-            IdaoManager.shared.getMyInvites { invites in
-                self.set(invites) {
+            IdaoManager.shared.getMyInvites { [weak self] invites in
+                self?.set(invites) {
                     completionHandler()
                 }
             }

@@ -14,7 +14,7 @@ class ContestsStorage: BaseStorage<Contest> {
     override func update(completionHandler: @escaping () -> ()) {
         self.queue.async(flags: .barrier) {
             var contests: [Contest] = []
-            IdaoManager.shared.getPublishedContests { pContests in
+            IdaoManager.shared.getPublishedContests { [weak self] pContests in
                 contests = pContests
                 let mainGroup = DispatchGroup()
                 for i in 0..<contests.count {
@@ -29,9 +29,9 @@ class ContestsStorage: BaseStorage<Contest> {
                         mainGroup.leave()
                     }
                 }
-                self.queue.async {
+                self?.queue.async {
                     mainGroup.wait()
-                    self.set(contests) {
+                    self?.set(contests) {
                         completionHandler()
                     }
                 }

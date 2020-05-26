@@ -13,8 +13,8 @@ class NewsStorage: BaseStorage<News> {
     
     override func update(completionHandler: @escaping () -> ()) {
         self.queue.async(flags: .barrier) {
-            IdaoManager.shared.getNews { news in
-                self.set(news.sorted(by: {n1, n2 in return n1.publicationDate > n2.publicationDate})) {
+            IdaoManager.shared.getNews { [weak self] news in
+                self?.set(news.sorted(by: {n1, n2 in return n1.publicationDate > n2.publicationDate})) {
                     completionHandler()
                 }
             }

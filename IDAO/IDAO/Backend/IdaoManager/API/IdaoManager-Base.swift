@@ -64,7 +64,7 @@ extension IdaoManager {
     }
     
     func getUserAccount(userId: Int, completionHandler: @escaping (User.Account) -> ()) {
-        print("KEK")
+        print("userId: \(userId)")
         let request = self.baseRequest(mapping: "/api/accounts/\(userId)")
         
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in

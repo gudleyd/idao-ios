@@ -44,7 +44,7 @@
 		239E299424531D6300375216 /* DetailContest.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 239E299324531D6300375216 /* DetailContest.storyboard */; };
 		239E299624531DE800375216 /* DetailContestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 239E299524531DE800375216 /* DetailContestViewController.swift */; };
 		239F0F3B2474602F0047C942 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 239F0F3A2474602F0047C942 /* Token.swift */; };
-		239F0F3D2474695B0047C942 /* UsersStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 239F0F3C2474695B0047C942 /* UsersStorage.swift */; };
+		239F0F3D2474695B0047C942 /* UserAccountsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 239F0F3C2474695B0047C942 /* UserAccountsStorage.swift */; };
 		23B3A8482449D09E00F59C32 /* DetailNews.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 23B3A8472449D09E00F59C32 /* DetailNews.storyboard */; };
 		23B3A84B2449D1DD00F59C32 /* DetailNewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B3A84A2449D1DD00F59C32 /* DetailNewsViewController.swift */; };
 		23BB042A243F532300B4CB6B /* IdaoManager-Invites.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23BB0429243F532300B4CB6B /* IdaoManager-Invites.swift */; };
@@ -99,7 +99,7 @@
 		239E299324531D6300375216 /* DetailContest.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = DetailContest.storyboard; sourceTree = "<group>"; };
 		239E299524531DE800375216 /* DetailContestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailContestViewController.swift; sourceTree = "<group>"; };
 		239F0F3A2474602F0047C942 /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
-		239F0F3C2474695B0047C942 /* UsersStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersStorage.swift; sourceTree = "<group>"; };
+		239F0F3C2474695B0047C942 /* UserAccountsStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAccountsStorage.swift; sourceTree = "<group>"; };
 		23B3A8472449D09E00F59C32 /* DetailNews.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = DetailNews.storyboard; sourceTree = "<group>"; };
 		23B3A84A2449D1DD00F59C32 /* DetailNewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailNewsViewController.swift; sourceTree = "<group>"; };
 		23BB0429243F532300B4CB6B /* IdaoManager-Invites.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IdaoManager-Invites.swift"; sourceTree = "<group>"; };
@@ -363,7 +363,7 @@
 				23BB04342441FBEB00B4CB6B /* InvitesStorage.swift */,
 				232CF08024768B91001BB14F /* AppUserStorage.swift */,
 				239E298824523B9F00375216 /* ContestsStorage.swift */,
-				239F0F3C2474695B0047C942 /* UsersStorage.swift */,
+				239F0F3C2474695B0047C942 /* UserAccountsStorage.swift */,
 			);
 			path = Storages;
 			sourceTree = "<group>";
@@ -507,7 +507,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				239F0F3D2474695B0047C942 /* UsersStorage.swift in Sources */,
+				239F0F3D2474695B0047C942 /* UserAccountsStorage.swift in Sources */,
 				23839FE0243F28AB00B4CF89 /* InvitesTableViewController.swift in Sources */,
 				23437CC92438926100322757 /* IdaoStorage.swift in Sources */,
 				239E298924523B9F00375216 /* ContestsStorage.swift in Sources */,

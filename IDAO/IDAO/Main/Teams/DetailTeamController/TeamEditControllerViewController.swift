@@ -41,6 +41,12 @@ class DetailTeamController: UIViewController, UITableViewDelegate, UITableViewDa
             }
         }
     }
+    
+    func setTeam(teamId: Int) {
+        IdaoStorage.teams.get(teamId: teamId) { team in
+            self.team = team
+        }
+    }
 
     @IBAction func closeView(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
@@ -79,22 +85,24 @@ class DetailTeamController: UIViewController, UITableViewDelegate, UITableViewDa
             cell.accessoryView = nil
         
             if let member = self.team?.teamMembers?[indexPath.row] {
-                cell.textLabel?.text = member.name
-                cell.detailTextLabel?.text = "@\(member.username)"
-                cell.detailTextLabel?.textColor = .systemGray
-                
-                if member.isLeader() {
-                    let label = UILabel.init(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
-                    label.text = "Leader"
-                    label.textColor = .systemGreen
-                    cell.accessoryView = label
-                }
-                
-                if member.isInvited() {
-                    let label = UILabel.init(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
-                    label.text = "Invited"
-                    label.textColor = .systemBlue
-                    cell.accessoryView = label
+                IdaoStorage.accounts.get(userId: member.userId) { account in
+                    cell.textLabel?.text = "\(account.name)"
+                    cell.detailTextLabel?.text = "@\(account.username)"
+                    cell.detailTextLabel?.textColor = .systemGray
+                    
+                    if member.isLeader() {
+                        let label = UILabel.init(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
+                        label.text = "Leader"
+                        label.textColor = .systemGreen
+                        cell.accessoryView = label
+                    }
+                    
+                    if member.isInvited() {
+                        let label = UILabel.init(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
+                        label.text = "Invited"
+                        label.textColor = .systemBlue
+                        cell.accessoryView = label
+                    }
                 }
             }
 

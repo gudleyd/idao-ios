@@ -31,7 +31,6 @@ class IdaoManager {
             let dec = decode(jwtToken: self.token?.accessToken ?? "")
             self.appUserId = dec["id"] as? Int
         }
-        //self.auth(username: "iplebedev", password: "7nbr0$GH+a")
     }
     
     func myUserId() -> Int? {
