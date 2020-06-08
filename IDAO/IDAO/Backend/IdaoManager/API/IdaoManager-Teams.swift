@@ -95,10 +95,34 @@ extension IdaoManager {
     
     func deleteTeam(teamId: Int, completionHandler: @escaping () -> ()) {
         
-        var request = self.baseRequest(mapping: "/api/teams\(teamId)")
+        var teamMembers = [Team.TeamMember]()
+        let mainGroup = DispatchGroup()
+        mainGroup.enter()
+        self.getTeamMembers(teamId: teamId) { members in
+            teamMembers = members
+            mainGroup.leave()
+        }
+        mainGroup.wait()
+        
+        for member in teamMembers {
+            if !member.isLeader() {
+                mainGroup.enter()
+                self.removeMember(teamId: teamId, userId: member.id) {
+                    mainGroup.leave()
+                }
+            }
+        }
+        mainGroup.wait()
+        
+        var request = self.baseRequest(mapping: "/api/teams/\(teamId)")
         request.httpMethod = "DELETE"
         
-        
+        let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
+            guard let data = data else { return }
+            print(String(data: data, encoding: .utf8)!)
+            completionHandler()
+        }
+        task.resume()
     }
     
     func removeMember(teamId: Int, userId: Int, completionHandler: @escaping () -> ()) {
@@ -108,6 +132,7 @@ extension IdaoManager {
         
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
             guard let data = data else { return }
+            print(teamId, userId)
             print(String(data: data, encoding: .utf8) ?? "")
             completionHandler()
         }

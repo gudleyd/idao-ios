@@ -19,17 +19,14 @@ class IdaoManager {
     internal var token: Token?
     internal var jwtExpirationDate: Date = Date()
     
-    private var appUserId: Int?
+    internal var appUserId: Int?
     
 
     private init() {
         let keychain = KeychainSwift()
-        if let accessToken = keychain.get("accessToken"),
-            let tokenType = keychain.get("tokenType") {
-            self.token = Token(accessToken: accessToken, tokenType: tokenType)
-        
-            let dec = decode(jwtToken: self.token?.accessToken ?? "")
-            self.appUserId = dec["id"] as? Int
+        if let password = keychain.get("password"),
+            let username = keychain.get("username") {
+            self.auth(username: username, password: password)
         }
     }
     

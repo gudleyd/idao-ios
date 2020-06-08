@@ -15,5 +15,4 @@ struct News: Decodable {
     var body: String
     var publicationDate: Date
     var authorId: Int
-    var authorAccount: User.Account?
 }

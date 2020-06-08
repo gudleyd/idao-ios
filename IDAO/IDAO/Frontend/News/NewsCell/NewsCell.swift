@@ -49,10 +49,12 @@ class NewsCell: UITableViewCell {
             }
         }
         
-        self.newsTitleLabel.text = news.header
-        self.dateLabel.text = "\(IdaoManager.shared.getDateFormatter().string(from: news.publicationDate))"
-        self.authorLabel.text = "@\(news.authorAccount?.username)"
-        self.bodyMd.load(markdown: news.body)
+        IdaoStorage.accounts.get(userId: news.authorId) { author in
+            self.newsTitleLabel.text = news.header
+            self.dateLabel.text = "\(IdaoManager.shared.getDateFormatter().string(from: news.publicationDate))"
+            self.authorLabel.text = "@\(author.username)"
+            self.bodyMd.load(markdown: news.body)
+        }
     }
     
 

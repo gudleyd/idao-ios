@@ -11,7 +11,7 @@ import Foundation
 extension IdaoManager {
     
     func getPublishedContests(completionHandler: @escaping ([Contest]) -> ()) {
-        let request = self.baseRequest(mapping: "/api/contests/status/OPENED")
+        let request = self.baseRequest(mapping: "/api/contests/status/CLOSED")
         
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
             guard let data = data else { return }

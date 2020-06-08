@@ -11,10 +11,22 @@ import Foundation
 
 extension IdaoManager {
     
+    func inviteUser(teamId: Int, userId: Int, completionHandler: @escaping () -> ()) {
+        var request = self.baseRequest(mapping: "/api/teams/\(teamId)/invites/\(userId)")
+        request.httpMethod = "POST"
+        
+        let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
+            completionHandler()
+        }
+        task.resume()
+    }
+    
     func declineInvite(teamId: Int, completionHandler: @escaping () -> ()) {
         
-        var request = self.baseRequest(mapping: "/api/teams/invites/decline/\(teamId)")
-        request.httpMethod = "POST"
+        guard let userId = self.myUserId() else { return }
+        
+        var request = self.baseRequest(mapping: "/api/teams/\(teamId)/invites/\(userId)")
+        request.httpMethod = "DELETE"
         
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
             completionHandler()
@@ -24,8 +36,10 @@ extension IdaoManager {
     
     func acceptInvite(teamId: Int, completionHandler: @escaping () -> ()) {
         
-        var request = self.baseRequest(mapping: "/api/teams/invites/accept/\(teamId)")
-        request.httpMethod = "POST"
+        guard let userId = self.myUserId() else { return }
+        
+        var request = self.baseRequest(mapping: "/api/teams/\(teamId)/invites/\(userId)")
+        request.httpMethod = "PUT"
         
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
             completionHandler()

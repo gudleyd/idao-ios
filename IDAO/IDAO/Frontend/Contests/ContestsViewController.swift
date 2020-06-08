@@ -11,10 +11,11 @@ import UIKit
 class ContestsViewController: UITableViewController {
     
     var contests: [Contest] = []
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
+        IdaoStorage.contests.subscribe(ContestsStorage.StorageObserver(delegate: self))
         IdaoStorage.contests.get { [weak self] contests in
             print(contests)
             DispatchQueue.main.async {
@@ -22,12 +23,6 @@ class ContestsViewController: UITableViewController {
                 self?.tableView.reloadData()
             }
         }
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        IdaoStorage.contests.subscribe(ContestsStorage.StorageObserver(delegate: self))
 
         self.title = "Contests"
         self.navigationController?.navigationBar.prefersLargeTitles = true

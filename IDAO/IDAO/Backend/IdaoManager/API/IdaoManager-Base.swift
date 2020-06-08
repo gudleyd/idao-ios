@@ -37,7 +37,6 @@ extension IdaoManager {
         return request
     }
     
-    // This method is sync by design
     func auth(username: String, password: String) {
         
         let group = DispatchGroup()
@@ -60,6 +59,11 @@ extension IdaoManager {
             let keychain = KeychainSwift()
             keychain.set(token.accessToken, forKey: "accessToken")
             keychain.set(token.tokenType, forKey: "tokenType")
+            keychain.set(username, forKey: "username")
+            keychain.set(password, forKey: "password")
+            
+            let dec = decode(jwtToken: token.accessToken)
+            self.appUserId = dec["id"] as? Int
         }
     }
     

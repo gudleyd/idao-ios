@@ -39,11 +39,6 @@ struct Team: Codable {
     }
     
     func amILeader() -> Bool {
-        var leader: Bool = false
-        IdaoStorage.appUser.get { users in
-            let me = users[0]
-            leader = (self.teamMembers?.filter({ $0.userId == me.account.id }).count != 0)
-        }
-        return leader
+        return (self.teamMembers?.filter({ $0.userId == IdaoManager.shared.myUserId() && $0.role == "LEADER"}).count != 0)
     }
 }

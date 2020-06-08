@@ -47,10 +47,12 @@ class DetailNewsViewController: UIViewController {
             }
         }
         
-        self.newsTitleLabel.text = self.news?.header
-        self.bodyMd.load(markdown: "<style>body {background-color: #f2f2f7;}</style><font color=\"#000000\">\n" + (self.news?.body ?? ""))
-        self.authorLabel.text = "@\(self.news?.authorAccount?.username ?? "unknown")"
-        self.dateLabel.text = "\(IdaoManager.shared.getDateFormatter().string(from: news?.publicationDate ?? Date()))"
+        IdaoStorage.accounts.get(userId: news?.authorId ?? -1) { author in
+            self.newsTitleLabel.text = self.news?.header
+            self.bodyMd.load(markdown: "<style>body {background-color: #f2f2f7;}</style><font color=\"#000000\">\n" + (self.news?.body ?? ""))
+            self.authorLabel.text = "@\(author.username)"
+            self.dateLabel.text = "\(IdaoManager.shared.getDateFormatter().string(from: news?.publicationDate ?? Date()))"
+        }
     }
     
     @IBAction func closeButtonTapped(_ sender: Any) {

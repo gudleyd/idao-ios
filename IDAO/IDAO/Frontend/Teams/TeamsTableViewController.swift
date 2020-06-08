@@ -57,10 +57,12 @@ class TeamsTableViewController: UITableViewController {
     @objc
     func refreshTeams() {
         IdaoStorage.teams.update {
-            DispatchQueue(label: "refresh-waiting-\(UUID())").async {
-                usleep(500000) // sleep for .5 seconds
-                DispatchQueue.main.async { [weak self] in
-                    self?.tableView.refreshControl?.endRefreshing()
+            IdaoStorage.invites.update {
+                DispatchQueue(label: "refresh-waiting-\(UUID())").async {
+                    usleep(500000) // sleep for .5 seconds
+                    DispatchQueue.main.async { [weak self] in
+                        self?.tableView.refreshControl?.endRefreshing()
+                    }
                 }
             }
         }

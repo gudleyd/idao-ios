@@ -52,8 +52,11 @@ class InvitesTableViewController: UITableViewController {
         IdaoStorage.teams.get(teamId: self.invites[indexPath.row]) { team in
             DispatchQueue.main.async {
                 cell.textLabel?.text = team.name
-                let leader = team.teamMembers?.first { member in return member.isLeader()}
-                //cell.detailTextLabel?.text = "leader: \(leader?.username ?? "Unknown")"
+                if let leader = team.teamMembers?.first(where: { member in return member.isLeader()}) {
+                    IdaoStorage.accounts.get(userId: leader.userId) { account in
+                        cell.detailTextLabel?.text = "@\(account.username)"
+                    }
+                }
                 if #available(iOS 13.0, *) {
                     cell.detailTextLabel?.textColor = .systemGray2
                 } else {

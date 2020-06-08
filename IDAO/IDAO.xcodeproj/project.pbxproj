@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2303D2AC243A19BA00CA1EDB /* TeamEditControllerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2303D2AB243A19BA00CA1EDB /* TeamEditControllerViewController.swift */; };
+		2303D2AC243A19BA00CA1EDB /* DetailTeamController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2303D2AB243A19BA00CA1EDB /* DetailTeamController.swift */; };
 		2303D2B0243CB74200CA1EDB /* NewsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2303D2AE243CB74200CA1EDB /* NewsCell.swift */; };
 		2303D2B1243CB74200CA1EDB /* NewsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2303D2AF243CB74200CA1EDB /* NewsCell.xib */; };
 		2303D2B6243DEE3400CA1EDB /* IdaoManager-Teams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2303D2B5243DEE3400CA1EDB /* IdaoManager-Teams.swift */; };
@@ -15,6 +15,8 @@
 		230D86AF242F8C1C00AFCF04 /* PersonalDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230D86AE242F8C1C00AFCF04 /* PersonalDataViewController.swift */; };
 		230D86B5242F9FDA00AFCF04 /* Rules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230D86B4242F9FDA00AFCF04 /* Rules.swift */; };
 		230D86BA242FA79800AFCF04 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 230D86B9242FA79800AFCF04 /* Main.storyboard */; };
+		230EF15F248C2BBA002BADDF /* ActionSheetStylePicker.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 230EF15E248C2BBA002BADDF /* ActionSheetStylePicker.storyboard */; };
+		230EF161248C2BE8002BADDF /* ActionSheetStylePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230EF160248C2BE8002BADDF /* ActionSheetStylePickerViewController.swift */; };
 		232CF07F24768196001BB14F /* utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232CF07E24768196001BB14F /* utils.swift */; };
 		232CF08124768B91001BB14F /* AppUserStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232CF08024768B91001BB14F /* AppUserStorage.swift */; };
 		23437CC4243798BC00322757 /* Teams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23437CC3243798BC00322757 /* Teams.swift */; };
@@ -60,7 +62,7 @@
 
 /* Begin PBXFileReference section */
 		0B0A3C52EC139236D8D664D7 /* Pods-IDAO.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IDAO.release.xcconfig"; path = "Target Support Files/Pods-IDAO/Pods-IDAO.release.xcconfig"; sourceTree = "<group>"; };
-		2303D2AB243A19BA00CA1EDB /* TeamEditControllerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamEditControllerViewController.swift; sourceTree = "<group>"; };
+		2303D2AB243A19BA00CA1EDB /* DetailTeamController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTeamController.swift; sourceTree = "<group>"; };
 		2303D2AE243CB74200CA1EDB /* NewsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCell.swift; sourceTree = "<group>"; };
 		2303D2AF243CB74200CA1EDB /* NewsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsCell.xib; sourceTree = "<group>"; };
 		2303D2B5243DEE3400CA1EDB /* IdaoManager-Teams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IdaoManager-Teams.swift"; sourceTree = "<group>"; };
@@ -68,6 +70,8 @@
 		230D86AE242F8C1C00AFCF04 /* PersonalDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalDataViewController.swift; sourceTree = "<group>"; };
 		230D86B4242F9FDA00AFCF04 /* Rules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rules.swift; sourceTree = "<group>"; };
 		230D86B9242FA79800AFCF04 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		230EF15E248C2BBA002BADDF /* ActionSheetStylePicker.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ActionSheetStylePicker.storyboard; sourceTree = "<group>"; };
+		230EF160248C2BE8002BADDF /* ActionSheetStylePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetStylePickerViewController.swift; sourceTree = "<group>"; };
 		232CF07E24768196001BB14F /* utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = utils.swift; sourceTree = "<group>"; };
 		232CF08024768B91001BB14F /* AppUserStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppUserStorage.swift; sourceTree = "<group>"; };
 		23437CC3243798BC00322757 /* Teams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Teams.swift; sourceTree = "<group>"; };
@@ -129,7 +133,7 @@
 		2303D2AA2439E7AE00CA1EDB /* DetailTeamController */ = {
 			isa = PBXGroup;
 			children = (
-				2303D2AB243A19BA00CA1EDB /* TeamEditControllerViewController.swift */,
+				2303D2AB243A19BA00CA1EDB /* DetailTeamController.swift */,
 			);
 			path = DetailTeamController;
 			sourceTree = "<group>";
@@ -172,18 +176,6 @@
 			path = PersonalDataViewController;
 			sourceTree = "<group>";
 		};
-		230D86B6242FA76F00AFCF04 /* Main */ = {
-			isa = PBXGroup;
-			children = (
-				236DE761243221ED00FBF8AB /* News */,
-				236DE760243221E300FBF8AB /* Teams */,
-				239E298724523A2700375216 /* Contests */,
-				238D6BE4235F438C008BF849 /* Profile */,
-				230D86B9242FA79800AFCF04 /* Main.storyboard */,
-			);
-			path = Main;
-			sourceTree = "<group>";
-		};
 		230D86BB24321D9100AFCF04 /* Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -192,6 +184,37 @@
 				238D6BCC235E4CEA008BF849 /* Login.storyboard */,
 			);
 			path = Login;
+			sourceTree = "<group>";
+		};
+		230EF15B248C2B76002BADDF /* Frontend */ = {
+			isa = PBXGroup;
+			children = (
+				230EF15C248C2B9A002BADDF /* CustomScreens */,
+				230D86BB24321D9100AFCF04 /* Login */,
+				236DE761243221ED00FBF8AB /* News */,
+				236DE760243221E300FBF8AB /* Teams */,
+				239E298724523A2700375216 /* Contests */,
+				238D6BE4235F438C008BF849 /* Profile */,
+				230D86B9242FA79800AFCF04 /* Main.storyboard */,
+			);
+			path = Frontend;
+			sourceTree = "<group>";
+		};
+		230EF15C248C2B9A002BADDF /* CustomScreens */ = {
+			isa = PBXGroup;
+			children = (
+				230EF15D248C2BA1002BADDF /* ActionSheetStylePicker */,
+			);
+			path = CustomScreens;
+			sourceTree = "<group>";
+		};
+		230EF15D248C2BA1002BADDF /* ActionSheetStylePicker */ = {
+			isa = PBXGroup;
+			children = (
+				230EF15E248C2BBA002BADDF /* ActionSheetStylePicker.storyboard */,
+				230EF160248C2BE8002BADDF /* ActionSheetStylePickerViewController.swift */,
+			);
+			path = ActionSheetStylePicker;
 			sourceTree = "<group>";
 		};
 		23437CCA24389C0100322757 /* IdaoManager */ = {
@@ -296,9 +319,8 @@
 		238D6BC5235E4CEA008BF849 /* IDAO */ = {
 			isa = PBXGroup;
 			children = (
+				230EF15B248C2B76002BADDF /* Frontend */,
 				236DE76A243228F700FBF8AB /* Backend */,
-				230D86BB24321D9100AFCF04 /* Login */,
-				230D86B6242FA76F00AFCF04 /* Main */,
 				238D6BC6235E4CEA008BF849 /* AppDelegate.swift */,
 				238D6BD2235E4CEB008BF849 /* Assets.xcassets */,
 				238D6BD4235E4CEB008BF849 /* LaunchScreen.storyboard */,
@@ -454,6 +476,7 @@
 				239E299424531D6300375216 /* DetailContest.storyboard in Resources */,
 				238D6BD6235E4CEB008BF849 /* LaunchScreen.storyboard in Resources */,
 				238D6BD3235E4CEB008BF849 /* Assets.xcassets in Resources */,
+				230EF15F248C2BBA002BADDF /* ActionSheetStylePicker.storyboard in Resources */,
 				238D6BCE235E4CEA008BF849 /* Login.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -520,6 +543,7 @@
 				239E298B2453098600375216 /* ContestsViewController.swift in Sources */,
 				232CF07F24768196001BB14F /* utils.swift in Sources */,
 				232CF08124768B91001BB14F /* AppUserStorage.swift in Sources */,
+				230EF161248C2BE8002BADDF /* ActionSheetStylePickerViewController.swift in Sources */,
 				238D6BD1235E4CEA008BF849 /* IDAO.xcdatamodeld in Sources */,
 				236DE76C2432290600FBF8AB /* IdaoManager.swift in Sources */,
 				23437CC4243798BC00322757 /* Teams.swift in Sources */,
@@ -531,7 +555,7 @@
 				237F559D2434B5A5001D1A86 /* TeamTableViewCell.swift in Sources */,
 				23B3A84B2449D1DD00F59C32 /* DetailNewsViewController.swift in Sources */,
 				2303D2B6243DEE3400CA1EDB /* IdaoManager-Teams.swift in Sources */,
-				2303D2AC243A19BA00CA1EDB /* TeamEditControllerViewController.swift in Sources */,
+				2303D2AC243A19BA00CA1EDB /* DetailTeamController.swift in Sources */,
 				236DE7672432222600FBF8AB /* NewsViewController.swift in Sources */,
 				23BB042C243F533700B4CB6B /* IdaoManager-News.swift in Sources */,
 				230D86AF242F8C1C00AFCF04 /* PersonalDataViewController.swift in Sources */,
