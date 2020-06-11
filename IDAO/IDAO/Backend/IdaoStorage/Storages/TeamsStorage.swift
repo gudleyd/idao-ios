@@ -14,8 +14,11 @@ class TeamsStorage: BaseStorage<Int> {
     private var teamsCache: [Int: (Team, Double)] = [:]
     private let teamsCacheTrustInterval: Double = 15 // in seconds
     
-    override func update(completionHandler: @escaping () -> ()) {
+    override func update(forceUpdate: Bool = false, completionHandler: @escaping () -> ()) {
         self.queue.async(flags: .barrier) {
+            if forceUpdate {
+                self.teamsCache = [:]
+            }
             let mainGroup = DispatchGroup()
             mainGroup.enter()
             IdaoManager.shared.getMyTeamsIds { [weak self] myTeams in
@@ -23,6 +26,7 @@ class TeamsStorage: BaseStorage<Int> {
                 mainGroup.leave()
             }
             mainGroup.wait()
+            self.notify()
             completionHandler()
         }
     }

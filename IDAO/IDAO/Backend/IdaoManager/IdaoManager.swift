@@ -17,7 +17,6 @@ class IdaoManager {
     internal var baseUrl: String = "https://api.idao.world"
     internal var apptoken: String = "sJ6-Pz7ufOpkZzppLbGOqE8lUS5YuWXhkNLudL1pWS4="
     internal var token: Token?
-    internal var jwtExpirationDate: Date = Date()
     
     internal var appUserId: Int?
     
@@ -28,6 +27,15 @@ class IdaoManager {
             let username = keychain.get("username") {
             self.auth(username: username, password: password)
         }
+    }
+    
+    func logOut() {
+        let keychain = KeychainSwift()
+        keychain.delete("password")
+        keychain.delete("username")
+        
+        token = nil
+        appUserId = nil
     }
     
     func myUserId() -> Int? {

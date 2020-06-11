@@ -9,14 +9,28 @@
 import Foundation
 
 
+enum UserInviteStatus: Int {
+    case sent = 200
+    case userNotFound = 404
+    case cannotAddMember = 400
+    case unknownError
+}
+
+
 extension IdaoManager {
     
-    func inviteUser(teamId: Int, userId: Int, completionHandler: @escaping () -> ()) {
+    func inviteUser(teamId: Int, userId: Int, completionHandler: @escaping (UserInviteStatus) -> ()) {
         var request = self.baseRequest(mapping: "/api/teams/\(teamId)/invites/\(userId)")
         request.httpMethod = "POST"
-        
+
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
-            completionHandler()
+            guard let data = data else { return }
+            guard let response = response as? HTTPURLResponse else { return }
+            if let status = UserInviteStatus(rawValue: response.statusCode) {
+                completionHandler(status)
+            } else {
+                completionHandler(.unknownError)
+            }
         }
         task.resume()
     }

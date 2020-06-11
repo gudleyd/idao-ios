@@ -11,6 +11,47 @@ import UIKit
 
 class TeamTableViewCell: UITableViewCell, UITableViewDelegate, UITableViewDataSource {
     
+    var team: Team?
+    weak var delegate: AutomaticHeightCellDelegate?
+
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var tableHeight: NSLayoutConstraint!
+    
+    @IBOutlet weak var mainView: UIView!
+    @IBOutlet weak var teamNameLabel: UILabel!
+    
+    func setTeam(teamId: Int) {
+        IdaoStorage.teams.get(teamId: teamId) { team in
+            self.team = team
+            self.teamNameLabel.text = team.name
+            self.tableView.reloadData()
+            self.tableView.layoutIfNeeded()
+            self.tableHeight.constant = self.tableView.contentSize.height
+        }
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        // Initialization code
+        
+        self.mainView.layer.cornerRadius = 8
+        self.selectionStyle = .none
+        
+        self.contentView.autoresizingMask = [.flexibleHeight]
+        
+        self.mainView.layer.shadowOffset = CGSize(width: 5, height: 3)
+        self.mainView.layer.shadowColor = UIColor.black.cgColor
+        self.mainView.layer.shadowRadius = 3
+        self.mainView.layer.shadowOpacity = 0.1
+        
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
+        self.tableView.isScrollEnabled = false
+        self.tableView.isUserInteractionEnabled = true
+        
+        self.tableView.estimatedRowHeight = 57
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return team?.teamMembers?.count ?? 0
     }
@@ -47,45 +88,20 @@ class TeamTableViewCell: UITableViewCell, UITableViewDelegate, UITableViewDataSo
         return cell
     }
     
-    
-    var team: Team?
-
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var tableHeight: NSLayoutConstraint!
-    
-    @IBOutlet weak var mainView: UIView!
-    @IBOutlet weak var teamNameLabel: UILabel!
-    
-    func setTeam(teamId: Int) {
-        IdaoStorage.teams.get(teamId: teamId) { team in
-            self.team = team
-            self.teamNameLabel.text = team.name
-            self.tableView.reloadData()
-            self.tableView.layoutIfNeeded()
-            self.tableHeight.constant = self.tableView.contentSize.height
-        }
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return (self.team?.amILeader() ?? false &&
+            !(self.team?.teamMembers?[indexPath.row].isLeader() ?? true))
     }
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-        
-        self.mainView.layer.cornerRadius = 8
-        self.selectionStyle = .none
-        
-        self.contentView.autoresizingMask = [.flexibleHeight]
-        
-        self.mainView.layer.shadowOffset = CGSize(width: 5, height: 3)
-        self.mainView.layer.shadowColor = UIColor.black.cgColor
-        self.mainView.layer.shadowRadius = 3
-        self.mainView.layer.shadowOpacity = 0.1
-        
-        self.tableView.delegate = self
-        self.tableView.dataSource = self
-        self.tableView.isScrollEnabled = false
-        self.tableView.isUserInteractionEnabled = false
-        
-        self.tableView.estimatedRowHeight = 57
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            if let memberToRemove = self.team?.teamMembers?[indexPath.row], let teamId = self.team?.id {
+                IdaoManager.shared.removeMember(teamId: teamId, userId: memberToRemove.userId) { [weak self] in
+                    IdaoStorage.teams.update(forceUpdate: true) { }
+                }
+            }
+        }
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

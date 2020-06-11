@@ -54,6 +54,12 @@ class AlertViewsFactory {
         return alertController
     }
     
+    static func userNotFound() -> UIAlertController {
+        let alertController = UIAlertController(title: "Error", message: "User not found", preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        return alertController
+    }
+    
     static func teamAlreadyExists() -> UIAlertController {
         let alertController = UIAlertController(title: "Error", message: "Team with this name already exists", preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
@@ -79,7 +85,7 @@ class AlertViewsFactory {
         return alertController
     }
     
-    static func addTeamMember(completionHandler: @escaping (UIAlertAction, UIAlertController) -> ()) -> UIAlertController {
+    static func inviteMember(completionHandler: @escaping (UIAlertAction, UIAlertController) -> ()) -> UIAlertController {
         let alertController = UIAlertController(title: "Invite Member", message: "Enter Username", preferredStyle: .alert)
         alertController.addTextField { (textField : UITextField!) -> Void in
             textField.placeholder = "Username"

@@ -11,7 +11,7 @@ import Foundation
 
 class InvitesStorage: BaseStorage<Int> {
     
-    override func update(completionHandler: @escaping () -> ()) {
+    override func update(forceUpdate: Bool = false, completionHandler: @escaping () -> ()) {
         self.queue.async(flags: .barrier) {
             IdaoManager.shared.getMyInvites { [weak self] invites in
                 self?.set(invites) {

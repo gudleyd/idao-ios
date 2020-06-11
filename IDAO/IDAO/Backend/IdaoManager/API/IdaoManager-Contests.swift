@@ -36,10 +36,22 @@ extension IdaoManager {
     
     func getContestStages(id: Int, completionHandler: @escaping ([Contest.Stage]) -> ()) {
         let request = self.baseRequest(mapping: "/api/contests/\(id)/stages")
+        
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
             guard let data = data else { return }
             let stages = try! self.getJsonDecoder().decode([Contest.Stage].self, from: data)
             completionHandler(stages)
+        }
+        task.resume()
+    }
+    
+    func registerForContest(contestId: Int, teamId: Int, completionHandler: @escaping () -> ()) {
+        var request = self.baseRequest(mapping: "/api/contests/\(contestId)/teams/teamId")
+        request.httpMethod = "POST"
+        
+        let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
+            guard let data = data else { return }
+            completionHandler()
         }
         task.resume()
     }

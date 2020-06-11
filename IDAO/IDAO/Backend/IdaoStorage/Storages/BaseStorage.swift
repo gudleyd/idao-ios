@@ -76,7 +76,7 @@ class BaseStorage<Item> {
         }
     }
 
-    func update(completionHandler: @escaping () -> ()) {
+    func update(forceUpdate: Bool = false, completionHandler: @escaping () -> ()) {
         print("Update method should be overriden")
     }
 }

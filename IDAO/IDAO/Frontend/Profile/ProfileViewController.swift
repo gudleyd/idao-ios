@@ -22,23 +22,19 @@ class ProfileViewController: UITableViewController {
     
     var user: User?
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        IdaoStorage.appUser.get { [weak self] user in
-            if user.count > 0 {
-                DispatchQueue.main.async {
-                    self?.user = user[0]
-                    self?.updateInfo()
-                }
-            }
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         IdaoStorage.appUser.subscribe(AppUserStorage.StorageObserver(delegate: self))
+        
+        IdaoStorage.appUser.get { [weak self] user in
+           if user.count > 0 {
+               DispatchQueue.main.async {
+                   self?.user = user[0]
+                   self?.updateInfo()
+               }
+           }
+        }
         
         self.shadowView.layer.cornerRadius = 8
         self.shadowView.layer.shadowOffset = CGSize(width: 5, height: 3)
@@ -51,6 +47,20 @@ class ProfileViewController: UITableViewController {
     
         self.nameLabel.adjustsFontSizeToFitWidth = true
         self.nameLabel.minimumScaleFactor = 0.2
+    }
+    
+    @IBAction func logOutButtonTapped(_ sender: Any) {
+        IdaoManager.shared.logOut()
+        let loginViewController = UIStoryboard(name: "Login", bundle: .main).instantiateInitialViewController()
+        self.present(loginViewController!, animated: true)
+    }
+    
+    @IBAction func editPersonalInfoButtonTapped(_ sender: Any) {
+        let personalDataController = PersonalDataViewController()
+        personalDataController.setStyle(style: .view)
+        personalDataController.setUser(user: self.user)
+        let personalDataNavController = UINavigationController(rootViewController: personalDataController)
+        self.present(personalDataNavController, animated: true, completion: nil)
     }
     
     func updateInfo() {
@@ -77,8 +87,10 @@ extension ProfileViewController: StorageObserverDelegate {
     func update(_ sender: Any?, _ data: Any?) {
         DispatchQueue.main.async { [weak self] in
             guard let user = data as? [User] else { return }
-            self?.user = user[0]
-            self?.updateInfo()
+            if user.count > 0 {
+                self?.user = user[0]
+                self?.updateInfo()
+            }
         }
     }
 }

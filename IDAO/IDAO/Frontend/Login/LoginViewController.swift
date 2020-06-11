@@ -29,15 +29,15 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         passwordField.delegate = self
         
         mainLoginView.layer.cornerRadius = 12
+        self.addDoneButtonOnKeyboard()
         
         moveIfAuthorized()
     }
     
     func moveIfAuthorized() {
         if (IdaoManager.shared.isAuthorized()) {
-            let newViewController = UIStoryboard(name: "Main", bundle: .main).instantiateInitialViewController()
-            self.addChild(newViewController!)
-            self.view.addSubview(newViewController!.view)
+            let mainViewController = UIStoryboard(name: "Main", bundle: .main).instantiateInitialViewController()
+            self.present(mainViewController!, animated: true)
         }
     }
     
@@ -73,6 +73,26 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    
+    func addDoneButtonOnKeyboard(){
+        let doneToolbar: UIToolbar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
+        doneToolbar.barStyle = .default
+
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let done: UIBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.doneButtonAction))
+
+        let items = [flexSpace, done]
+        doneToolbar.items = items
+        doneToolbar.sizeToFit()
+
+        self.usernameField.inputAccessoryView = doneToolbar
+        self.passwordField.inputAccessoryView = doneToolbar
+    }
+
+    @objc func doneButtonAction(){
+        self.usernameField.inputAccessoryView?.resignFirstResponder()
+        self.passwordField.inputAccessoryView?.resignFirstResponder()
     }
 
 

@@ -9,9 +9,9 @@
 import Foundation
 
 
-enum TeamCreationStatus {
-    case teamAlreadyExists
-    case created
+enum TeamCreationStatus: Int {
+    case teamAlreadyExists = 409
+    case created = 201
     case unknownError
 }
 
@@ -82,10 +82,8 @@ extension IdaoManager {
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
             guard let data = data else { return }
             guard let response = response as? HTTPURLResponse else { return }
-            if response.statusCode == 409 {
-                completionHandler(.teamAlreadyExists, nil)
-            } else if response.statusCode == 201 {
-                completionHandler(.created, try? self.getJsonDecoder().decode(Team.self, from: data))
+            if let status = TeamCreationStatus(rawValue: response.statusCode) {
+                 completionHandler(status, try? self.getJsonDecoder().decode(Team.self, from: data))
             } else {
                 completionHandler(.unknownError, nil)
             }
@@ -107,12 +105,13 @@ extension IdaoManager {
         for member in teamMembers {
             if !member.isLeader() {
                 mainGroup.enter()
-                self.removeMember(teamId: teamId, userId: member.id) {
+                self.removeMember(teamId: teamId, userId: member.userId) {
                     mainGroup.leave()
                 }
             }
         }
         mainGroup.wait()
+        print("TEAM MEMBERS REMOVED")
         
         var request = self.baseRequest(mapping: "/api/teams/\(teamId)")
         request.httpMethod = "DELETE"

@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2303D2AC243A19BA00CA1EDB /* DetailTeamController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2303D2AB243A19BA00CA1EDB /* DetailTeamController.swift */; };
 		2303D2B0243CB74200CA1EDB /* NewsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2303D2AE243CB74200CA1EDB /* NewsCell.swift */; };
 		2303D2B1243CB74200CA1EDB /* NewsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2303D2AF243CB74200CA1EDB /* NewsCell.xib */; };
 		2303D2B6243DEE3400CA1EDB /* IdaoManager-Teams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2303D2B5243DEE3400CA1EDB /* IdaoManager-Teams.swift */; };
@@ -19,6 +18,7 @@
 		230EF161248C2BE8002BADDF /* ActionSheetStylePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230EF160248C2BE8002BADDF /* ActionSheetStylePickerViewController.swift */; };
 		232CF07F24768196001BB14F /* utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232CF07E24768196001BB14F /* utils.swift */; };
 		232CF08124768B91001BB14F /* AppUserStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232CF08024768B91001BB14F /* AppUserStorage.swift */; };
+		23336F0A2491198F005710BE /* TeamActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23336F092491198F005710BE /* TeamActionSheet.swift */; };
 		23437CC4243798BC00322757 /* Teams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23437CC3243798BC00322757 /* Teams.swift */; };
 		23437CC92438926100322757 /* IdaoStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23437CC82438926100322757 /* IdaoStorage.swift */; };
 		23437CCD24389C9400322757 /* IdaoManager-Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23437CCC24389C9400322757 /* IdaoManager-Base.swift */; };
@@ -62,7 +62,6 @@
 
 /* Begin PBXFileReference section */
 		0B0A3C52EC139236D8D664D7 /* Pods-IDAO.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IDAO.release.xcconfig"; path = "Target Support Files/Pods-IDAO/Pods-IDAO.release.xcconfig"; sourceTree = "<group>"; };
-		2303D2AB243A19BA00CA1EDB /* DetailTeamController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTeamController.swift; sourceTree = "<group>"; };
 		2303D2AE243CB74200CA1EDB /* NewsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCell.swift; sourceTree = "<group>"; };
 		2303D2AF243CB74200CA1EDB /* NewsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsCell.xib; sourceTree = "<group>"; };
 		2303D2B5243DEE3400CA1EDB /* IdaoManager-Teams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IdaoManager-Teams.swift"; sourceTree = "<group>"; };
@@ -74,6 +73,7 @@
 		230EF160248C2BE8002BADDF /* ActionSheetStylePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetStylePickerViewController.swift; sourceTree = "<group>"; };
 		232CF07E24768196001BB14F /* utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = utils.swift; sourceTree = "<group>"; };
 		232CF08024768B91001BB14F /* AppUserStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppUserStorage.swift; sourceTree = "<group>"; };
+		23336F092491198F005710BE /* TeamActionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamActionSheet.swift; sourceTree = "<group>"; };
 		23437CC3243798BC00322757 /* Teams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Teams.swift; sourceTree = "<group>"; };
 		23437CC82438926100322757 /* IdaoStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdaoStorage.swift; sourceTree = "<group>"; };
 		23437CCC24389C9400322757 /* IdaoManager-Base.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IdaoManager-Base.swift"; sourceTree = "<group>"; };
@@ -130,14 +130,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2303D2AA2439E7AE00CA1EDB /* DetailTeamController */ = {
-			isa = PBXGroup;
-			children = (
-				2303D2AB243A19BA00CA1EDB /* DetailTeamController.swift */,
-			);
-			path = DetailTeamController;
-			sourceTree = "<group>";
-		};
 		2303D2AD243CB72400CA1EDB /* NewsCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -179,7 +171,6 @@
 		230D86BB24321D9100AFCF04 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				230D86AD242F791600AFCF04 /* PersonalDataViewController */,
 				238D6BCA235E4CEA008BF849 /* LoginViewController.swift */,
 				238D6BCC235E4CEA008BF849 /* Login.storyboard */,
 			);
@@ -189,23 +180,26 @@
 		230EF15B248C2B76002BADDF /* Frontend */ = {
 			isa = PBXGroup;
 			children = (
-				230EF15C248C2B9A002BADDF /* CustomScreens */,
+				230EF15C248C2B9A002BADDF /* CustomViews */,
 				230D86BB24321D9100AFCF04 /* Login */,
 				236DE761243221ED00FBF8AB /* News */,
 				236DE760243221E300FBF8AB /* Teams */,
 				239E298724523A2700375216 /* Contests */,
 				238D6BE4235F438C008BF849 /* Profile */,
+				230D86AD242F791600AFCF04 /* PersonalDataViewController */,
 				230D86B9242FA79800AFCF04 /* Main.storyboard */,
 			);
 			path = Frontend;
 			sourceTree = "<group>";
 		};
-		230EF15C248C2B9A002BADDF /* CustomScreens */ = {
+		230EF15C248C2B9A002BADDF /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
+				2303D2B7243E0D0000CA1EDB /* AlertViews */,
+				23336F082491197C005710BE /* TeamActionSheet */,
 				230EF15D248C2BA1002BADDF /* ActionSheetStylePicker */,
 			);
-			path = CustomScreens;
+			path = CustomViews;
 			sourceTree = "<group>";
 		};
 		230EF15D248C2BA1002BADDF /* ActionSheetStylePicker */ = {
@@ -215,6 +209,14 @@
 				230EF160248C2BE8002BADDF /* ActionSheetStylePickerViewController.swift */,
 			);
 			path = ActionSheetStylePicker;
+			sourceTree = "<group>";
+		};
+		23336F082491197C005710BE /* TeamActionSheet */ = {
+			isa = PBXGroup;
+			children = (
+				23336F092491198F005710BE /* TeamActionSheet.swift */,
+			);
+			path = TeamActionSheet;
 			sourceTree = "<group>";
 		};
 		23437CCA24389C0100322757 /* IdaoManager */ = {
@@ -239,8 +241,6 @@
 			isa = PBXGroup;
 			children = (
 				23839FDD243F288700B4CF89 /* InvitesTableViewController */,
-				2303D2B7243E0D0000CA1EDB /* AlertViews */,
-				2303D2AA2439E7AE00CA1EDB /* DetailTeamController */,
 				237F559A2434B583001D1A86 /* TeamCell */,
 				237F55982434B4EA001D1A86 /* TeamsTableViewController.swift */,
 			);
@@ -555,7 +555,6 @@
 				237F559D2434B5A5001D1A86 /* TeamTableViewCell.swift in Sources */,
 				23B3A84B2449D1DD00F59C32 /* DetailNewsViewController.swift in Sources */,
 				2303D2B6243DEE3400CA1EDB /* IdaoManager-Teams.swift in Sources */,
-				2303D2AC243A19BA00CA1EDB /* DetailTeamController.swift in Sources */,
 				236DE7672432222600FBF8AB /* NewsViewController.swift in Sources */,
 				23BB042C243F533700B4CB6B /* IdaoManager-News.swift in Sources */,
 				230D86AF242F8C1C00AFCF04 /* PersonalDataViewController.swift in Sources */,
@@ -568,6 +567,7 @@
 				23BB04312441DCB300B4CB6B /* TeamsStorage.swift in Sources */,
 				23BB043724486F9000B4CB6B /* Contests.swift in Sources */,
 				23BB04352441FBEB00B4CB6B /* InvitesStorage.swift in Sources */,
+				23336F0A2491198F005710BE /* TeamActionSheet.swift in Sources */,
 				2385CC4C24688B9A00B9A1B3 /* StageCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

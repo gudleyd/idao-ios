@@ -11,7 +11,7 @@ import Foundation
 
 class AppUserStorage: BaseStorage<User> {
 
-    override func update(completionHandler: @escaping () -> ()) {
+    override func update(forceUpdate: Bool = false, completionHandler: @escaping () -> ()) {
         self.queue.async(flags: .barrier) {
             guard let id = IdaoManager.shared.myUserId() else { return }
             var appUserAccount: User.Account?
@@ -35,6 +35,8 @@ class AppUserStorage: BaseStorage<User> {
                     completionHandler()
                 }
             }
+            self.notify()
+            completionHandler()
         }
     }
 }

@@ -14,7 +14,6 @@ class StageCell: UICollectionViewCell {
     @IBOutlet weak var startDateLabel: UILabel!
     @IBOutlet weak var endDateLabel: UILabel!
     
-    
     func configureView(stage: Contest.Stage?) {
         self.stageNameLabel.text = stage?.name ?? "No name"
         self.startDateLabel.text = "Start: \(IdaoManager.shared.getDateFormatter().string(from: stage?.startDate ?? Date()))"

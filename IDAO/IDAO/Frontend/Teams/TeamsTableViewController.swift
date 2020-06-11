@@ -45,6 +45,20 @@ class TeamsTableViewController: UITableViewController {
         tableView.register(nib, forCellReuseIdentifier: "TeamCell")
         
         self.tableView.refreshControl?.addTarget(self, action: #selector(refreshTeams), for: .valueChanged)
+        
+        let teamTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(teamTapped))
+        self.view.addGestureRecognizer(teamTapGestureRecognizer)
+    }
+    
+    @objc
+    func teamTapped(teamTappedGestureRecognizer: UITapGestureRecognizer) {
+
+        if teamTappedGestureRecognizer.state == UIGestureRecognizer.State.ended {
+            let touchPoint = teamTappedGestureRecognizer.location(in: self.view)
+            if let indexPath = tableView.indexPathForRow(at: touchPoint) {
+                self.present(TeamActionSheet(teamId: self.teams[indexPath.row], parentView: self), animated: true, completion: nil)
+            }
+        }
     }
     
     @objc
@@ -56,8 +70,8 @@ class TeamsTableViewController: UITableViewController {
     
     @objc
     func refreshTeams() {
-        IdaoStorage.teams.update {
-            IdaoStorage.invites.update {
+        IdaoStorage.teams.update(forceUpdate: true) {
+            IdaoStorage.invites.update(forceUpdate: true) {
                 DispatchQueue(label: "refresh-waiting-\(UUID())").async {
                     usleep(500000) // sleep for .5 seconds
                     DispatchQueue.main.async { [weak self] in
@@ -85,24 +99,8 @@ class TeamsTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TeamCell", for: indexPath) as! TeamTableViewCell
         cell.setTeam(teamId: self.teams[indexPath.row])
         cell.layoutIfNeeded()
+        cell.delegate = self
         return cell
-    }
-
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    
-        self.tableView.deselectRow(at: indexPath, animated: false)
-
-        self.performSegue(withIdentifier: "2TeamEditController", sender: self.teams[indexPath.row])
-    }
-    
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-        
-        (segue.destination as? DetailTeamController)?.setTeam(teamId: sender as! Int)
     }
 
 }
@@ -118,20 +116,19 @@ extension TeamsTableViewController {
                     self?.present(AlertViewsFactory.emptyTeamName(), animated: true, completion: nil)
                 }
             } else {
-                self?.present(AlertViewsFactory.creatingTeam(), animated: true)
-                IdaoManager.shared.createTeam(name: name) { [weak self] status, team in
-                    DispatchQueue.main.async {
-                        self?.presentedViewController?.dismiss(animated: true, completion: nil)
-                    }
-                    if status == .created {
-                        IdaoStorage.teams.update(completionHandler: {})
-                    } else if status == .teamAlreadyExists {
+                DispatchQueue.main.async {
+                    self?.present(AlertViewsFactory.creatingTeam(), animated: true)
+                    IdaoManager.shared.createTeam(name: name) { [weak self] status, team in
                         DispatchQueue.main.async {
-                            self?.present(AlertViewsFactory.teamAlreadyExists(), animated: true, completion: nil)
-                        }
-                    } else {
-                        DispatchQueue.main.async {
-                            self?.present(AlertViewsFactory.unknownError(), animated: true, completion: nil)
+                            self?.presentedViewController?.dismiss(animated: true) { [weak self] in
+                                if status == .created {
+                                    IdaoStorage.teams.update { }
+                                } else if status == .teamAlreadyExists {
+                                    self?.present(AlertViewsFactory.teamAlreadyExists(), animated: true, completion: nil)
+                                } else {
+                                    self?.present(AlertViewsFactory.unknownError(), animated: true, completion: nil)
+                                }
+                            }
                         }
                     }
                 }
@@ -155,6 +152,14 @@ extension TeamsTableViewController: StorageObserverDelegate {
                 guard let invites = data as? [Int] else { return }
                 self?.navigationItem.leftBarButtonItem?.title = "Invites(\(invites.count))"
             }
+        }
+    }
+}
+
+extension TeamsTableViewController: AutomaticHeightCellDelegate {
+    func contentDidChange() {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
         }
     }
 }

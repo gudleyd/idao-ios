@@ -11,7 +11,7 @@ import Foundation
 
 class ContestsStorage: BaseStorage<Contest> {
     
-    override func update(completionHandler: @escaping () -> ()) {
+    override func update(forceUpdate: Bool = false, completionHandler: @escaping () -> ()) {
         self.queue.async(flags: .barrier) {
             var contests: [Contest] = []
             IdaoManager.shared.getPublishedContests { [weak self] pContests in

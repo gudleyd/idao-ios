@@ -93,4 +93,24 @@ extension IdaoManager {
         }
         task.resume()
     }
+    
+    func getUsers(completionHandler: @escaping ([User.Account]) -> ()) {
+        let request = self.baseRequest(mapping: "/api/accounts/")
+        
+        let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
+            guard let data = data else { return }
+            let users = try! self.getJsonDecoder().decode([User.Account].self, from: data)
+            completionHandler(users)
+        }
+        task.resume()
+    }
+    
+    func getUsers(username: String, completionHandler: @escaping ([User.Account]) -> ()) {
+        self.getUsers { users in
+            let user = users.filter { account in
+                return (account.username.hasPrefix(username))
+            }
+            completionHandler(user)
+        }
+    }
 }

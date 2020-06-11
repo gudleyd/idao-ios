@@ -63,7 +63,7 @@ class DetailContestViewController: UIViewController, UICollectionViewDelegate, U
         self.bodyMd.load(markdown: "<style>body {background-color: #f2f2f7;}</style><font color=\"#000000\">\n" + (self.contest?.description ?? ""))
         
         let now = Date()
-        if Calendar.current.compare(now, to: contest?.startDate ?? Date(), toGranularity: .day) != .orderedDescending {
+        if Calendar.current.compare(now, to: contest?.startDate ?? Date(), toGranularity: .day) == .orderedDescending {
             self.takePartButton.setTitle("Registration is closed", for: .disabled)
             self.takePartButton.setTitleColor(.systemRed, for: .disabled)
             self.takePartButton.isEnabled = false
@@ -88,7 +88,7 @@ class DetailContestViewController: UIViewController, UICollectionViewDelegate, U
     @IBAction func takePartButtonTapped(_ sender: Any) {
         var teamNames = [String]()
         var teams = [Team]()
-        IdaoStorage.teams.getAllTeams(filter: { team in return team.amILeader() }) { tms in
+        IdaoStorage.teams.getAllTeams(filter: { team in return team.status == "OPEN" && team.amILeader() }) { tms in
             teams = tms
         }
         for team in teams {
@@ -118,7 +118,16 @@ class DetailContestViewController: UIViewController, UICollectionViewDelegate, U
 extension DetailContestViewController: ASSPickerDelegate {
     
     func valuePicked(value: (Int, String, Any?)) {
-        print(value.0, value.1, value.2 as? Team)
+        self.present(AlertViewsFactory.leavingTeam(), animated: true)
+        IdaoManager.shared.registerForContest(contestId: self.contest?.id ?? -1, teamId: ((value.2) as? Team)?.id ?? -1) { [weak self] in
+            IdaoStorage.contests.update { }
+            IdaoStorage.teams.update { }
+            DispatchQueue.main.async {
+                self?.presentedViewController?.dismiss(animated: true) {
+                    self?.dismiss(animated: true, completion: nil)
+                }
+            }
+        }
     }
     
 }
