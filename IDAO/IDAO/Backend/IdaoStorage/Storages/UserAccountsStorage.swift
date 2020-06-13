@@ -12,7 +12,26 @@ import Foundation
 class UserAccountsStorage: BaseStorage<Int> {
     
     internal var accountsCache = [Int: (User.Account, Double)]()
-    internal let accountsCacheTrustInterval: Double = 60 // in seconds
+    internal let accountsCacheTrustInterval: Double = 120 // in seconds
+    
+    override func update(forceUpdate: Bool = false, completionHandler: @escaping () -> ()) {
+        self.queue.async(flags: .barrier) {
+            if forceUpdate {
+                self.accountsCache = [:]
+            }
+            let mainGroup = DispatchGroup()
+            mainGroup.enter()
+            IdaoManager.shared.getUsers { users in
+                for user in users {
+                    self.accountsCache[user.id] = (user, Date().timeIntervalSince1970)
+                }
+                mainGroup.leave()
+            }
+            mainGroup.wait()
+            self.notify()
+            completionHandler()
+        }
+    }
     
     func get(userId: Int, completionHandler: ((User.Account) -> ())) {
         self.queue.sync() {

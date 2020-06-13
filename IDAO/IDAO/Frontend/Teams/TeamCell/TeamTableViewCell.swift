@@ -97,7 +97,7 @@ class TeamTableViewCell: UITableViewCell, UITableViewDelegate, UITableViewDataSo
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             if let memberToRemove = self.team?.teamMembers?[indexPath.row], let teamId = self.team?.id {
-                IdaoManager.shared.removeMember(teamId: teamId, userId: memberToRemove.userId) { [weak self] in
+                IdaoManager.shared.removeMember(teamId: teamId, userId: memberToRemove.userId) {
                     IdaoStorage.teams.update(forceUpdate: true) { }
                 }
             }

@@ -38,3 +38,21 @@ struct User: Codable {
     var account: Account
     var personalData: PersonalData
 }
+
+
+struct UserWithPasswordAndData: Codable {
+    var name: String
+    var username: String
+    
+    var password: String?
+    
+    var email: String
+    var birthday: Date
+    var phone_number: String
+    var gender: String
+    var country_of_residence: String
+    var university: String
+    var study_program: String
+    var level_of_study: String
+    var company: String
+}

@@ -20,6 +20,7 @@ func TeamActionSheet(teamId: Int, parentView: UIViewController) -> UIAlertContro
 
     alert.addAction(UIAlertAction(title: "Invite Member", style: .default , handler:{ [weak parentView] (_) in
         let inviteNewMember = AlertViewsFactory.inviteMember { alertAction, alertController in
+            parentView?.present(AlertViewsFactory.invitingUser(), animated: true)
             let username = alertController.textFields?[0].text ?? ""
             if username == "" {
                 DispatchQueue.main.async {
@@ -33,20 +34,17 @@ func TeamActionSheet(teamId: Int, parentView: UIViewController) -> UIAlertContro
                         }
                         return
                     }
-                    DispatchQueue.main.async {
-                        parentView?.present(AlertViewsFactory.invitingUser(), animated: true) {
-                            IdaoManager.shared.inviteUser(teamId: team.id, userId: users[0].id) { [weak parentView] status in
-                                IdaoStorage.teams.update(forceUpdate: true) { }
-                                DispatchQueue.main.async {
-                                    parentView?.presentedViewController?.dismiss(animated: true) { [weak parentView] in
-                                        if status == .sent {
-                                            IdaoStorage.teams.update { }
-                                        } else if status == .userNotFound {
-                                            parentView?.present(AlertViewsFactory.userNotFound(), animated: true, completion: nil)
-                                        } else {
-                                            parentView?.present(AlertViewsFactory.unknownError(), animated: true, completion: nil)
-                                        }
-                                    }
+                    
+                    IdaoManager.shared.inviteUser(teamId: team.id, userId: users[0].id) { [weak parentView] status in
+                        IdaoStorage.teams.update(forceUpdate: true) { }
+                        DispatchQueue.main.async {
+                            parentView?.presentedViewController?.dismiss(animated: true) { [weak parentView] in
+                                if status == .sent {
+                                    IdaoStorage.teams.update { }
+                                } else if status == .userNotFound {
+                                    parentView?.present(AlertViewsFactory.userNotFound(), animated: true, completion: nil)
+                                } else {
+                                    parentView?.present(AlertViewsFactory.unknownError(), animated: true, completion: nil)
                                 }
                             }
                         }

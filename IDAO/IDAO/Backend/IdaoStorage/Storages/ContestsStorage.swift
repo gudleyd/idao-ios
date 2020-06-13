@@ -14,28 +14,28 @@ class ContestsStorage: BaseStorage<Contest> {
     override func update(forceUpdate: Bool = false, completionHandler: @escaping () -> ()) {
         self.queue.async(flags: .barrier) {
             var contests: [Contest] = []
-            IdaoManager.shared.getPublishedContests { [weak self] pContests in
+            let parentGroup = DispatchGroup()
+            parentGroup.enter()
+            IdaoManager.shared.getPublishedContests { pContests in
                 contests = pContests
-                let mainGroup = DispatchGroup()
                 for i in 0..<contests.count {
-                    mainGroup.enter()
+                    parentGroup.enter()
+                    parentGroup.enter()
                     IdaoManager.shared.getContestSettings(id: contests[i].id) { settings in
                         contests[i].settings = settings
-                        mainGroup.leave()
+                        parentGroup.leave()
                     }
-                    mainGroup.enter()
                     IdaoManager.shared.getContestStages(id: contests[i].id) { stages in
                         contests[i].stages = stages
-                        mainGroup.leave()
+                        parentGroup.leave()
                     }
                 }
-                self?.queue.async {
-                    mainGroup.wait()
-                    self?.set(contests) {
-                        completionHandler()
-                    }
-                }
+                parentGroup.leave()
             }
+            parentGroup.wait()
+            self.items = contests
+            self.notify()
+            completionHandler()
         }
     }
 }

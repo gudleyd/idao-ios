@@ -24,7 +24,7 @@ class BaseStorage<Item> {
         }
     }
     
-    internal let queue = DispatchQueue(label: "base-queue-\(UUID())", attributes: .concurrent)
+    internal let queue = DispatchQueue(label: "base-queue-\(UUID())", qos: .userInitiated, attributes: .concurrent)
     internal var items = [Item]()
     
     internal var observersQueue = DispatchQueue(label: "observers-queue-\(UUID())", attributes: .concurrent)

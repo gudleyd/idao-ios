@@ -24,7 +24,7 @@ extension IdaoManager {
         request.httpMethod = "POST"
 
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
-            guard let data = data else { return }
+            guard let _ = data else { return }
             guard let response = response as? HTTPURLResponse else { return }
             if let status = UserInviteStatus(rawValue: response.statusCode) {
                 completionHandler(status)

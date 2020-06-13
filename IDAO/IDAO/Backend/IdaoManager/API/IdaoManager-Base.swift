@@ -19,6 +19,13 @@ extension IdaoManager {
         return dateFormatter
     }
     
+    func getJsonEncoder() -> JSONEncoder {
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .formatted(self.getDateFormatter())
+        
+        return encoder
+    }
+    
     func getJsonDecoder() -> JSONDecoder {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .formatted(self.getDateFormatter())
@@ -35,82 +42,5 @@ extension IdaoManager {
             request.addValue("\(token.tokenType) \(token.accessToken)", forHTTPHeaderField: "Authorization")
         }
         return request
-    }
-    
-    func auth(username: String, password: String) {
-        
-        let group = DispatchGroup()
-        
-        var request = self.baseRequest(mapping: "/api/auth/login")
-        
-        let body: [String: Any] = ["username": username, "password": password]
-        request.httpMethod = "POST"
-        request.httpBody = try? JSONSerialization.data(withJSONObject: body)
-        
-        group.enter()
-        let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
-            guard let data = data else { return }
-            self.token = try? self.getJsonDecoder().decode(Token.self, from: data)
-            group.leave()
-        }
-        task.resume()
-        group.wait()
-        if let token = self.token {
-            let keychain = KeychainSwift()
-            keychain.set(token.accessToken, forKey: "accessToken")
-            keychain.set(token.tokenType, forKey: "tokenType")
-            keychain.set(username, forKey: "username")
-            keychain.set(password, forKey: "password")
-            
-            let dec = decode(jwtToken: token.accessToken)
-            self.appUserId = dec["id"] as? Int
-        }
-    }
-    
-    func getUserAccount(userId: Int, completionHandler: @escaping (User.Account) -> ()) {
-        print("userId: \(userId)")
-        let request = self.baseRequest(mapping: "/api/accounts/\(userId)")
-        
-        let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
-            guard let data = data else { return }
-            print(String(data: data, encoding: .utf8)!)
-            let account = try! self.getJsonDecoder().decode(User.Account.self, from: data)
-            print(account)
-            completionHandler(account)
-        }
-        task.resume()
-    }
-    
-    func getUserPersonalData(userId: Int, completionHandler: @escaping (User.PersonalData) -> ()) {
-        let request = self.baseRequest(mapping: "/api/personal-data/\(userId)")
-        
-        let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
-            guard let data = data else { return }
-            print(String(data: data, encoding: .utf8)!)
-            let personalData = try! self.getJsonDecoder().decode(User.PersonalData.self, from: data)
-            print(personalData)
-            completionHandler(personalData)
-        }
-        task.resume()
-    }
-    
-    func getUsers(completionHandler: @escaping ([User.Account]) -> ()) {
-        let request = self.baseRequest(mapping: "/api/accounts/")
-        
-        let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
-            guard let data = data else { return }
-            let users = try! self.getJsonDecoder().decode([User.Account].self, from: data)
-            completionHandler(users)
-        }
-        task.resume()
-    }
-    
-    func getUsers(username: String, completionHandler: @escaping ([User.Account]) -> ()) {
-        self.getUsers { users in
-            let user = users.filter { account in
-                return (account.username.hasPrefix(username))
-            }
-            completionHandler(user)
-        }
     }
 }

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="2Ig-rC-7cT">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Contests-->
+        <scene sceneID="ZTe-NP-JvA">
+            <objects>
+                <navigationController id="2Ig-rC-7cT" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Contests" image="rosette" catalog="system" id="Lhc-iw-2fA"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Rci-53-cbb">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="zTF-nB-USj" kind="relationship" relationship="rootViewController" id="pP1-fM-TnG"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1Fl-Bh-eqx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-90" y="260"/>
+        </scene>
+        <!--Root View Controller-->
+        <scene sceneID="l8a-fF-0UQ">
+            <objects>
+                <tableViewController id="zTF-nB-USj" customClass="ContestsViewController" customModule="IDAO" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="J3f-YG-54A">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <connections>
+                            <outlet property="dataSource" destination="zTF-nB-USj" id="9ex-n5-U2Z"/>
+                            <outlet property="delegate" destination="zTF-nB-USj" id="dk8-va-7JQ"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Root View Controller" id="NPx-py-W0s"/>
+                    <connections>
+                        <segue destination="DVr-YX-xXc" kind="presentation" identifier="DetailContest" id="dPh-qh-tnb"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mmJ-kW-XYj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="757" y="260"/>
+        </scene>
+        <!--DetailContest-->
+        <scene sceneID="5u4-yf-9qd">
+            <objects>
+                <viewControllerPlaceholder storyboardName="DetailContest" id="DVr-YX-xXc" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ddS-sF-YOy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1479" y="260"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="rosette" catalog="system" width="100" height="128"/>
+    </resources>
+</document>

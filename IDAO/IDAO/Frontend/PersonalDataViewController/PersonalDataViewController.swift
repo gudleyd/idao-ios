@@ -33,6 +33,22 @@ class PersonalDataViewController: FormViewController {
         self.buildForm()
     }
     
+    func userFromForm() -> UserWithPasswordAndData {
+        return UserWithPasswordAndData(
+            name: (self.form.rowBy(tag: "name") as? TextRow)?.value ?? "",
+            username: (self.form.rowBy(tag: "username") as? AccountRow)?.value ?? "",
+            password: (self.form.rowBy(tag: "password") as? PasswordRow)?.value,
+            email: (self.form.rowBy(tag: "name") as? EmailRow)?.value ?? "",
+            birthday: (self.form.rowBy(tag: "birthday") as? DateRow)?.value ?? Date(),
+            phone_number: (self.form.rowBy(tag: "phoneNumber") as? PhoneRow)?.value ?? "",
+            gender: (self.form.rowBy(tag: "gender") as? ActionSheetRow<String>)?.value ?? "",
+            country_of_residence: (self.form.rowBy(tag: "countryOfResidence") as? TextRow)?.value ?? "",
+            university: (self.form.rowBy(tag: "university") as? TextRow)?.value ?? "",
+            study_program: (self.form.rowBy(tag: "university") as? TextRow)?.value ?? "",
+            level_of_study: (self.form.rowBy(tag: "gender") as? ActionSheetRow<String>)?.value ?? "",
+            company: (self.form.rowBy(tag: "company") as? TextRow)?.value ?? "")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -55,19 +71,27 @@ class PersonalDataViewController: FormViewController {
         self.buildCredentialsSection()
         
         form +++ Section()
+            
             <<< ButtonRow("registerButton") {
                 $0.title = "Register"
                 $0.hidden = Condition.init(booleanLiteral: self.style != .registration)
             }
             .onCellSelection { [weak self] (cell, row) in
-                self?.form.validate()
+                let invalid = self?.form.validate()
+                if invalid ?? [] == [] {
+                    let _ = IdaoManager.shared.register(userData: self?.userFromForm())
+                }
             }
+            
             <<< ButtonRow("saveChangesButton") {
                 $0.title = "Save Changes"
                 $0.hidden = Condition.init(booleanLiteral: self.style != .view)
             }
             .onCellSelection { [weak self] (cell, row) in
-                self?.form.validate()
+                let invalid = self?.form.validate()
+                if invalid ?? [] == [] {
+                    let _ = IdaoManager.shared.changeUserPersonalData(userData: self?.userFromForm())
+                }
             }
     }
     
@@ -78,32 +102,47 @@ class PersonalDataViewController: FormViewController {
                 $0.placeholder = "Your Name"
                 $0.titlePercentage = 0.4
                 $0.add(rule: RuleRequired())
+                $0.hidden = Condition.init(booleanLiteral: self.style != .registration)
                 $0.value = user?.account.name
             }
             .cellUpdate { cell, row in
                 cell.textField.textAlignment = .right
+                if !row.isValid {
+                    cell.titleLabel?.textColor = .red
+                }
             }
 
             <<< DateRow("birthday"){
                 $0.title = "Birthday"
                 $0.add(rule: RuleRequired())
+                $0.hidden = Condition.init(booleanLiteral: self.style != .registration)
                 $0.value = user?.personalData.birthday
+            }
+            .cellUpdate { cell, row in
+                if !row.isValid {
+                    cell.textLabel?.textColor = .red
+                }
             }
 
             <<< PhoneRow("phoneNumber") {
                 $0.title = "Phone number"
                 $0.placeholder = "Phone number"
+                $0.add(rule: RuleRequired())
                 $0.titlePercentage = 0.4
                 $0.value = user?.personalData.phoneNumber
             }
             .cellUpdate { cell, row in
                 cell.textField.textAlignment = .right
+                if !row.isValid {
+                    cell.titleLabel?.textColor = .red
+                }
             }
 
             <<< ActionSheetRow<String>("gender") {
                 $0.title = "Gender"
-                $0.options = ["Male", "Female", "Not specified"]
-                $0.value = user?.personalData.gender ?? "Not specified"
+                $0.options = ["male", "female", "not specified"]
+                $0.hidden = Condition.init(booleanLiteral: self.style != .registration)
+                $0.value = user?.personalData.gender ?? "not specified"
             }
     }
     
@@ -112,38 +151,67 @@ class PersonalDataViewController: FormViewController {
             <<< ActionSheetRow<String>("currentOccupation") {
                 $0.title = "Current occupation"
                 $0.options = ["Student", "Employee"]
-                $0.value = (user?.personalData.company ?? "") == "" ? "Student" : "Company"
+                $0.value = (user?.personalData.company ?? "") == "" ? "Student" : "Employee"
             }
             <<< TextRow("university") {
                 $0.title = "University"
                 $0.placeholder = "University"
+                $0.add(rule: RuleRequired())
                 $0.hidden = Condition.function(["currentOccupation"], { form in
                     return ((form.rowBy(tag: "currentOccupation") as? ActionSheetRow<String>)?.value! != "Student")
                 })
                 $0.value = user?.personalData.university
             }
+            .cellUpdate { cell, row in
+                if !row.isValid {
+                    cell.textLabel?.textColor = .red
+                }
+            }
+            
             <<< TextRow("studyProgram") {
                 $0.title = "Study Program"
                 $0.placeholder = "Study Program"
+                $0.add(rule: RuleRequired())
                 $0.hidden = Condition.function(["currentOccupation"], { form in
                     return ((form.rowBy(tag: "currentOccupation") as? ActionSheetRow<String>)?.value! != "Student")
                 })
                 $0.value = user?.personalData.studyProgram
             }
+            .cellUpdate { cell, row in
+                if !row.isValid {
+                    cell.textLabel?.textColor = .red
+                }
+            }
+            
+            <<< ActionSheetRow<String>("levelOfStudy") {
+                $0.title = "Level Of Study"
+                $0.options = ["Bachelor", "Master", "PhD"]
+                $0.hidden = Condition.function(["currentOccupation"], { form in
+                    return ((form.rowBy(tag: "currentOccupation") as? ActionSheetRow<String>)?.value! != "Student")
+                })
+                $0.value = user?.personalData.levelOfStudy ?? "Bachelor"
+            }
+            
             <<< TextRow("company") {
                 $0.title = "Company"
                 $0.placeholder = "Company"
+                $0.add(rule: RuleRequired())
                 $0.hidden = Condition.function(["currentOccupation"], { form in
                     return ((form.rowBy(tag: "currentOccupation") as? ActionSheetRow<String>)?.value != "Employee")
                 })
                 $0.value = user?.personalData.company
+            }
+            .cellUpdate { cell, row in
+                if !row.isValid {
+                    cell.textLabel?.textColor = .red
+                }
             }
     }
     
     func buildCredentialsSection() {
         form +++ Section("Credentials")
 
-            <<< TextRow("country") {
+            <<< TextRow("countryOfResidence") {
                 $0.title = "Country"
                 $0.titlePercentage = 0.3
                 $0.add(rule: RuleRequired())
@@ -160,6 +228,7 @@ class PersonalDataViewController: FormViewController {
                 $0.title = "Email"
                 $0.titlePercentage = 0.3
                 $0.add(rule: RuleRequired())
+                $0.hidden = Condition.init(booleanLiteral: self.style != .registration)
                 $0.value = user?.personalData.email
             }
             .cellUpdate { cell, row in
@@ -176,8 +245,7 @@ class PersonalDataViewController: FormViewController {
                 $0.hidden = Condition.init(booleanLiteral: self.style != .registration)
             }
             .cellUpdate { cell, row in
-                cell.textField.textAlignment = .left
-                cell.textLabel?.textAlignment = .left
+                cell.textField.textAlignment = .right
                 if !row.isValid {
                     cell.titleLabel?.textColor = .red
                 }
@@ -223,22 +291,6 @@ class PersonalDataViewController: FormViewController {
                 cell.textField.textAlignment = .right
                 if !row.isValid {
                     cell.titleLabel?.textColor = .red
-                }
-            }
-            .onRowValidationChanged { cell, row in
-                let rowIndex = row.indexPath!.row
-                while row.section!.count > rowIndex + 1 && row.section?[rowIndex  + 1] is LabelRow {
-                    row.section?.remove(at: rowIndex + 1)
-                }
-                if !row.isValid {
-                    for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
-                        let labelRow = LabelRow() {
-                            $0.title = validationMsg
-                            $0.cell.height = { 30 }
-                        }
-                        let indexPath = row.indexPath!.row + index + 1
-                        row.section?.insert(labelRow, at: indexPath)
-                    }
                 }
             }
     }

@@ -91,8 +91,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
 
     @objc func doneButtonAction(){
-        self.usernameField.inputAccessoryView?.resignFirstResponder()
-        self.passwordField.inputAccessoryView?.resignFirstResponder()
+        self.usernameField.endEditing(true)
+        self.passwordField.endEditing(true)
     }
 
 
