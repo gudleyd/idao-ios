@@ -33,20 +33,37 @@ class PersonalDataViewController: FormViewController {
         self.buildForm()
     }
     
-    func userFromForm() -> UserWithPasswordAndData {
-        return UserWithPasswordAndData(
-            name: (self.form.rowBy(tag: "name") as? TextRow)?.value ?? "",
-            username: (self.form.rowBy(tag: "username") as? AccountRow)?.value ?? "",
-            password: (self.form.rowBy(tag: "password") as? PasswordRow)?.value,
-            email: (self.form.rowBy(tag: "name") as? EmailRow)?.value ?? "",
-            birthday: (self.form.rowBy(tag: "birthday") as? DateRow)?.value ?? Date(),
-            phone_number: (self.form.rowBy(tag: "phoneNumber") as? PhoneRow)?.value ?? "",
-            gender: (self.form.rowBy(tag: "gender") as? ActionSheetRow<String>)?.value ?? "",
-            country_of_residence: (self.form.rowBy(tag: "countryOfResidence") as? TextRow)?.value ?? "",
-            university: (self.form.rowBy(tag: "university") as? TextRow)?.value ?? "",
-            study_program: (self.form.rowBy(tag: "university") as? TextRow)?.value ?? "",
-            level_of_study: (self.form.rowBy(tag: "gender") as? ActionSheetRow<String>)?.value ?? "",
-            company: (self.form.rowBy(tag: "company") as? TextRow)?.value ?? "")
+    func dataForRegistration() -> UserWithPasswordAndData {
+        return UserWithPasswordAndData(name: (self.form.rowBy(tag: "name") as? TextRow)?.value ?? "",
+                                       username: (self.form.rowBy(tag: "username") as? AccountRow)?.value ?? "",
+                                       password: (self.form.rowBy(tag: "password") as? PasswordRow)?.value ?? "",
+                                       email: (self.form.rowBy(tag: "email") as? EmailRow)?.value ?? "",
+                                       birthday: (self.form.rowBy(tag: "birthday") as? DateRow)?.value ?? Date(),
+                                       phoneNumber: (self.form.rowBy(tag: "phoneNumber") as? PhoneRow)?.value ?? "",
+                                       gender: (self.form.rowBy(tag: "gender") as? ActionSheetRow<String>)?.value ?? "",
+                                       countryOfResidence: (self.form.rowBy(tag: "countryOfResidence") as? PickerInlineRow<String>)?.value ?? "",
+                                       university: (self.form.rowBy(tag: "university") as? TextRow)?.value ?? "",
+                                       studyProgram: (self.form.rowBy(tag: "studyProgram") as? TextRow)?.value ?? "",
+                                       levelOfStudy: (self.form.rowBy(tag: "levelOfStudy") as? ActionSheetRow<String>)?.value ?? "",
+                                       company: (self.form.rowBy(tag: "company") as? TextRow)?.value ?? "")
+    }
+    
+    func personalDataFromForm() -> User.PersonalData? {
+        if self.style == .view,
+            let user = self.user {
+            return User.PersonalData(userId: user.personalData.userId,
+                                     email: user.personalData.email,
+                                     birthday: user.personalData.birthday,
+                                     phoneNumber: (self.form.rowBy(tag: "phoneNumber") as? PhoneRow)?.value ?? "",
+                                     gender: user.personalData.gender,
+                                     countryOfResidence: (self.form.rowBy(tag: "countryOfResidence") as? ActionSheetRow<String>)?.value ?? "",
+                                     university: (self.form.rowBy(tag: "university") as? TextRow)?.value ?? "",
+                                     studyProgram: (self.form.rowBy(tag: "studyProgram") as? TextRow)?.value ?? "",
+                                     levelOfStudy: (self.form.rowBy(tag: "levelOfStudy") as? PickerInlineRow<String>)?.value ?? "",
+                                     company: (self.form.rowBy(tag: "company") as? TextRow)?.value ?? "",
+                                     registrationDate: user.personalData.registrationDate)
+        }
+        return nil
     }
     
     override func viewDidLoad() {
@@ -79,7 +96,19 @@ class PersonalDataViewController: FormViewController {
             .onCellSelection { [weak self] (cell, row) in
                 let invalid = self?.form.validate()
                 if invalid ?? [] == [] {
-                    let _ = IdaoManager.shared.register(userData: self?.userFromForm())
+                    let status = IdaoManager.shared.register(userData: self?.dataForRegistration())
+                    switch status {
+                    case .success:
+                        self?.present(AlertViewsFactory.newAlert(title: "Success", message: """
+                            You successfully created account.
+                            Please, check your email to complete registration
+                            Don't see the activation letter? Please, check your spam folder
+                        """, handler: { _ in self?.dismiss(animated: true)}), animated: true, completion: nil)
+                    case .inUse(let details):
+                        self?.present(AlertViewsFactory.newAlert(title: "Error", message: details), animated: true)
+                    default:
+                        self?.present(AlertViewsFactory.unknownError(), animated: true)
+                    }
                 }
             }
             
@@ -89,8 +118,10 @@ class PersonalDataViewController: FormViewController {
             }
             .onCellSelection { [weak self] (cell, row) in
                 let invalid = self?.form.validate()
-                if invalid ?? [] == [] {
-                    let _ = IdaoManager.shared.changeUserPersonalData(userData: self?.userFromForm())
+                if invalid ?? [] == [],
+                    let data = self?.personalDataFromForm() {
+                    let _ = IdaoManager.shared.changeUserPersonalData(userData: data)
+                    self?.dismiss(animated: true)
                 }
             }
     }
@@ -211,17 +242,11 @@ class PersonalDataViewController: FormViewController {
     func buildCredentialsSection() {
         form +++ Section("Credentials")
 
-            <<< TextRow("countryOfResidence") {
+            <<< PickerInputRow<String>("countryOfResidence") {
                 $0.title = "Country"
-                $0.titlePercentage = 0.3
+                $0.options = getCountries()
                 $0.add(rule: RuleRequired())
                 $0.value = user?.personalData.countryOfResidence
-            }
-            .cellUpdate { cell, row in
-                cell.textField.textAlignment = .right
-                if !row.isValid {
-                    cell.titleLabel?.textColor = .red
-                }
             }
             
             <<< EmailRow("email") {

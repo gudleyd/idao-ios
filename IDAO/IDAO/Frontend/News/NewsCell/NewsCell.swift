@@ -28,7 +28,7 @@ class NewsCell: UITableViewCell {
     func setNews(news: News) {
         self.bodyMd.onRendered = { [weak self] height in
             DispatchQueue.main.async {
-    
+                
                 if height > 300 {
                     self?.bodyHeight.constant = 260
                 } else {
@@ -49,11 +49,12 @@ class NewsCell: UITableViewCell {
             }
         }
         
+        self.newsTitleLabel.text = news.header
+        self.dateLabel.text = "\(IdaoManager.shared.getDateFormatter().string(from: news.publicationDate))"
+        self.bodyMd.load(markdown: news.body, enableImage: true)
+        
         IdaoStorage.accounts.get(userId: news.authorId) { author in
-            self.newsTitleLabel.text = news.header
-            self.dateLabel.text = "\(IdaoManager.shared.getDateFormatter().string(from: news.publicationDate))"
             self.authorLabel.text = "@\(author.username)"
-            self.bodyMd.load(markdown: news.body)
         }
     }
     
@@ -77,10 +78,8 @@ class NewsCell: UITableViewCell {
         self.contentView.autoresizingMask = [.flexibleHeight]
         
         self.gradient.frame = self.detailView.bounds
-        var color = UIColor(red: 242, green: 242, blue: 247, alpha: 1)
-        if #available(iOS 13.0, *) {
-            color = UIColor.systemBackground
-        }
+        
+        let color = UIColor.white
         self.gradient.colors = [color.withAlphaComponent(0.1).cgColor, color.withAlphaComponent(0.6).cgColor, color.withAlphaComponent(0.99).cgColor,
             color.withAlphaComponent(1.0).cgColor]
         self.gradient.locations = [0.0, 0.4, 0.5, 1.0]
@@ -96,7 +95,7 @@ class NewsCell: UITableViewCell {
         self.bodyMd.isScrollEnabled = false
         self.bodyMd.isUserInteractionEnabled = false
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 

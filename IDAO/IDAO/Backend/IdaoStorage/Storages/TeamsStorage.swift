@@ -12,10 +12,14 @@ import Foundation
 class TeamsStorage: BaseStorage<Int> {
     
     private var teamsCache: [Int: (Team, Double)] = [:]
-    private let teamsCacheTrustInterval: Double = 15 // in seconds
+    private let teamsCacheTrustInterval: Double = 300 // in seconds
     
-    override func update(forceUpdate: Bool = false, completionHandler: @escaping () -> ()) {
+    final override func update(forceUpdate: Bool = false, completionHandler: @escaping () -> ()) {
+        if self.isUpdating {
+            return
+        }
         self.queue.async(flags: .barrier) {
+            self.isUpdating = true
             if forceUpdate {
                 self.teamsCache = [:]
             }
@@ -27,11 +31,14 @@ class TeamsStorage: BaseStorage<Int> {
             }
             mainGroup.wait()
             self.notify()
-            completionHandler()
+            self.queue.async {
+                completionHandler()
+            }
+            self.isUpdating = false
         }
     }
     
-    func getAllTeams(filter: @escaping (Team) -> (Bool), completionHandler: @escaping ([Team]) -> ()) {
+    final func getAllTeams(filter: @escaping (Team) -> (Bool), completionHandler: @escaping ([Team]) -> ()) {
         self.queue.sync {
             var teams = [Team]()
             for id in self.items {
@@ -45,7 +52,7 @@ class TeamsStorage: BaseStorage<Int> {
         }
     }
     
-    func get(teamId: Int, completionHandler: @escaping (Team) -> ()) {
+    final func get(teamId: Int, completionHandler: @escaping (Team) -> ()) {
         self.queue.sync() {
             if let team = teamsCache[teamId] {
                 if Date().timeIntervalSince1970 - team.1 < teamsCacheTrustInterval {

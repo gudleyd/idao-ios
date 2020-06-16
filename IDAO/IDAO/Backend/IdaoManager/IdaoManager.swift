@@ -36,6 +36,7 @@ class IdaoManager {
         
         token = nil
         appUserId = nil
+        IdaoStorage.shared.invalidate()
     }
     
     func myUserId() -> Int? {

@@ -15,8 +15,12 @@ extension IdaoManager {
         let request = self.baseRequest(mapping: "/api/news/")
         
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
+            if error != nil {
+                print("ERROR")
+                completionHandler([])
+                return
+            }
             guard let data = data else { return }
-            //print(String(data: data, encoding: .utf8)!)
             let news = try! self.getJsonDecoder().decode([News].self, from: data)
             completionHandler(news)
         }

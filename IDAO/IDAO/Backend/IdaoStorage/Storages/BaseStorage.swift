@@ -13,6 +13,7 @@ protocol StorageObserverDelegate: class {
     func update(_ sender: Any?, _ data: Any?)
 }
 
+
 class BaseStorage<Item> {
     
     class StorageObserver {
@@ -26,15 +27,18 @@ class BaseStorage<Item> {
     
     internal let queue = DispatchQueue(label: "base-queue-\(UUID())", qos: .userInitiated, attributes: .concurrent)
     internal var items = [Item]()
+    internal var isUpdating: Bool = false
     
-    internal var observersQueue = DispatchQueue(label: "observers-queue-\(UUID())", attributes: .concurrent)
+    internal var observersQueue = DispatchQueue(label: "observers-queue-\(UUID())", qos: .userInitiated, attributes: .concurrent)
     internal lazy var observers = [StorageObserver]()
     
-    init() {
-        self.update(completionHandler: {})
+    init(makeUpdate: Bool = true) {
+        if makeUpdate {
+            self.update(completionHandler: {})
+        }
     }
 
-    func subscribe(_ observer: StorageObserver) {
+    final func subscribe(_ observer: StorageObserver) {
         self.observersQueue.async(flags: .barrier) { [weak self] in
             guard self?.observers.contains(where: { $0.id == observer.id }) == false else {
                 return
@@ -43,7 +47,7 @@ class BaseStorage<Item> {
         }
     }
 
-    func unsubscribe(_ observer: StorageObserver) {
+    final func unsubscribe(_ observer: StorageObserver) {
         self.observersQueue.async(flags: .barrier) { [weak self] in
             if let idx = self?.observers.firstIndex(where: { $0 === observer }) {
                 self?.observers.remove(at: idx)
@@ -51,32 +55,30 @@ class BaseStorage<Item> {
         }
     }
 
-    func notify() {
+    final func notify() {
         self.observersQueue.async(flags: .barrier) { [weak self] in
             self?.observers = self?.observers.filter { observer in return observer.delegate != nil } ?? []
-            self?.observers.forEach { observer in
-                if let items = self?.items {
+            if let items = self?.items {
+                self?.observers.forEach { observer in
                     observer.delegate?.update(self, items)
                 }
             }
         }
     }
 
-    func get(completionHandler: @escaping ([Item]) -> ()) {
+    final func get(completionHandler: @escaping ([Item]) -> ()) {
         self.queue.sync() {
             completionHandler(self.items)
         }
     }
-
-    func set(_ newItems: [Item], completionHandler: @escaping () -> ()) {
+    
+    func clear() {
         self.queue.async(flags: .barrier) {
-            self.items = newItems
-            self.notify()
-            completionHandler()
+            self.items = []
         }
     }
 
     func update(forceUpdate: Bool = false, completionHandler: @escaping () -> ()) {
-        print("Update method should be overriden")
+        fatalError("Update method should be overriden")
     }
 }

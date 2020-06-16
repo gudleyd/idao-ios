@@ -16,29 +16,10 @@ class TeamsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        IdaoStorage.teams.subscribe(TeamsStorage.StorageObserver(delegate: self))
-        IdaoStorage.invites.subscribe(InvitesStorage.StorageObserver(delegate: self))
-        
-        IdaoStorage.teams.get { [weak self] teams in
-            DispatchQueue.main.async {
-                print(teams)
-                self?.teams = teams
-                self?.tableView.reloadData()
-            }
-        }
-        
-        IdaoStorage.invites.get { [weak self] invites in
-            DispatchQueue.main.async {
-                self?.navigationItem.leftBarButtonItem?.title = "Invites(\(invites.count))"
-            }
-        }
-        
         self.title = "Teams"
         self.navigationController?.navigationBar.prefersLargeTitles = true
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.addTeamButtonTapped))
-        
-
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Invites(--)", style: .plain, target: self, action: #selector(self.openInvitesView))
         
         let nib = UINib(nibName: "TeamTableViewCell", bundle: .main)
@@ -48,6 +29,12 @@ class TeamsTableViewController: UITableViewController {
         
         let teamTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(teamTapped))
         self.view.addGestureRecognizer(teamTapGestureRecognizer)
+        
+        IdaoStorage.teams.subscribe(TeamsStorage.StorageObserver(delegate: self))
+        IdaoStorage.teams.update { }
+        
+        IdaoStorage.invites.subscribe(InvitesStorage.StorageObserver(delegate: self))
+        IdaoStorage.invites.update { }
     }
     
     @objc
@@ -71,14 +58,7 @@ class TeamsTableViewController: UITableViewController {
     @objc
     func refreshTeams() {
         IdaoStorage.teams.update(forceUpdate: true) {
-            IdaoStorage.invites.update(forceUpdate: true) {
-                DispatchQueue(label: "refresh-waiting-\(UUID())").async {
-                    usleep(500000) // sleep for .5 seconds
-                    DispatchQueue.main.async { [weak self] in
-                        self?.tableView.refreshControl?.endRefreshing()
-                    }
-                }
-            }
+            IdaoStorage.invites.update(forceUpdate: true) { }
         }
     }
 
@@ -99,7 +79,6 @@ class TeamsTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TeamCell", for: indexPath) as! TeamTableViewCell
         cell.setTeam(teamId: self.teams[indexPath.row])
         cell.layoutIfNeeded()
-        cell.delegate = self
         return cell
     }
 
@@ -149,17 +128,10 @@ extension TeamsTableViewController: StorageObserverDelegate {
             }
         } else {
             DispatchQueue.main.async { [weak self] in
+                self?.tableView.refreshControl?.endRefreshing()
                 guard let invites = data as? [Int] else { return }
                 self?.navigationItem.leftBarButtonItem?.title = "Invites(\(invites.count))"
             }
-        }
-    }
-}
-
-extension TeamsTableViewController: AutomaticHeightCellDelegate {
-    func contentDidChange() {
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
         }
     }
 }

@@ -11,8 +11,12 @@ import Foundation
 
 class NewsStorage: BaseStorage<News> {
     
-    override func update(forceUpdate: Bool = false, completionHandler: @escaping () -> ()) {
+    final override func update(forceUpdate: Bool = false, completionHandler: @escaping () -> ()) {
+        if self.isUpdating {
+            return
+        }
         self.queue.async(flags: .barrier) {
+            self.isUpdating = true
             let mainGroup = DispatchGroup()
             mainGroup.enter()
             IdaoManager.shared.getNews { news in
@@ -21,7 +25,10 @@ class NewsStorage: BaseStorage<News> {
             }
             mainGroup.wait()
             self.notify()
-            completionHandler()
+            self.queue.async {
+                completionHandler()
+            }
+            self.isUpdating = false
         }
     }
 }

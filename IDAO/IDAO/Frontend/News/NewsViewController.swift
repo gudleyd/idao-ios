@@ -15,25 +15,25 @@ protocol AutomaticHeightCellDelegate: AnyObject {
 class NewsTableViewController: UITableViewController {
     
     var news: [News] = []
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        IdaoStorage.news.subscribe(NewsStorage.StorageObserver(delegate: self))
-        
-        IdaoStorage.news.get { [weak self] news in
-            DispatchQueue.main.async {
-                self?.news = news
-                self?.tableView.reloadData()
-            }
-        }
-        
         self.title = "News"
         self.navigationController?.navigationBar.prefersLargeTitles = true
+        
+        self.tableView.refreshControl?.addTarget(self, action: #selector(refreshNews), for: .valueChanged)
 
         let nib = UINib(nibName: "NewsCell", bundle: .main)
         tableView.register(nib, forCellReuseIdentifier: "NewsCell")
+        
+        IdaoStorage.news.subscribe(NewsStorage.StorageObserver(delegate: self))
+        IdaoStorage.news.update { }
+    }
+    
+    @objc
+    func refreshNews() {
+        IdaoStorage.news.update(forceUpdate: true) { }
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -41,7 +41,6 @@ class NewsTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-
         return self.news.count
     }
 
@@ -72,6 +71,7 @@ class NewsTableViewController: UITableViewController {
 extension NewsTableViewController: StorageObserverDelegate {
     func update(_ sender: Any?, _ data: Any?) {
         DispatchQueue.main.async { [weak self] in
+            self?.tableView.refreshControl?.endRefreshing()
             guard let news = data as? [News] else { return }
             self?.news = news
             self?.tableView.reloadData()

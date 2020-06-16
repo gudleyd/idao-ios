@@ -12,7 +12,6 @@ import UIKit
 class TeamTableViewCell: UITableViewCell, UITableViewDelegate, UITableViewDataSource {
     
     var team: Team?
-    weak var delegate: AutomaticHeightCellDelegate?
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var tableHeight: NSLayoutConstraint!

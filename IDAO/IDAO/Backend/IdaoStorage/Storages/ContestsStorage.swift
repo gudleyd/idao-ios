@@ -11,11 +11,15 @@ import Foundation
 
 class ContestsStorage: BaseStorage<Contest> {
     
-    override func update(forceUpdate: Bool = false, completionHandler: @escaping () -> ()) {
+    final override func update(forceUpdate: Bool = false, completionHandler: @escaping () -> ()) {
+        if self.isUpdating {
+            return
+        }
         self.queue.async(flags: .barrier) {
-            var contests: [Contest] = []
+            self.isUpdating = true
             let parentGroup = DispatchGroup()
             parentGroup.enter()
+            var contests = [Contest]()
             IdaoManager.shared.getPublishedContests { pContests in
                 contests = pContests
                 for i in 0..<contests.count {
@@ -35,7 +39,10 @@ class ContestsStorage: BaseStorage<Contest> {
             parentGroup.wait()
             self.items = contests
             self.notify()
-            completionHandler()
+            self.queue.async {
+                completionHandler()
+            }
+            self.isUpdating = false
         }
     }
 }

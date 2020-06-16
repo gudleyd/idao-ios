@@ -61,13 +61,14 @@ class ContestCell: UITableViewCell {
             self.registrationLabel.text = "Registration is closed"
             self.registrationLabel.textColor = .systemRed
         }
-        self.bodyMd.load(markdown: contest.description)
+        self.bodyMd.load(markdown: contest.description, enableImage: true)
     }
     
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        
         self.selectionStyle = .none
         
         self.parentView.layer.cornerRadius = 8
@@ -83,10 +84,8 @@ class ContestCell: UITableViewCell {
         self.contentView.autoresizingMask = [.flexibleHeight]
         
         self.gradient.frame = self.detailView.bounds
-        var color = UIColor(red: 242, green: 242, blue: 247, alpha: 1)
-        if #available(iOS 13.0, *) {
-            color = UIColor.systemBackground
-        }
+        
+        let color = UIColor.white
         self.gradient.colors = [color.withAlphaComponent(0.1).cgColor, color.withAlphaComponent(0.6).cgColor, color.withAlphaComponent(0.99).cgColor,
             color.withAlphaComponent(1.0).cgColor]
         self.gradient.locations = [0.0, 0.4, 0.5, 1.0]

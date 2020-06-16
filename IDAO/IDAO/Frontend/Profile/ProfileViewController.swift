@@ -26,7 +26,6 @@ class ProfileViewController: UITableViewController {
         super.viewDidLoad()
         
         IdaoStorage.appUser.subscribe(AppUserStorage.StorageObserver(delegate: self))
-        
         IdaoStorage.appUser.get { [weak self] user in
            if user.count > 0 {
                DispatchQueue.main.async {

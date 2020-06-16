@@ -11,31 +11,52 @@ import KeychainSwift
 
 extension IdaoManager {
     
-    enum RegistrationStatus: Int {
-        case success = 200
-        case inUse = 400
+    enum RegistrationStatus {
+        case success
+        case inUse(details: String)
         case unknownError
     }
     
     func register(userData: UserWithPasswordAndData?) -> RegistrationStatus {
         
+        var currentStatus = RegistrationStatus.unknownError
+        
+        guard let userData = userData else { return currentStatus }
+        
+        let json = "{\"account\": {\"name\":\"\(userData.name)\", \"username\":\"\(userData.username)\"},\"password\":\"\(userData.password)\", \"personalData\": {\"levelOfStudy\":\"\(userData.levelOfStudy)\",\"phoneNumber\":\"\(userData.phoneNumber)\",\"countryOfResidence\":\"\(userData.countryOfResidence)\",\"company\":\"\(userData.company)\",\"university\":\"\(userData.university)\",\"birthday\":\"\(self.getDateFormatter().string(from: userData.birthday))\",\"studyProgram\":\"\(userData.studyProgram)\",\"email\":\"\(userData.email)\",\"gender\":\"\(userData.gender)\"}}"
+        
         let group = DispatchGroup()
         
         var request = self.baseRequest(mapping: "/api/auth/register")
         
-        guard let data = try? self.getJsonEncoder().encode(userData) else { return .unknownError }
+        guard let data = json.data(using: .utf8) else { return currentStatus }
         request.httpMethod = "POST"
         request.httpBody = data
         
         group.enter()
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
-            guard let data = data else { return }
-            print(String(data: data, encoding: .utf8)!)
+            if error != nil {
+                group.leave()
+                return
+            }
+            guard let response = response as? HTTPURLResponse else {
+                group.leave()
+                return
+            }
+            print(response.statusCode)
+            if response.statusCode == 200 {
+                currentStatus = .success
+            } else if response.statusCode < 500 {
+                if let data = data,
+                    let details =  ((try? JSONSerialization.jsonObject(with: data, options: [])) as? [String : Any])?["details"] as? String {
+                        currentStatus = .inUse(details: details)
+                }
+            }
             group.leave()
         }
         task.resume()
         group.wait()
-        return .success
+        return currentStatus
     }
     
     func auth(username: String, password: String) {
@@ -50,6 +71,9 @@ extension IdaoManager {
         
         group.enter()
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
+            if error != nil {
+                print("No internet connection")
+            }
             guard let data = data else { return }
             self.token = try? self.getJsonDecoder().decode(Token.self, from: data)
             group.leave()
@@ -58,50 +82,43 @@ extension IdaoManager {
         group.wait()
         if let token = self.token {
             let keychain = KeychainSwift()
-            keychain.set(token.accessToken, forKey: "accessToken")
-            keychain.set(token.tokenType, forKey: "tokenType")
             keychain.set(username, forKey: "username")
             keychain.set(password, forKey: "password")
             
             let dec = decode(jwtToken: token.accessToken)
             self.appUserId = dec["id"] as? Int
+            
+            IdaoStorage.shared.updateOnInvalidState()
         }
     }
     
-    func changeUserPersonalData(userData: UserWithPasswordAndData?) -> RegistrationStatus {
+    func changeUserPersonalData(userData: User.PersonalData) {
         
-        guard let id = self.myUserId() else { return .unknownError }
+        guard let id = self.myUserId() else { return }
         
         let group = DispatchGroup()
         
         var request = self.baseRequest(mapping: "/api/personal-data/\(id)")
-        guard let data = try? self.getJsonEncoder().encode(userData) else { return .unknownError }
+        guard let data = try? self.getJsonEncoder().encode(userData) else { return }
         request.httpMethod = "PUT"
         request.httpBody = data
         
         group.enter()
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
-            guard let data = data else { return }
-            guard let response = response as? HTTPURLResponse else { return }
-            print("status: \(String(data: data, encoding: .utf8)!), code: \(response.statusCode)")
             group.leave()
         }
         task.resume()
         group.wait()
         
         IdaoStorage.appUser.update { }
-        return .success
     }
     
     func getUserAccount(userId: Int, completionHandler: @escaping (User.Account) -> ()) {
-        print("userId: \(userId)")
         let request = self.baseRequest(mapping: "/api/accounts/\(userId)")
         
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
             guard let data = data else { return }
-            print(String(data: data, encoding: .utf8)!)
             let account = try! self.getJsonDecoder().decode(User.Account.self, from: data)
-            print(account)
             completionHandler(account)
         }
         task.resume()
@@ -112,9 +129,7 @@ extension IdaoManager {
         
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
             guard let data = data else { return }
-            print(String(data: data, encoding: .utf8)!)
             let personalData = try! self.getJsonDecoder().decode(User.PersonalData.self, from: data)
-            print(personalData)
             completionHandler(personalData)
         }
         task.resume()

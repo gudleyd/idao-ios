@@ -13,9 +13,21 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var connectionUpdater: ConnectionUpdater!
+    var noConnectionLabel: UILabel!
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        self.connectionUpdater = ConnectionUpdater(delegate: self)
+        
+        self.noConnectionLabel = UILabel(frame: CGRect(x: 0, y: -80, width: self.window?.frame.width ?? 0, height: 80))
+        self.noConnectionLabel.numberOfLines = 0
+        self.noConnectionLabel.text = "\n\nNo internet connection"
+        self.noConnectionLabel.textColor = .white
+        self.noConnectionLabel.textAlignment = .center
+        self.noConnectionLabel.backgroundColor = .red
+        self.window?.addSubview(self.noConnectionLabel)
+        
         return true
     }
     // MARK: - Core Data stack
@@ -65,3 +77,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+extension AppDelegate: ConnectionUpdaterDelegate {
+    
+    func lostConnection() {
+        DispatchQueue.main.async {
+            self.window?.bringSubviewToFront(self.noConnectionLabel)
+            UIView.animate(withDuration: 1.0, animations: {
+                self.noConnectionLabel.frame = CGRect(x: 0, y: 0, width: self.window?.frame.width ?? 0, height: 80)
+            })
+        }
+    }
+    
+    func foundConnection() {
+        DispatchQueue.main.async {
+            self.window?.bringSubviewToFront(self.noConnectionLabel)
+            UIView.animate(withDuration: 1.0, animations: {
+                self.noConnectionLabel.frame = CGRect(x: 0, y: -80, width: self.window?.frame.width ?? 0, height: 80)
+            })
+        }
+    }
+    
+    
+}

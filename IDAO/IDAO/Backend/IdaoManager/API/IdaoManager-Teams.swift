@@ -22,8 +22,11 @@ extension IdaoManager {
         let request = self.baseRequest(mapping: "/api/teams/\(teamId)/members/")
         
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
+            if error != nil {
+                completionHandler([])
+                return
+            }
             guard let data = data else { return }
-            print(String(data: data, encoding: .utf8)!)
             let members = try! self.getJsonDecoder().decode([Team.TeamMember].self, from: data)
             completionHandler(members)
         }
@@ -35,6 +38,10 @@ extension IdaoManager {
         let request = self.baseRequest(mapping: "/api/teams/\(byId)")
         
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
+            if error != nil {
+                completionHandler(Team(id: 123, name: "TEAMNAME", status: "ACTIVE", registrationDate: Date(), teamMembers: nil))
+                return
+            }
             guard let data = data else { return }
             let team = try! self.getJsonDecoder().decode(Team.self, from: data)
             completionHandler(team)
@@ -49,8 +56,11 @@ extension IdaoManager {
         let request = self.baseRequest(mapping: "/api/teams/members/\(id)")
 
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
+            if error != nil {
+                completionHandler([])
+                return
+            }
             guard let data = data else { return }
-            print(String(data: data, encoding: .utf8)!)
             let teamsIds = try! self.getJsonDecoder().decode([Int].self, from: data)
             completionHandler(teamsIds)
         }
@@ -64,6 +74,10 @@ extension IdaoManager {
         let request = self.baseRequest(mapping: "/api/teams/invites/\(id)")
         
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
+            if error != nil {
+                completionHandler([])
+                return
+            }
             guard let data = data else { return }
             let invites = try! self.getJsonDecoder().decode([Int].self, from: data)
             completionHandler(invites)
@@ -80,6 +94,10 @@ extension IdaoManager {
         request.httpBody = try? JSONSerialization.data(withJSONObject: body)
         
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
+            if error != nil {
+                completionHandler(.unknownError, nil)
+                return
+            }
             guard let data = data else { return }
             guard let response = response as? HTTPURLResponse else { return }
             if let status = TeamCreationStatus(rawValue: response.statusCode) {
@@ -111,14 +129,16 @@ extension IdaoManager {
             }
         }
         mainGroup.wait()
-        print("TEAM MEMBERS REMOVED")
         
         var request = self.baseRequest(mapping: "/api/teams/\(teamId)")
         request.httpMethod = "DELETE"
         
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
-            guard let data = data else { return }
-            print(String(data: data, encoding: .utf8)!)
+            if error != nil {
+                completionHandler()
+                return
+            }
+            guard let _ = data else { return }
             completionHandler()
         }
         task.resume()
@@ -130,9 +150,11 @@ extension IdaoManager {
         request.httpMethod = "DELETE"
         
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
-            guard let data = data else { return }
-            print(teamId, userId)
-            print(String(data: data, encoding: .utf8) ?? "")
+            if error != nil {
+                completionHandler()
+                return
+            }
+            guard let _ = data else { return }
             completionHandler()
         }
         task.resume()

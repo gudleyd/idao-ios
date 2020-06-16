@@ -11,59 +11,57 @@ import UIKit
 
 class AlertViewsFactory {
     
+    static func newAlert(title: String = "Error", message: String = "Try again later", handler: ((UIAlertAction) -> ())? = nil) -> UIAlertController {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: handler))
+        return alertController
+    }
+    
+    static func newPending(title: String = "Waiting...") -> UIAlertController {
+        let pending = UIAlertController(title: title, message: nil, preferredStyle: .alert)
+        return pending
+    }
+    
     static func unknownError() -> UIAlertController {
-        let alertController = UIAlertController(title: "Error", message: "Try again later", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Unknown Error", message: "Try again later or contact the administrator", preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         return alertController
     }
     
     static func creatingTeam() -> UIAlertController {
-        let pending = UIAlertController(title: "Creating...", message: nil, preferredStyle: .alert)
-        return pending
+        return self.newPending(title: "Creating team...")
     }
     
     static func invitingUser() -> UIAlertController {
-        let pending = UIAlertController(title: "Sending Invite...", message: nil, preferredStyle: .alert)
-        return pending
+        return self.newPending(title: "Inviting user...")
     }
     
     static func leavingTeam() -> UIAlertController {
-        let pending = UIAlertController(title: "Leaving team...", message: nil, preferredStyle: .alert)
-        return pending
+        return self.newPending(title: "Leaving team...")
     }
     
     static func removingMember() -> UIAlertController {
-        let pending = UIAlertController(title: "Removing member...", message: nil, preferredStyle: .alert)
-        return pending
+        return self.newPending(title: "Removing member...")
     }
     
     static func deletingTeam() -> UIAlertController {
-        let pending = UIAlertController(title: "Deleting team...", message: nil, preferredStyle: .alert)
-        return pending
+        return self.newPending(title: "Deleting team...")
     }
     
     static func emptyTeamName() -> UIAlertController {
-        let alertController = UIAlertController(title: "Error", message: "Team name is empty", preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-        return alertController
+        return self.newAlert(message: "Team name is empty")
     }
     
     static func emptyUsername() -> UIAlertController {
-        let alertController = UIAlertController(title: "Error", message: "Username is empty", preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-        return alertController
+        return self.newAlert(message: "Username is empty")
     }
     
     static func userNotFound() -> UIAlertController {
-        let alertController = UIAlertController(title: "Error", message: "User not found", preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-        return alertController
+        return self.newAlert(message: "User not found")
     }
     
     static func teamAlreadyExists() -> UIAlertController {
-        let alertController = UIAlertController(title: "Error", message: "Team with this name already exists", preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-        return alertController
+        return self.newAlert(message: "Team with this name already exists")
     }
     
     static func createTeam(completionHandler: @escaping (UIAlertAction, UIAlertController) -> ()) -> UIAlertController {

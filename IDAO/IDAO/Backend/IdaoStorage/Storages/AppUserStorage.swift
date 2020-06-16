@@ -12,7 +12,11 @@ import Foundation
 class AppUserStorage: BaseStorage<User> {
 
     override func update(forceUpdate: Bool = false, completionHandler: @escaping () -> ()) {
+        if self.isUpdating {
+            return
+        }
         self.queue.async(flags: .barrier) {
+            self.isUpdating = true
             guard let id = IdaoManager.shared.myUserId() else { return }
             var appUserAccount: User.Account?
             var appUserPersonalData: User.PersonalData?
@@ -31,12 +35,13 @@ class AppUserStorage: BaseStorage<User> {
             group.wait()
             if let account = appUserAccount,
                 let personalData = appUserPersonalData {
-                self.set([User(account: account, personalData: personalData)]) {
-                    completionHandler()
-                }
+                self.items = [User(account: account, personalData: personalData)]
             }
             self.notify()
-            completionHandler()
+            self.queue.async {
+                completionHandler()
+            }
+            self.isUpdating = false
         }
     }
 }

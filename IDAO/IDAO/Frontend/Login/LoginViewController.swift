@@ -22,6 +22,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
+        
         signInButton.layer.cornerRadius = 8
         signUpButton.layer.cornerRadius = 8
         
@@ -37,17 +38,17 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     func moveIfAuthorized() {
         if (IdaoManager.shared.isAuthorized()) {
             let mainViewController = UIStoryboard(name: "Main", bundle: .main).instantiateInitialViewController()
-            self.present(mainViewController!, animated: true)
+            self.parent?.present(mainViewController!, animated: true)
         }
     }
     
     @IBAction func signInButtonTapped(_ sender: Any) {
-        IdaoManager.shared.auth(username: usernameField.text ?? "", password: passwordField.text ?? "")
         
+        IdaoManager.shared.auth(username: usernameField.text ?? "", password: passwordField.text ?? "")
         if (IdaoManager.shared.isAuthorized()) {
             moveIfAuthorized()
         } else {
-            let alert = UIAlertController(title: "Wrong credentials", message: "Wrong username or password", preferredStyle: UIAlertController.Style.alert)
+            let alert = UIAlertController(title: "Error", message: "Wrong username or password", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
         }

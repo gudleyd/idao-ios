@@ -14,32 +14,31 @@ class ContestsViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        IdaoStorage.contests.subscribe(ContestsStorage.StorageObserver(delegate: self))
-        IdaoStorage.contests.get { [weak self] contests in
-            print(contests)
-            DispatchQueue.main.async {
-                self?.contests = contests
-                self?.tableView.reloadData()
-            }
-        }
 
         self.title = "Contests"
         self.navigationController?.navigationBar.prefersLargeTitles = true
         
+        self.tableView.refreshControl?.addTarget(self, action: #selector(refreshContests), for: .valueChanged)
+        
         let nib = UINib(nibName: "ContestCell", bundle: .main)
         tableView.register(nib, forCellReuseIdentifier: "ContestCell")
+        
+        IdaoStorage.contests.subscribe(ContestsStorage.StorageObserver(delegate: self))
+        IdaoStorage.contests.update { }
+    }
+    
+    @objc
+    func refreshContests() {
+        IdaoStorage.contests.update(forceUpdate: true) { }
     }
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return self.contests.count
     }
     
@@ -69,6 +68,7 @@ class ContestsViewController: UITableViewController {
 extension ContestsViewController: StorageObserverDelegate {
     func update(_ sender: Any?, _ data: Any?) {
         DispatchQueue.main.async { [weak self] in
+            self?.tableView.refreshControl?.endRefreshing()
             guard let contests = data as? [Contest] else { return }
             self?.contests = contests
             self?.tableView.reloadData()

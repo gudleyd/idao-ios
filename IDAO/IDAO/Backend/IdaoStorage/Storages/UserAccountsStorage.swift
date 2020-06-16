@@ -12,10 +12,14 @@ import Foundation
 class UserAccountsStorage: BaseStorage<Int> {
     
     internal var accountsCache = [Int: (User.Account, Double)]()
-    internal let accountsCacheTrustInterval: Double = 120 // in seconds
+    internal let accountsCacheTrustInterval: Double = 300 // in seconds
     
-    override func update(forceUpdate: Bool = false, completionHandler: @escaping () -> ()) {
+    final override func update(forceUpdate: Bool = false, completionHandler: @escaping () -> ()) {
+        if self.isUpdating {
+            return
+        }
         self.queue.async(flags: .barrier) {
+            self.isUpdating = true
             if forceUpdate {
                 self.accountsCache = [:]
             }
@@ -29,11 +33,14 @@ class UserAccountsStorage: BaseStorage<Int> {
             }
             mainGroup.wait()
             self.notify()
-            completionHandler()
+            self.queue.async {
+                completionHandler()
+            }
+            self.isUpdating = false
         }
     }
     
-    func get(userId: Int, completionHandler: ((User.Account) -> ())) {
+    final func get(userId: Int, completionHandler: ((User.Account) -> ())) {
         self.queue.sync() {
             if let account = accountsCache[userId] {
                 if Date().timeIntervalSince1970 - account.1 < accountsCacheTrustInterval {

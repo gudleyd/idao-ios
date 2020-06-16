@@ -11,8 +11,12 @@ import Foundation
 
 class InvitesStorage: BaseStorage<Int> {
     
-    override func update(forceUpdate: Bool = false, completionHandler: @escaping () -> ()) {
+    final override func update(forceUpdate: Bool = false, completionHandler: @escaping () -> ()) {
+        if self.isUpdating {
+            return
+        }
         self.queue.async(flags: .barrier) {
+            self.isUpdating = true
             let mainGroup = DispatchGroup()
             mainGroup.enter()
             IdaoManager.shared.getMyInvites { [weak self] invites in
@@ -21,7 +25,10 @@ class InvitesStorage: BaseStorage<Int> {
             }
             mainGroup.wait()
             self.notify()
-            completionHandler()
+            self.queue.async {
+                completionHandler()
+            }
+            self.isUpdating = false
         }
     }
 }
