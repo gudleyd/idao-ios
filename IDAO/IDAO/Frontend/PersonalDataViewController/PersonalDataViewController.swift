@@ -96,18 +96,21 @@ class PersonalDataViewController: FormViewController {
             .onCellSelection { [weak self] (cell, row) in
                 let invalid = self?.form.validate()
                 if invalid ?? [] == [] {
-                    let status = IdaoManager.shared.register(userData: self?.dataForRegistration())
-                    switch status {
-                    case .success:
-                        self?.present(AlertViewsFactory.newAlert(title: "Success", message: """
-                            You successfully created account.
-                            Please, check your email to complete registration
-                            Don't see the activation letter? Please, check your spam folder
-                        """, handler: { _ in self?.dismiss(animated: true)}), animated: true, completion: nil)
-                    case .inUse(let details):
-                        self?.present(AlertViewsFactory.newAlert(title: "Error", message: details), animated: true)
-                    default:
-                        self?.present(AlertViewsFactory.unknownError(), animated: true)
+                    IdaoManager.shared.register(userData: self?.dataForRegistration()) { status in
+                        DispatchQueue.main.async {
+                            switch status {
+                            case .success:
+                                self?.present(AlertViewsFactory.newAlert(title: "Success", message: """
+                                    You successfully created account.
+                                    Please, check your email to complete registration
+                                    Don't see the activation letter? Please, check your spam folder
+                                """, handler: { _ in self?.dismiss(animated: true)}), animated: true, completion: nil)
+                            case .inUse(let details):
+                                self?.present(AlertViewsFactory.newAlert(title: "Error", message: details), animated: true)
+                            default:
+                                self?.present(AlertViewsFactory.unknownError(), animated: true)
+                            }
+                        }
                     }
                 }
             }
@@ -120,8 +123,10 @@ class PersonalDataViewController: FormViewController {
                 let invalid = self?.form.validate()
                 if invalid ?? [] == [],
                     let data = self?.personalDataFromForm() {
-                    let _ = IdaoManager.shared.changeUserPersonalData(userData: data)
-                    self?.dismiss(animated: true)
+                    
+                    IdaoManager.shared.changeUserPersonalData(userData: data) { status in
+                        self?.dismiss(animated: true)
+                    }
                 }
             }
     }

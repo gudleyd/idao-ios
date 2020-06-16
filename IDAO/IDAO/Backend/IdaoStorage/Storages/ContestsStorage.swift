@@ -20,16 +20,18 @@ class ContestsStorage: BaseStorage<Contest> {
             let parentGroup = DispatchGroup()
             parentGroup.enter()
             var contests = [Contest]()
-            IdaoManager.shared.getPublishedContests { pContests in
+            IdaoManager.shared.getPublishedContests { status, pContests in
                 contests = pContests
                 for i in 0..<contests.count {
                     parentGroup.enter()
                     parentGroup.enter()
-                    IdaoManager.shared.getContestSettings(id: contests[i].id) { settings in
-                        contests[i].settings = settings
+                    IdaoManager.shared.getContestSettings(id: contests[i].id) { status, settings in
+                        if let settings = settings {
+                            contests[i].settings = settings
+                        }
                         parentGroup.leave()
                     }
-                    IdaoManager.shared.getContestStages(id: contests[i].id) { stages in
+                    IdaoManager.shared.getContestStages(id: contests[i].id) { status, stages in
                         contests[i].stages = stages
                         parentGroup.leave()
                     }

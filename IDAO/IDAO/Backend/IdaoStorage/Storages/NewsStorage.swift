@@ -19,8 +19,10 @@ class NewsStorage: BaseStorage<News> {
             self.isUpdating = true
             let mainGroup = DispatchGroup()
             mainGroup.enter()
-            IdaoManager.shared.getNews { news in
-                self.items = news
+            IdaoManager.shared.getNews { status, news in
+                if status == .success {
+                    self.items = news
+                }
                 mainGroup.leave()
             }
             mainGroup.wait()

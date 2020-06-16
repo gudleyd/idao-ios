@@ -10,19 +10,18 @@ import Foundation
 
 
 extension IdaoManager {
-    func getNews(completionHandler: @escaping ([News]) -> ()) {
+    func getNews(completionHandler: @escaping (SimpleRequestResult, [News]) -> ()) {
         
         let request = self.baseRequest(mapping: "/api/news/")
         
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
-            if error != nil {
-                print("ERROR")
-                completionHandler([])
-                return
+            if let data = data,
+                let news = try? self.getJsonDecoder().decode([News].self, from: data) {
+                
+                completionHandler(.success, news)
+            } else {
+                completionHandler(.unknownError, [])
             }
-            guard let data = data else { return }
-            let news = try! self.getJsonDecoder().decode([News].self, from: data)
-            completionHandler(news)
         }
         task.resume()
     }

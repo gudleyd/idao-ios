@@ -25,7 +25,12 @@ class IdaoManager {
         let keychain = KeychainSwift()
         if let password = keychain.get("password"),
             let username = keychain.get("username") {
-            self.auth(username: username, password: password)
+            let group = DispatchGroup()
+            group.enter()
+            self.auth(username: username, password: password) { _ in
+                group.leave()
+            }
+            group.wait()
         }
     }
     

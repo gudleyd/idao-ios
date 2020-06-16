@@ -44,7 +44,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func signInButtonTapped(_ sender: Any) {
         
-        IdaoManager.shared.auth(username: usernameField.text ?? "", password: passwordField.text ?? "")
+        IdaoManager.shared.auth(username: usernameField.text ?? "", password: passwordField.text ?? "") { _ in }
         if (IdaoManager.shared.isAuthorized()) {
             moveIfAuthorized()
         } else {

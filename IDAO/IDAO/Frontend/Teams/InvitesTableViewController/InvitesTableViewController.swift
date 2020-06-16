@@ -77,14 +77,14 @@ class InvitesTableViewController: UITableViewController {
 
 
         let acceptAction = UITableViewRowAction(style: .default, title: "Accept", handler: { (action, indexPath) in
-            IdaoManager.shared.acceptInvite(teamId: self.invites[indexPath.row]) {
+            IdaoManager.shared.acceptInvite(teamId: self.invites[indexPath.row]) { status in
                 IdaoStorage.invites.update(completionHandler: {})
             }
         })
         acceptAction.backgroundColor = .systemGreen
 
         let declineAction = UITableViewRowAction(style: .default, title: "Decline", handler: { (action, indexPath) in
-            IdaoManager.shared.declineInvite(teamId: self.invites[indexPath.row]) {
+            IdaoManager.shared.declineInvite(teamId: self.invites[indexPath.row]) { status in
                 IdaoStorage.invites.update(completionHandler: {})
             }
         })

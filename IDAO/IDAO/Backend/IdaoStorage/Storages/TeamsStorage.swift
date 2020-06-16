@@ -25,8 +25,10 @@ class TeamsStorage: BaseStorage<Int> {
             }
             let mainGroup = DispatchGroup()
             mainGroup.enter()
-            IdaoManager.shared.getMyTeamsIds { [weak self] myTeams in
-                self?.items = myTeams
+            IdaoManager.shared.getMyTeamsIds { [weak self] status, myTeams in
+                if status == .success {
+                    self?.items = myTeams
+                }
                 mainGroup.leave()
             }
             mainGroup.wait()
@@ -63,12 +65,14 @@ class TeamsStorage: BaseStorage<Int> {
             var retTeam = Team(id: -1, name: "", status: "NONEXISTS", registrationDate: Date(), teamMembers: nil)
             let mainGroup = DispatchGroup()
             mainGroup.enter()
-            IdaoManager.shared.getTeam(byId: teamId) { team in
-                retTeam = team
-                mainGroup.enter()
-                IdaoManager.shared.getTeamMembers(teamId: teamId) { teamMembers in
-                    retTeam.teamMembers = teamMembers
-                    mainGroup.leave()
+            IdaoManager.shared.getTeam(byId: teamId) { status, team in
+                if let team = team {
+                    retTeam = team
+                    mainGroup.enter()
+                    IdaoManager.shared.getTeamMembers(teamId: teamId) { status, teamMembers in
+                        retTeam.teamMembers = teamMembers
+                        mainGroup.leave()
+                    }
                 }
                 mainGroup.leave()
             }

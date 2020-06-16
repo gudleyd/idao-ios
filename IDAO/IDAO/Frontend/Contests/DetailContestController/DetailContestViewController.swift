@@ -119,7 +119,7 @@ extension DetailContestViewController: ASSPickerDelegate {
     
     func valuePicked(value: (Int, String, Any?)) {
         self.present(AlertViewsFactory.leavingTeam(), animated: true)
-        IdaoManager.shared.registerForContest(contestId: self.contest?.id ?? -1, teamId: ((value.2) as? Team)?.id ?? -1) { [weak self] in
+        IdaoManager.shared.registerForContest(contestId: self.contest?.id ?? -1, teamId: ((value.2) as? Team)?.id ?? -1) { [weak self] status in
             IdaoStorage.contests.update { }
             IdaoStorage.teams.update { }
             DispatchQueue.main.async {

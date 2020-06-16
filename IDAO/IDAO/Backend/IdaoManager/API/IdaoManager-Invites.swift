@@ -20,18 +20,19 @@ enum UserInviteStatus: Int {
 extension IdaoManager {
     
     func inviteUser(teamId: Int, userId: Int, completionHandler: @escaping (UserInviteStatus) -> ()) {
+        
         var request = self.baseRequest(mapping: "/api/teams/\(teamId)/invites/\(userId)")
         request.httpMethod = "POST"
 
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
-            if error != nil {
-                completionHandler(.unknownError)
-                return
-            }
-            guard let _ = data else { return }
-            guard let response = response as? HTTPURLResponse else { return }
-            if let status = UserInviteStatus(rawValue: response.statusCode) {
-                completionHandler(status)
+            if let _ = data,
+                let response = response as? HTTPURLResponse {
+                
+                if let status = UserInviteStatus(rawValue: response.statusCode) {
+                    completionHandler(status)
+                } else {
+                    completionHandler(.unknownError)
+                }
             } else {
                 completionHandler(.unknownError)
             }
@@ -39,28 +40,42 @@ extension IdaoManager {
         task.resume()
     }
     
-    func declineInvite(teamId: Int, completionHandler: @escaping () -> ()) {
+    func declineInvite(teamId: Int, completionHandler: @escaping (SimpleRequestResult) -> ()) {
         
-        guard let userId = self.myUserId() else { return }
+        guard let userId = self.myUserId() else {
+            completionHandler(.unknownError)
+            return
+        }
         
         var request = self.baseRequest(mapping: "/api/teams/\(teamId)/invites/\(userId)")
         request.httpMethod = "DELETE"
         
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
-            completionHandler()
+            if error != nil {
+                completionHandler(.unknownError)
+            } else {
+                completionHandler(.success)
+            }
         }
         task.resume()
     }
     
-    func acceptInvite(teamId: Int, completionHandler: @escaping () -> ()) {
+    func acceptInvite(teamId: Int, completionHandler: @escaping (SimpleRequestResult) -> ()) {
         
-        guard let userId = self.myUserId() else { return }
+        guard let userId = self.myUserId() else {
+            completionHandler(.unknownError)
+            return
+        }
         
         var request = self.baseRequest(mapping: "/api/teams/\(teamId)/invites/\(userId)")
         request.httpMethod = "PUT"
         
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
-            completionHandler()
+            if error != nil {
+                completionHandler(.unknownError)
+            } else {
+                completionHandler(.success)
+            }
         }
         task.resume()
     }

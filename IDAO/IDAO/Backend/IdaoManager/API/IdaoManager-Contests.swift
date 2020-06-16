@@ -10,62 +10,70 @@ import Foundation
 
 extension IdaoManager {
     
-    func getPublishedContests(completionHandler: @escaping ([Contest]) -> ()) {
+    func getPublishedContests(completionHandler: @escaping (SimpleRequestResult, [Contest]) -> ()) {
+        
         let request = self.baseRequest(mapping: "/api/contests/status/CLOSED")
         
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
-            if error != nil {
-                completionHandler([])
-                return
+            if let data = data,
+                let contests = try? self.getJsonDecoder().decode([Contest].self, from: data) {
+                
+                completionHandler(.success, contests)
+            } else {
+                completionHandler(.unknownError, [])
             }
-            guard let data = data else { return }
-            let contests = try! self.getJsonDecoder().decode([Contest].self, from: data)
-            completionHandler(contests)
         }
         task.resume()
     }
     
-    func getContestSettings(id: Int, completionHandler: @escaping (Contest.Settings) -> ()) {
+    func getContestSettings(id: Int, completionHandler: @escaping (SimpleRequestResult, Contest.Settings?) -> ()) {
+        
         let request = self.baseRequest(mapping: "/api/contests/\(id)/settings")
         
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
-            if error != nil {
-                completionHandler(Contest.Settings(minTeamSize: 10, maxTeamSize: 15))
-                return
+            if let data = data,
+                let settings = try? self.getJsonDecoder().decode(Contest.Settings.self, from: data) {
+                
+                completionHandler(.success, settings)
+            } else {
+                completionHandler(.unknownError, nil)
             }
-            guard let data = data else { return }
-            let settings = try! self.getJsonDecoder().decode(Contest.Settings.self, from: data)
-            completionHandler(settings)
         }
         task.resume()
     }
     
-    func getContestStages(id: Int, completionHandler: @escaping ([Contest.Stage]) -> ()) {
+    func getContestStages(id: Int, completionHandler: @escaping (SimpleRequestResult, [Contest.Stage]) -> ()) {
+        
         let request = self.baseRequest(mapping: "/api/contests/\(id)/stages")
         
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
-            if error != nil {
-                completionHandler([])
-                return
+            if let data = data,
+                let stages = try? self.getJsonDecoder().decode([Contest.Stage].self, from: data) {
+                
+                completionHandler(.success, stages)
+            } else {
+                completionHandler(.unknownError, [])
             }
-            guard let data = data else { return }
-            let stages = try! self.getJsonDecoder().decode([Contest.Stage].self, from: data)
-            completionHandler(stages)
         }
         task.resume()
     }
     
-    func registerForContest(contestId: Int, teamId: Int, completionHandler: @escaping () -> ()) {
+    enum ContestRegistrationStatus {
+        case success
+        case unknownError
+    }
+    
+    func registerForContest(contestId: Int, teamId: Int, completionHandler: @escaping (ContestRegistrationStatus) -> ()) {
+        
         var request = self.baseRequest(mapping: "/api/contests/\(contestId)/teams/teamId")
         request.httpMethod = "POST"
         
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
             if error != nil {
-                completionHandler()
-                return
+                completionHandler(.unknownError)
+            } else {
+                completionHandler(.success)
             }
-            guard let _ = data else { return }
-            completionHandler()
         }
         task.resume()
     }

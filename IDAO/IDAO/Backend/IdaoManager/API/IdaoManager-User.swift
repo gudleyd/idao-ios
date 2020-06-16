@@ -17,51 +17,51 @@ extension IdaoManager {
         case unknownError
     }
     
-    func register(userData: UserWithPasswordAndData?) -> RegistrationStatus {
+    func register(userData: UserWithPasswordAndData?, completionHandler: @escaping (RegistrationStatus) -> ()) {
         
-        var currentStatus = RegistrationStatus.unknownError
-        
-        guard let userData = userData else { return currentStatus }
+        guard let userData = userData else {
+            completionHandler(.unknownError)
+            return
+        }
         
         let json = "{\"account\": {\"name\":\"\(userData.name)\", \"username\":\"\(userData.username)\"},\"password\":\"\(userData.password)\", \"personalData\": {\"levelOfStudy\":\"\(userData.levelOfStudy)\",\"phoneNumber\":\"\(userData.phoneNumber)\",\"countryOfResidence\":\"\(userData.countryOfResidence)\",\"company\":\"\(userData.company)\",\"university\":\"\(userData.university)\",\"birthday\":\"\(self.getDateFormatter().string(from: userData.birthday))\",\"studyProgram\":\"\(userData.studyProgram)\",\"email\":\"\(userData.email)\",\"gender\":\"\(userData.gender)\"}}"
         
-        let group = DispatchGroup()
+        guard let data = json.data(using: .utf8) else {
+            completionHandler(.unknownError)
+            return
+        }
         
+
         var request = self.baseRequest(mapping: "/api/auth/register")
         
-        guard let data = json.data(using: .utf8) else { return currentStatus }
         request.httpMethod = "POST"
         request.httpBody = data
         
-        group.enter()
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
-            if error != nil {
-                group.leave()
-                return
-            }
-            guard let response = response as? HTTPURLResponse else {
-                group.leave()
-                return
-            }
-            print(response.statusCode)
-            if response.statusCode == 200 {
-                currentStatus = .success
-            } else if response.statusCode < 500 {
-                if let data = data,
-                    let details =  ((try? JSONSerialization.jsonObject(with: data, options: [])) as? [String : Any])?["details"] as? String {
-                        currentStatus = .inUse(details: details)
+            if let response = response as? HTTPURLResponse {
+                print(response.statusCode)
+                if response.statusCode == 200 {
+                    completionHandler(.success)
+                } else if response.statusCode < 500 {
+                    if let data = data,
+                        let details = ((try? JSONSerialization.jsonObject(with: data, options: [])) as? [String : Any])?["details"] as? String {
+                            completionHandler(.inUse(details: details))
+                    }
                 }
+            } else {
+                completionHandler(.unknownError)
             }
-            group.leave()
+            
         }
         task.resume()
-        group.wait()
-        return currentStatus
     }
     
-    func auth(username: String, password: String) {
-        
-        let group = DispatchGroup()
+    enum AuthStatus {
+        case success
+        case unknownError
+    }
+    
+    func auth(username: String, password: String, completionHandler: @escaping (AuthStatus) -> ()) {
         
         var request = self.baseRequest(mapping: "/api/auth/login")
         
@@ -69,85 +69,102 @@ extension IdaoManager {
         request.httpMethod = "POST"
         request.httpBody = try? JSONSerialization.data(withJSONObject: body)
         
-        group.enter()
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
-            if error != nil {
-                print("No internet connection")
+            if let data = data,
+                let token = try? self.getJsonDecoder().decode(Token.self, from: data) {
+                
+                self.token = token
+                let keychain = KeychainSwift()
+                keychain.set(username, forKey: "username")
+                keychain.set(password, forKey: "password")
+                
+                let dec = decode(jwtToken: token.accessToken)
+                self.appUserId = dec["id"] as? Int
+                
+                IdaoStorage.shared.updateOnInvalidState()
+                
+                completionHandler(.success)
+            } else {
+                completionHandler(.unknownError)
             }
-            guard let data = data else { return }
-            self.token = try? self.getJsonDecoder().decode(Token.self, from: data)
-            group.leave()
         }
         task.resume()
-        group.wait()
-        if let token = self.token {
-            let keychain = KeychainSwift()
-            keychain.set(username, forKey: "username")
-            keychain.set(password, forKey: "password")
-            
-            let dec = decode(jwtToken: token.accessToken)
-            self.appUserId = dec["id"] as? Int
-            
-            IdaoStorage.shared.updateOnInvalidState()
-        }
     }
     
-    func changeUserPersonalData(userData: User.PersonalData) {
+    func changeUserPersonalData(userData: User.PersonalData, completionHandler: @escaping (SimpleRequestResult) -> ()) {
         
-        guard let id = self.myUserId() else { return }
-        
-        let group = DispatchGroup()
+        guard let id = self.myUserId() else {
+            completionHandler(.unknownError)
+            return
+        }
         
         var request = self.baseRequest(mapping: "/api/personal-data/\(id)")
-        guard let data = try? self.getJsonEncoder().encode(userData) else { return }
+        guard let data = try? self.getJsonEncoder().encode(userData) else {
+            completionHandler(.unknownError)
+            return
+        }
         request.httpMethod = "PUT"
         request.httpBody = data
         
-        group.enter()
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
-            group.leave()
+            if error != nil {
+                completionHandler(.unknownError)
+            } else {
+                completionHandler(.success)
+            }
         }
         task.resume()
-        group.wait()
-        
-        IdaoStorage.appUser.update { }
     }
-    
-    func getUserAccount(userId: Int, completionHandler: @escaping (User.Account) -> ()) {
+
+    func getUserAccount(userId: Int, completionHandler: @escaping (SimpleRequestResult, User.Account?) -> ()) {
+        
         let request = self.baseRequest(mapping: "/api/accounts/\(userId)")
         
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
-            guard let data = data else { return }
-            let account = try! self.getJsonDecoder().decode(User.Account.self, from: data)
-            completionHandler(account)
+            if let data = data,
+                let account = try? self.getJsonDecoder().decode(User.Account.self, from: data) {
+                
+                completionHandler(.success, account)
+            } else {
+                completionHandler(.unknownError, nil)
+            }
         }
         task.resume()
     }
     
-    func getUserPersonalData(userId: Int, completionHandler: @escaping (User.PersonalData) -> ()) {
+    func getUserPersonalData(userId: Int, completionHandler: @escaping (SimpleRequestResult, User.PersonalData?) -> ()) {
+        
         let request = self.baseRequest(mapping: "/api/personal-data/\(userId)")
         
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
-            guard let data = data else { return }
-            let personalData = try! self.getJsonDecoder().decode(User.PersonalData.self, from: data)
-            completionHandler(personalData)
+            if let data = data,
+                let personalData = try? self.getJsonDecoder().decode(User.PersonalData.self, from: data) {
+                
+                completionHandler(.success, personalData)
+            } else {
+                completionHandler(.unknownError, nil)
+            }
         }
         task.resume()
     }
     
-    func getUsers(completionHandler: @escaping ([User.Account]) -> ()) {
+    func getUsers(completionHandler: @escaping (SimpleRequestResult, [User.Account]) -> ()) {
         let request = self.baseRequest(mapping: "/api/accounts/")
         
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
-            guard let data = data else { return }
-            let users = try! self.getJsonDecoder().decode([User.Account].self, from: data)
-            completionHandler(users)
+            if let data = data,
+                let users = try? self.getJsonDecoder().decode([User.Account].self, from: data) {
+                
+                completionHandler(.success, users)
+            } else {
+                completionHandler(.unknownError, [])
+            }
         }
         task.resume()
     }
     
     func getUsers(username: String, completionHandler: @escaping ([User.Account]) -> ()) {
-        self.getUsers { users in
+        self.getUsers { status, users in
             let user = users.filter { account in
                 return (account.username.hasPrefix(username))
             }

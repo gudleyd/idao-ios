@@ -25,7 +25,7 @@ class UserAccountsStorage: BaseStorage<Int> {
             }
             let mainGroup = DispatchGroup()
             mainGroup.enter()
-            IdaoManager.shared.getUsers { users in
+            IdaoManager.shared.getUsers { status, users in
                 for user in users {
                     self.accountsCache[user.id] = (user, Date().timeIntervalSince1970)
                 }
@@ -51,8 +51,10 @@ class UserAccountsStorage: BaseStorage<Int> {
             var retAccount = User.Account(id: -1, name: "NONAME", username: "NOUSERNAME", roles: nil)
             let mainGroup = DispatchGroup()
             mainGroup.enter()
-            IdaoManager.shared.getUserAccount(userId: userId) { account in
-                retAccount = account
+            IdaoManager.shared.getUserAccount(userId: userId) { status, account in
+                if let account = account {
+                    retAccount = account
+                }
                 mainGroup.leave()
             }
             mainGroup.wait()

@@ -19,7 +19,7 @@ class InvitesStorage: BaseStorage<Int> {
             self.isUpdating = true
             let mainGroup = DispatchGroup()
             mainGroup.enter()
-            IdaoManager.shared.getMyInvites { [weak self] invites in
+            IdaoManager.shared.getMyInvites { [weak self] status, invites in
                 self?.items = invites
                 mainGroup.leave()
             }

@@ -23,12 +23,12 @@ class AppUserStorage: BaseStorage<User> {
             
             let group = DispatchGroup()
             group.enter()
-            IdaoManager.shared.getUserAccount(userId: id) { account in
+            IdaoManager.shared.getUserAccount(userId: id) { status, account in
                 appUserAccount = account
                 group.leave()
             }
             group.enter()
-            IdaoManager.shared.getUserPersonalData(userId: id) { personalData in
+            IdaoManager.shared.getUserPersonalData(userId: id) { status, personalData in
                 appUserPersonalData = personalData
                 group.leave()
             }
@@ -36,8 +36,8 @@ class AppUserStorage: BaseStorage<User> {
             if let account = appUserAccount,
                 let personalData = appUserPersonalData {
                 self.items = [User(account: account, personalData: personalData)]
+                self.notify()
             }
-            self.notify()
             self.queue.async {
                 completionHandler()
             }
