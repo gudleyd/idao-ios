@@ -31,12 +31,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
         mainLoginView.layer.cornerRadius = 12
         self.addDoneButtonOnKeyboard()
-        
-        moveIfAuthorized()
     }
     
     func moveIfAuthorized() {
-        if (IdaoManager.shared.isAuthorized()) {
+        if IdaoManager.shared.isAuthorized() {
             let mainViewController = UIStoryboard(name: "Main", bundle: .main).instantiateInitialViewController()
             self.parent?.present(mainViewController!, animated: true)
         }
@@ -45,7 +43,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBAction func signInButtonTapped(_ sender: Any) {
         
         IdaoManager.shared.auth(username: usernameField.text ?? "", password: passwordField.text ?? "") { _ in }
-        if (IdaoManager.shared.isAuthorized()) {
+        if IdaoManager.shared.isAuthorized() {
             moveIfAuthorized()
         } else {
             let alert = UIAlertController(title: "Error", message: "Wrong username or password", preferredStyle: UIAlertController.Style.alert)

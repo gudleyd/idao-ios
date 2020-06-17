@@ -32,7 +32,9 @@ class ContestsStorage: BaseStorage<Contest> {
                         parentGroup.leave()
                     }
                     IdaoManager.shared.getContestStages(id: contests[i].id) { status, stages in
-                        contests[i].stages = stages
+                        if status == .success {
+                            contests[i].stages = stages
+                        }
                         parentGroup.leave()
                     }
                 }
@@ -41,10 +43,10 @@ class ContestsStorage: BaseStorage<Contest> {
             parentGroup.wait()
             self.items = contests
             self.notify()
+            self.isUpdating = false
             self.queue.async {
                 completionHandler()
             }
-            self.isUpdating = false
         }
     }
 }

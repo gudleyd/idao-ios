@@ -18,6 +18,7 @@ class TeamsStorage: BaseStorage<Int> {
         if self.isUpdating {
             return
         }
+        print("Updating teams")
         self.queue.async(flags: .barrier) {
             self.isUpdating = true
             if forceUpdate {
@@ -33,10 +34,10 @@ class TeamsStorage: BaseStorage<Int> {
             }
             mainGroup.wait()
             self.notify()
+            self.isUpdating = false
             self.queue.async {
                 completionHandler()
             }
-            self.isUpdating = false
         }
     }
     

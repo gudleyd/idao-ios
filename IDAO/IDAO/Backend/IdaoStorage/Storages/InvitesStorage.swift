@@ -20,15 +20,17 @@ class InvitesStorage: BaseStorage<Int> {
             let mainGroup = DispatchGroup()
             mainGroup.enter()
             IdaoManager.shared.getMyInvites { [weak self] status, invites in
-                self?.items = invites
+                if status == .success {
+                    self?.items = invites
+                }
                 mainGroup.leave()
             }
             mainGroup.wait()
             self.notify()
+            self.isUpdating = false
             self.queue.async {
                 completionHandler()
             }
-            self.isUpdating = false
         }
     }
 }

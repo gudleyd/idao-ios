@@ -17,7 +17,11 @@ class AppUserStorage: BaseStorage<User> {
         }
         self.queue.async(flags: .barrier) {
             self.isUpdating = true
-            guard let id = IdaoManager.shared.myUserId() else { return }
+            guard let id = IdaoManager.shared.myUserId() else {
+                completionHandler()
+                self.isUpdating = false
+                return
+            }
             var appUserAccount: User.Account?
             var appUserPersonalData: User.PersonalData?
             
@@ -38,10 +42,10 @@ class AppUserStorage: BaseStorage<User> {
                 self.items = [User(account: account, personalData: personalData)]
                 self.notify()
             }
+            self.isUpdating = false
             self.queue.async {
                 completionHandler()
             }
-            self.isUpdating = false
         }
     }
 }

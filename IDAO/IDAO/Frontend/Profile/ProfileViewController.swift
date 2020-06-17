@@ -25,16 +25,6 @@ class ProfileViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        IdaoStorage.appUser.subscribe(AppUserStorage.StorageObserver(delegate: self))
-        IdaoStorage.appUser.get { [weak self] user in
-           if user.count > 0 {
-               DispatchQueue.main.async {
-                   self?.user = user[0]
-                   self?.updateInfo()
-               }
-           }
-        }
-        
         self.shadowView.layer.cornerRadius = 8
         self.shadowView.layer.shadowOffset = CGSize(width: 5, height: 3)
         self.shadowView.layer.shadowColor = UIColor.black.cgColor
@@ -46,6 +36,9 @@ class ProfileViewController: UITableViewController {
     
         self.nameLabel.adjustsFontSizeToFitWidth = true
         self.nameLabel.minimumScaleFactor = 0.2
+        
+        IdaoStorage.appUser.subscribe(AppUserStorage.StorageObserver(delegate: self))
+        IdaoStorage.appUser.update { }
     }
     
     @IBAction func logOutButtonTapped(_ sender: Any) {

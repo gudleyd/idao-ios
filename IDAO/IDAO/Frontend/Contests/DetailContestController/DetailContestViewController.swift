@@ -118,15 +118,32 @@ class DetailContestViewController: UIViewController, UICollectionViewDelegate, U
 extension DetailContestViewController: ASSPickerDelegate {
     
     func valuePicked(value: (Int, String, Any?)) {
-        self.present(AlertViewsFactory.leavingTeam(), animated: true)
-        IdaoManager.shared.registerForContest(contestId: self.contest?.id ?? -1, teamId: ((value.2) as? Team)?.id ?? -1) { [weak self] status in
-            IdaoStorage.contests.update { }
-            IdaoStorage.teams.update { }
-            DispatchQueue.main.async {
-                self?.presentedViewController?.dismiss(animated: true) {
-                    self?.dismiss(animated: true, completion: nil)
+        if let contestId = self.contest?.id,
+            let teamId = ((value.2) as? Team)?.id {
+            
+            self.present(AlertViewsFactory.joiningContest(), animated: true)
+            IdaoManager.shared.registerForContest(contestId: contestId, teamId: teamId) { [weak self] status in
+                IdaoStorage.contests.update { }
+                IdaoStorage.teams.update(forceUpdate: true) { }
+                DispatchQueue.main.async {
+                    self?.presentedViewController?.dismiss(animated: true) {
+                        switch status {
+                        case .success:
+                            self?.dismiss(animated: true, completion: nil)
+                        case .registrationClosed:
+                            self?.present(AlertViewsFactory.newAlert(title: "Error", message: "Registration is closed"), animated: true)
+                        case .notFound:
+                            self?.present(AlertViewsFactory.newAlert(title: "Error", message: "Team or contest not found"), animated: true)
+                        case .detailed(let details):
+                            self?.present(AlertViewsFactory.newAlert(title: "Error", message: details), animated: true)
+                        default:
+                            self?.present(AlertViewsFactory.unknownError(), animated: true)
+                        }
+                    }
                 }
             }
+        } else {
+            self.present(AlertViewsFactory.unknownError(), animated: true)
         }
     }
     

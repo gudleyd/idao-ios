@@ -6,8 +6,8 @@
 //  Copyright © 2020 Ivan Lebedev. All rights reserved.
 //
 
-import Foundation
 import UIKit
+import Foundation
 
 class AlertViewsFactory {
     
@@ -23,29 +23,31 @@ class AlertViewsFactory {
     }
     
     static func unknownError() -> UIAlertController {
-        let alertController = UIAlertController(title: "Unknown Error", message: "Try again later or contact the administrator", preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-        return alertController
+        return self.newAlert(title: "Unknown Error", message: "Try again later or contact the administrator")
+    }
+    
+    static func joiningContest() -> UIAlertController {
+        return self.newPending(title: "Joining...")
     }
     
     static func creatingTeam() -> UIAlertController {
-        return self.newPending(title: "Creating team...")
+        return self.newPending(title: "Creating...")
     }
     
     static func invitingUser() -> UIAlertController {
-        return self.newPending(title: "Inviting user...")
+        return self.newPending(title: "Inviting...")
     }
     
     static func leavingTeam() -> UIAlertController {
-        return self.newPending(title: "Leaving team...")
+        return self.newPending(title: "Leaving...")
     }
     
     static func removingMember() -> UIAlertController {
-        return self.newPending(title: "Removing member...")
+        return self.newPending(title: "Removing...")
     }
     
-    static func deletingTeam() -> UIAlertController {
-        return self.newPending(title: "Deleting team...")
+    static func removingTeam() -> UIAlertController {
+        return self.newPending(title: "Removing...")
     }
     
     static func emptyTeamName() -> UIAlertController {

@@ -30,12 +30,9 @@ struct Team: Codable {
     var status: String
     var registrationDate: Date
     var teamMembers: [TeamMember]?
-
-    enum CodingKeys: String, CodingKey {
-        case id
-        case name
-        case status
-        case registrationDate
+    
+    func isLocked() -> Bool {
+        return self.status == "LOCKED"
     }
     
     func amILeader() -> Bool {

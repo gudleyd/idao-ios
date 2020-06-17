@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="dqu-QO-48v">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -30,20 +31,20 @@
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RYe-iC-QmA">
                                                             <rect key="frame" x="0.0" y="0.0" width="374" height="165"/>
                                                             <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ivan Lebedev" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pun-La-wqz">
-                                                                    <rect key="frame" x="20" y="16" width="334" height="41"/>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pun-La-wqz">
+                                                                    <rect key="frame" x="20" y="16" width="334" height="0.0"/>
                                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="34"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@iplebedev" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zTI-eT-xmG">
-                                                                    <rect key="frame" x="0.0" y="57" width="374" height="16"/>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zTI-eT-xmG">
+                                                                    <rect key="frame" x="0.0" y="16" width="374" height="0.0"/>
                                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                                                     <color key="textColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rlp-ko-x4A">
-                                                                    <rect key="frame" x="20" y="93" width="266" height="60"/>
+                                                                    <rect key="frame" x="20" y="36" width="266" height="117"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                                     <state key="normal" title="Edit Personal Info"/>
                                                                     <connections>
@@ -51,7 +52,7 @@
                                                                     </connections>
                                                                 </button>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XZk-nE-ml0">
-                                                                    <rect key="frame" x="290" y="93" width="64" height="60"/>
+                                                                    <rect key="frame" x="290" y="36" width="64" height="117"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="64" id="esM-Fm-RpC"/>
                                                                     </constraints>

@@ -33,10 +33,10 @@ class UserAccountsStorage: BaseStorage<Int> {
             }
             mainGroup.wait()
             self.notify()
+            self.isUpdating = false
             self.queue.async {
                 completionHandler()
             }
-            self.isUpdating = false
         }
     }
     

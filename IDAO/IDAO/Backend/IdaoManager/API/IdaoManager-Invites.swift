@@ -9,10 +9,10 @@
 import Foundation
 
 
-enum UserInviteStatus: Int {
-    case sent = 200
-    case userNotFound = 404
-    case cannotAddMember = 400
+enum UserInviteStatus {
+    case success
+    case userNotFound
+    case detailed(details: String)
     case unknownError
 }
 
@@ -25,11 +25,15 @@ extension IdaoManager {
         request.httpMethod = "POST"
 
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
-            if let _ = data,
+            if let data = data,
                 let response = response as? HTTPURLResponse {
                 
-                if let status = UserInviteStatus(rawValue: response.statusCode) {
-                    completionHandler(status)
+                if response.statusCode / 100 == 2 {
+                    completionHandler(.success)
+                } else if response.statusCode == 404 {
+                    completionHandler(.userNotFound)
+                } else if let details = getDetails(data: data) {
+                    completionHandler(.detailed(details: details))
                 } else {
                     completionHandler(.unknownError)
                 }
@@ -40,7 +44,7 @@ extension IdaoManager {
         task.resume()
     }
     
-    func declineInvite(teamId: Int, completionHandler: @escaping (SimpleRequestResult) -> ()) {
+    func declineInvite(teamId: Int, completionHandler: @escaping (SimpleRequestStatus) -> ()) {
         
         guard let userId = self.myUserId() else {
             completionHandler(.unknownError)
@@ -60,7 +64,7 @@ extension IdaoManager {
         task.resume()
     }
     
-    func acceptInvite(teamId: Int, completionHandler: @escaping (SimpleRequestResult) -> ()) {
+    func acceptInvite(teamId: Int, completionHandler: @escaping (SimpleRequestStatus) -> ()) {
         
         guard let userId = self.myUserId() else {
             completionHandler(.unknownError)

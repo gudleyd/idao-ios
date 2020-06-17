@@ -10,7 +10,7 @@ import Foundation
 
 extension IdaoManager {
     
-    func getPublishedContests(completionHandler: @escaping (SimpleRequestResult, [Contest]) -> ()) {
+    func getPublishedContests(completionHandler: @escaping (SimpleRequestStatus, [Contest]) -> ()) {
         
         let request = self.baseRequest(mapping: "/api/contests/status/CLOSED")
         
@@ -26,7 +26,7 @@ extension IdaoManager {
         task.resume()
     }
     
-    func getContestSettings(id: Int, completionHandler: @escaping (SimpleRequestResult, Contest.Settings?) -> ()) {
+    func getContestSettings(id: Int, completionHandler: @escaping (SimpleRequestStatus, Contest.Settings?) -> ()) {
         
         let request = self.baseRequest(mapping: "/api/contests/\(id)/settings")
         
@@ -42,7 +42,7 @@ extension IdaoManager {
         task.resume()
     }
     
-    func getContestStages(id: Int, completionHandler: @escaping (SimpleRequestResult, [Contest.Stage]) -> ()) {
+    func getContestStages(id: Int, completionHandler: @escaping (SimpleRequestStatus, [Contest.Stage]) -> ()) {
         
         let request = self.baseRequest(mapping: "/api/contests/\(id)/stages")
         
@@ -60,6 +60,9 @@ extension IdaoManager {
     
     enum ContestRegistrationStatus {
         case success
+        case registrationClosed
+        case notFound
+        case detailed(details: String)
         case unknownError
     }
     
@@ -69,10 +72,22 @@ extension IdaoManager {
         request.httpMethod = "POST"
         
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
-            if error != nil {
-                completionHandler(.unknownError)
+            if let data = data,
+                let response = response as? HTTPURLResponse {
+                
+                if response.statusCode / 100 == 2 {
+                    completionHandler(.success)
+                } else if response.statusCode == 400 {
+                    completionHandler(.registrationClosed)
+                } else if response.statusCode == 404 {
+                    completionHandler(.notFound)
+                } else if let details = getDetails(data: data) {
+                    completionHandler(.detailed(details: details))
+                } else {
+                    completionHandler(.unknownError)
+                }
             } else {
-                completionHandler(.success)
+                completionHandler(.unknownError)
             }
         }
         task.resume()

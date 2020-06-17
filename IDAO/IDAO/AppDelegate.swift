@@ -94,6 +94,11 @@ extension AppDelegate: ConnectionUpdaterDelegate {
             UIView.animate(withDuration: 1.0, animations: {
                 self.noConnectionLabel.frame = CGRect(x: 0, y: -80, width: self.window?.frame.width ?? 0, height: 80)
             })
+            IdaoStorage.news.update(forceUpdate: true) { }
+            IdaoStorage.teams.update(forceUpdate: true) { }
+            IdaoStorage.invites.update(forceUpdate: true) { }
+            IdaoStorage.contests.update(forceUpdate: true) { }
+            IdaoStorage.appUser.update(forceUpdate: true) { }
         }
     }
     

@@ -91,7 +91,7 @@ extension IdaoManager {
         task.resume()
     }
     
-    func changeUserPersonalData(userData: User.PersonalData, completionHandler: @escaping (SimpleRequestResult) -> ()) {
+    func changeUserPersonalData(userData: User.PersonalData, completionHandler: @escaping (SimpleRequestStatus) -> ()) {
         
         guard let id = self.myUserId() else {
             completionHandler(.unknownError)
@@ -110,13 +110,15 @@ extension IdaoManager {
             if error != nil {
                 completionHandler(.unknownError)
             } else {
+                guard let data = data else { fatalError("No DATA") }
+                guard let response = response as? HTTPURLResponse else { return }
                 completionHandler(.success)
             }
         }
         task.resume()
     }
 
-    func getUserAccount(userId: Int, completionHandler: @escaping (SimpleRequestResult, User.Account?) -> ()) {
+    func getUserAccount(userId: Int, completionHandler: @escaping (SimpleRequestStatus, User.Account?) -> ()) {
         
         let request = self.baseRequest(mapping: "/api/accounts/\(userId)")
         
@@ -132,7 +134,7 @@ extension IdaoManager {
         task.resume()
     }
     
-    func getUserPersonalData(userId: Int, completionHandler: @escaping (SimpleRequestResult, User.PersonalData?) -> ()) {
+    func getUserPersonalData(userId: Int, completionHandler: @escaping (SimpleRequestStatus, User.PersonalData?) -> ()) {
         
         let request = self.baseRequest(mapping: "/api/personal-data/\(userId)")
         
@@ -148,7 +150,7 @@ extension IdaoManager {
         task.resume()
     }
     
-    func getUsers(completionHandler: @escaping (SimpleRequestResult, [User.Account]) -> ()) {
+    func getUsers(completionHandler: @escaping (SimpleRequestStatus, [User.Account]) -> ()) {
         let request = self.baseRequest(mapping: "/api/accounts/")
         
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in

@@ -9,15 +9,9 @@
 import Foundation
 
 
-enum TeamCreationStatus: Int {
-    case teamAlreadyExists = 409
-    case created = 201
-    case unknownError
-}
-
 extension IdaoManager {
 
-    func getTeamMembers(teamId: Int, completionHandler: @escaping (SimpleRequestResult, [Team.TeamMember]) -> ()) {
+    func getTeamMembers(teamId: Int, completionHandler: @escaping (SimpleRequestStatus, [Team.TeamMember]) -> ()) {
 
         let request = self.baseRequest(mapping: "/api/teams/\(teamId)/members/")
         
@@ -33,7 +27,7 @@ extension IdaoManager {
         task.resume()
     }
     
-    func getTeam(byId: Int, completionHandler: @escaping (SimpleRequestResult, Team?) -> ()) {
+    func getTeam(byId: Int, completionHandler: @escaping (SimpleRequestStatus, Team?) -> ()) {
         
         let request = self.baseRequest(mapping: "/api/teams/\(byId)")
         
@@ -49,7 +43,7 @@ extension IdaoManager {
         task.resume()
     }
     
-    func getMyTeamsIds(completionHandler: @escaping (SimpleRequestResult, [Int]) -> ()) {
+    func getMyTeamsIds(completionHandler: @escaping (SimpleRequestStatus, [Int]) -> ()) {
         
         guard let id = self.myUserId() else {
             completionHandler(.unknownError, [])
@@ -70,7 +64,7 @@ extension IdaoManager {
         task.resume()
     }
     
-    func getMyInvites(completionHandler: @escaping (SimpleRequestResult, [Int]) -> ()) {
+    func getMyInvites(completionHandler: @escaping (SimpleRequestStatus, [Int]) -> ()) {
         
         guard let id = self.myUserId() else {
             completionHandler(.unknownError, [])
@@ -91,6 +85,12 @@ extension IdaoManager {
         task.resume()
     }
     
+    enum TeamCreationStatus: Int {
+        case teamAlreadyExists = 409
+        case created = 201
+        case unknownError
+    }
+    
     func createTeam(name: String, completionHandler: @escaping (TeamCreationStatus, Team?) -> ()) {
         
         var request = self.baseRequest(mapping: "/api/teams/")
@@ -102,8 +102,8 @@ extension IdaoManager {
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
             if let data = data,
                 let response = response as? HTTPURLResponse {
+                
                 if let status = TeamCreationStatus(rawValue: response.statusCode) {
-                    
                     completionHandler(status, try? self.getJsonDecoder().decode(Team.self, from: data))
                 } else {
                     completionHandler(.unknownError, nil)

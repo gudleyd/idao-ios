@@ -23,6 +23,9 @@ class TeamTableViewCell: UITableViewCell, UITableViewDelegate, UITableViewDataSo
         IdaoStorage.teams.get(teamId: teamId) { team in
             self.team = team
             self.teamNameLabel.text = team.name
+            if self.team?.isLocked() ?? false {
+                self.mainView.backgroundColor = .systemPink
+            }
             self.tableView.reloadData()
             self.tableView.layoutIfNeeded()
             self.tableHeight.constant = self.tableView.contentSize.height
@@ -47,6 +50,7 @@ class TeamTableViewCell: UITableViewCell, UITableViewDelegate, UITableViewDataSo
         self.tableView.dataSource = self
         self.tableView.isScrollEnabled = false
         self.tableView.isUserInteractionEnabled = true
+        self.tableView.backgroundColor = .clear
         
         self.tableView.estimatedRowHeight = 57
     }
@@ -88,7 +92,7 @@ class TeamTableViewCell: UITableViewCell, UITableViewDelegate, UITableViewDataSo
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return (self.team?.amILeader() ?? false &&
+        return (!(self.team?.isLocked() ?? true) && (self.team?.amILeader() ?? false) &&
             !(self.team?.teamMembers?[indexPath.row].isLeader() ?? true))
     }
     

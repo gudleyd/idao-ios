@@ -8,6 +8,10 @@
 
 import Foundation
 
+func getDetails(data: Data) -> String? {
+    return ((try? JSONSerialization.jsonObject(with: data, options: [])) as? [String : Any])?["details"] as? String
+}
+
 func decode(jwtToken jwt: String) -> [String: Any] {
     let segments = jwt.components(separatedBy: ".")
     return decodeJWTPart(segments[1]) ?? [:]

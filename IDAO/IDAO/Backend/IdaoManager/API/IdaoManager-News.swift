@@ -10,7 +10,7 @@ import Foundation
 
 
 extension IdaoManager {
-    func getNews(completionHandler: @escaping (SimpleRequestResult, [News]) -> ()) {
+    func getNews(completionHandler: @escaping (SimpleRequestStatus, [News]) -> ()) {
         
         let request = self.baseRequest(mapping: "/api/news/")
         

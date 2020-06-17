@@ -27,7 +27,9 @@
 		23555FAF24955C8500A08081 /* Teams.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 23555FAE24955C8500A08081 /* Teams.storyboard */; };
 		23555FB124955CD400A08081 /* Contests.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 23555FB024955CD400A08081 /* Contests.storyboard */; };
 		23573AAC2499128C00C26697 /* Reachibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23573AAB2499128C00C26697 /* Reachibility.swift */; };
-		23573AAE249913B400C26697 /* ConnectionViewControllerUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23573AAD249913B400C26697 /* ConnectionViewControllerUpdater.swift */; };
+		23573AAE249913B400C26697 /* ConnectionUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23573AAD249913B400C26697 /* ConnectionUpdater.swift */; };
+		23573AB3249A348100C26697 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23573AB2249A348100C26697 /* RootViewController.swift */; };
+		23573AB5249A354C00C26697 /* Root.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 23573AB4249A354C00C26697 /* Root.storyboard */; };
 		236DE7672432222600FBF8AB /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236DE7662432222600FBF8AB /* NewsViewController.swift */; };
 		236DE76C2432290600FBF8AB /* IdaoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236DE76B2432290600FBF8AB /* IdaoManager.swift */; };
 		237F55992434B4EA001D1A86 /* TeamsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237F55982434B4EA001D1A86 /* TeamsTableViewController.swift */; };
@@ -88,7 +90,9 @@
 		23555FAE24955C8500A08081 /* Teams.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Teams.storyboard; sourceTree = "<group>"; };
 		23555FB024955CD400A08081 /* Contests.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Contests.storyboard; sourceTree = "<group>"; };
 		23573AAB2499128C00C26697 /* Reachibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachibility.swift; sourceTree = "<group>"; };
-		23573AAD249913B400C26697 /* ConnectionViewControllerUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionViewControllerUpdater.swift; sourceTree = "<group>"; };
+		23573AAD249913B400C26697 /* ConnectionUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionUpdater.swift; sourceTree = "<group>"; };
+		23573AB2249A348100C26697 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
+		23573AB4249A354C00C26697 /* Root.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Root.storyboard; sourceTree = "<group>"; };
 		236DE7662432222600FBF8AB /* NewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
 		236DE76B2432290600FBF8AB /* IdaoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdaoManager.swift; sourceTree = "<group>"; };
 		237F55982434B4EA001D1A86 /* TeamsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamsTableViewController.swift; sourceTree = "<group>"; };
@@ -192,6 +196,7 @@
 		230EF15B248C2B76002BADDF /* Frontend */ = {
 			isa = PBXGroup;
 			children = (
+				23573AB6249A367000C26697 /* Root */,
 				230EF15C248C2B9A002BADDF /* CustomViews */,
 				230D86BB24321D9100AFCF04 /* Login */,
 				236DE761243221ED00FBF8AB /* News */,
@@ -249,6 +254,15 @@
 			path = IdaoStorage;
 			sourceTree = "<group>";
 		};
+		23573AB6249A367000C26697 /* Root */ = {
+			isa = PBXGroup;
+			children = (
+				23573AB4249A354C00C26697 /* Root.storyboard */,
+				23573AB2249A348100C26697 /* RootViewController.swift */,
+			);
+			path = Root;
+			sourceTree = "<group>";
+		};
 		236DE760243221E300FBF8AB /* Teams */ = {
 			isa = PBXGroup;
 			children = (
@@ -279,7 +293,7 @@
 				23437CCB24389C1300322757 /* IdaoStorage */,
 				232CF07E24768196001BB14F /* utils.swift */,
 				23573AAB2499128C00C26697 /* Reachibility.swift */,
-				23573AAD249913B400C26697 /* ConnectionViewControllerUpdater.swift */,
+				23573AAD249913B400C26697 /* ConnectionUpdater.swift */,
 			);
 			path = Backend;
 			sourceTree = "<group>";
@@ -338,8 +352,8 @@
 				230EF15B248C2B76002BADDF /* Frontend */,
 				236DE76A243228F700FBF8AB /* Backend */,
 				238D6BC6235E4CEA008BF849 /* AppDelegate.swift */,
-				238D6BD2235E4CEB008BF849 /* Assets.xcassets */,
 				238D6BD4235E4CEB008BF849 /* LaunchScreen.storyboard */,
+				238D6BD2235E4CEB008BF849 /* Assets.xcassets */,
 				238D6BD7235E4CEB008BF849 /* Info.plist */,
 				238D6BCF235E4CEA008BF849 /* IDAO.xcdatamodeld */,
 			);
@@ -495,6 +509,7 @@
 				23B3A8482449D09E00F59C32 /* DetailNews.storyboard in Resources */,
 				23555FAF24955C8500A08081 /* Teams.storyboard in Resources */,
 				23555FAB24955B5F00A08081 /* Profile.storyboard in Resources */,
+				23573AB5249A354C00C26697 /* Root.storyboard in Resources */,
 				239E299424531D6300375216 /* DetailContest.storyboard in Resources */,
 				238D6BD6235E4CEB008BF849 /* LaunchScreen.storyboard in Resources */,
 				238D6BD3235E4CEB008BF849 /* Assets.xcassets in Resources */,
@@ -588,12 +603,13 @@
 				230D86AF242F8C1C00AFCF04 /* PersonalDataViewController.swift in Sources */,
 				23BB04392448702000B4CB6B /* IdaoManager-Contests.swift in Sources */,
 				239F0F3B2474602F0047C942 /* Token.swift in Sources */,
-				23573AAE249913B400C26697 /* ConnectionViewControllerUpdater.swift in Sources */,
+				23573AAE249913B400C26697 /* ConnectionUpdater.swift in Sources */,
 				23437CCD24389C9400322757 /* IdaoManager-Base.swift in Sources */,
 				23BB042F2441DBB100B4CB6B /* BaseStorage.swift in Sources */,
 				239E298F24530A7A00375216 /* ContestCell.swift in Sources */,
 				23BB04312441DCB300B4CB6B /* TeamsStorage.swift in Sources */,
 				23BB043724486F9000B4CB6B /* Contests.swift in Sources */,
+				23573AB3249A348100C26697 /* RootViewController.swift in Sources */,
 				23BB04352441FBEB00B4CB6B /* InvitesStorage.swift in Sources */,
 				23336F0A2491198F005710BE /* TeamActionSheet.swift in Sources */,
 				2385CC4C24688B9A00B9A1B3 /* StageCell.swift in Sources */,

@@ -44,7 +44,7 @@ extension IdaoManager {
         return request
     }
     
-    enum SimpleRequestResult {
+    enum SimpleRequestStatus {
         case success
         case unknownError
     }

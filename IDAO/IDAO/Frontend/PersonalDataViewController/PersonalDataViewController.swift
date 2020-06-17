@@ -41,7 +41,7 @@ class PersonalDataViewController: FormViewController {
                                        birthday: (self.form.rowBy(tag: "birthday") as? DateRow)?.value ?? Date(),
                                        phoneNumber: (self.form.rowBy(tag: "phoneNumber") as? PhoneRow)?.value ?? "",
                                        gender: (self.form.rowBy(tag: "gender") as? ActionSheetRow<String>)?.value ?? "",
-                                       countryOfResidence: (self.form.rowBy(tag: "countryOfResidence") as? PickerInlineRow<String>)?.value ?? "",
+                                       countryOfResidence: (self.form.rowBy(tag: "countryOfResidence") as? PickerInputRow<String>)?.value ?? "",
                                        university: (self.form.rowBy(tag: "university") as? TextRow)?.value ?? "",
                                        studyProgram: (self.form.rowBy(tag: "studyProgram") as? TextRow)?.value ?? "",
                                        levelOfStudy: (self.form.rowBy(tag: "levelOfStudy") as? ActionSheetRow<String>)?.value ?? "",
@@ -56,10 +56,10 @@ class PersonalDataViewController: FormViewController {
                                      birthday: user.personalData.birthday,
                                      phoneNumber: (self.form.rowBy(tag: "phoneNumber") as? PhoneRow)?.value ?? "",
                                      gender: user.personalData.gender,
-                                     countryOfResidence: (self.form.rowBy(tag: "countryOfResidence") as? ActionSheetRow<String>)?.value ?? "",
+                                     countryOfResidence: (self.form.rowBy(tag: "countryOfResidence") as? PickerInputRow<String>)?.value ?? "",
                                      university: (self.form.rowBy(tag: "university") as? TextRow)?.value ?? "",
                                      studyProgram: (self.form.rowBy(tag: "studyProgram") as? TextRow)?.value ?? "",
-                                     levelOfStudy: (self.form.rowBy(tag: "levelOfStudy") as? PickerInlineRow<String>)?.value ?? "",
+                                     levelOfStudy: (self.form.rowBy(tag: "levelOfStudy") as? ActionSheetRow<String>)?.value ?? "",
                                      company: (self.form.rowBy(tag: "company") as? TextRow)?.value ?? "",
                                      registrationDate: user.personalData.registrationDate)
         }
@@ -103,7 +103,7 @@ class PersonalDataViewController: FormViewController {
                                 self?.present(AlertViewsFactory.newAlert(title: "Success", message: """
                                     You successfully created account.
                                     Please, check your email to complete registration
-                                    Don't see the activation letter? Please, check your spam folder
+                                    Please, check your spam folder
                                 """, handler: { _ in self?.dismiss(animated: true)}), animated: true, completion: nil)
                             case .inUse(let details):
                                 self?.present(AlertViewsFactory.newAlert(title: "Error", message: details), animated: true)
@@ -125,7 +125,10 @@ class PersonalDataViewController: FormViewController {
                     let data = self?.personalDataFromForm() {
                     
                     IdaoManager.shared.changeUserPersonalData(userData: data) { status in
-                        self?.dismiss(animated: true)
+                        IdaoStorage.appUser.update { }
+                        DispatchQueue.main.async {
+                            self?.dismiss(animated: true)
+                        }
                     }
                 }
             }
@@ -252,6 +255,11 @@ class PersonalDataViewController: FormViewController {
                 $0.options = getCountries()
                 $0.add(rule: RuleRequired())
                 $0.value = user?.personalData.countryOfResidence
+            }
+            .cellUpdate { cell, row in
+                if !row.isValid {
+                    cell.textLabel?.textColor = .red
+                }
             }
             
             <<< EmailRow("email") {
