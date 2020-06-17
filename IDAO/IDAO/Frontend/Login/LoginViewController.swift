@@ -42,7 +42,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func signInButtonTapped(_ sender: Any) {
         
-        IdaoManager.shared.auth(username: usernameField.text ?? "", password: passwordField.text ?? "") { _ in }
+        let group = DispatchGroup()
+        group.enter()
+        IdaoManager.shared.auth(username: usernameField.text ?? "", password: passwordField.text ?? "") { _ in
+            group.leave()
+        }
+        group.wait()
         if IdaoManager.shared.isAuthorized() {
             moveIfAuthorized()
         } else {

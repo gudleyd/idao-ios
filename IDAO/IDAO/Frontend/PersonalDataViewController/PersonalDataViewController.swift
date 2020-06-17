@@ -127,7 +127,12 @@ class PersonalDataViewController: FormViewController {
                     IdaoManager.shared.changeUserPersonalData(userData: data) { status in
                         IdaoStorage.appUser.update { }
                         DispatchQueue.main.async {
-                            self?.dismiss(animated: true)
+                            switch status {
+                            case .success:
+                                self?.dismiss(animated: true)
+                            case .unknownError:
+                                self?.present(AlertViewsFactory.unknownError(), animated: true)
+                            }
                         }
                     }
                 }

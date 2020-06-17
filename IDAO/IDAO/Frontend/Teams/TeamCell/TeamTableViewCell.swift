@@ -19,16 +19,23 @@ class TeamTableViewCell: UITableViewCell, UITableViewDelegate, UITableViewDataSo
     @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var teamNameLabel: UILabel!
     
+    var delegate: AutomaticHeightCellDelegate?
+    
     func setTeam(teamId: Int) {
-        IdaoStorage.teams.get(teamId: teamId) { team in
-            self.team = team
-            self.teamNameLabel.text = team.name
-            if self.team?.isLocked() ?? false {
-                self.mainView.backgroundColor = .systemPink
+        DispatchQueue.global().async { [weak self] in
+            IdaoStorage.teams.get(teamId: teamId) { team in
+                DispatchQueue.main.async {
+                    self?.team = team
+                    self?.teamNameLabel.text = team.name
+                    if self?.team?.isLocked() ?? false {
+                        self?.mainView.backgroundColor = .systemPink
+                    }
+                    self?.tableView.reloadData()
+                    self?.tableView.layoutIfNeeded()
+                    self?.tableHeight.constant = self?.tableView.contentSize.height ?? 0
+                    self?.delegate?.contentDidChange()
+                }
             }
-            self.tableView.reloadData()
-            self.tableView.layoutIfNeeded()
-            self.tableHeight.constant = self.tableView.contentSize.height
         }
     }
     

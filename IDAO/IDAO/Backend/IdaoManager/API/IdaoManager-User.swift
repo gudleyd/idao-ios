@@ -168,7 +168,7 @@ extension IdaoManager {
     func getUsers(username: String, completionHandler: @escaping ([User.Account]) -> ()) {
         self.getUsers { status, users in
             let user = users.filter { account in
-                return (account.username.hasPrefix(username))
+                return (account.username == username)
             }
             completionHandler(user)
         }

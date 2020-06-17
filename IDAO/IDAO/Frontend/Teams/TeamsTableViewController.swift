@@ -77,6 +77,7 @@ class TeamsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "TeamCell", for: indexPath) as! TeamTableViewCell
+        cell.delegate = self
         cell.setTeam(teamId: self.teams[indexPath.row])
         cell.layoutIfNeeded()
         return cell
@@ -132,6 +133,15 @@ extension TeamsTableViewController: StorageObserverDelegate {
                 guard let invites = data as? [Int] else { return }
                 self?.navigationItem.leftBarButtonItem?.title = "Invites(\(invites.count))"
             }
+        }
+    }
+}
+
+extension TeamsTableViewController: AutomaticHeightCellDelegate {
+    func contentDidChange() {
+        UIView.animate(withDuration: 0) {
+            self.tableView.beginUpdates()
+            self.tableView.endUpdates()
         }
     }
 }
