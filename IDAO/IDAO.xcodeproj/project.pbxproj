@@ -11,7 +11,6 @@
 		2303D2B1243CB74200CA1EDB /* NewsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2303D2AF243CB74200CA1EDB /* NewsCell.xib */; };
 		2303D2B6243DEE3400CA1EDB /* IdaoManager-Teams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2303D2B5243DEE3400CA1EDB /* IdaoManager-Teams.swift */; };
 		2303D2B9243E0D2400CA1EDB /* AlertViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2303D2B8243E0D2400CA1EDB /* AlertViews.swift */; };
-		23062CE8249B8CEB00F2D7FE /* AppKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23062CE7249B8CEB00F2D7FE /* AppKeys.swift */; };
 		230D86AF242F8C1C00AFCF04 /* PersonalDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230D86AE242F8C1C00AFCF04 /* PersonalDataViewController.swift */; };
 		230D86BA242FA79800AFCF04 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 230D86B9242FA79800AFCF04 /* Main.storyboard */; };
 		230EF15F248C2BBA002BADDF /* ActionSheetStylePicker.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 230EF15E248C2BBA002BADDF /* ActionSheetStylePicker.storyboard */; };
@@ -83,7 +82,6 @@
 		2303D2AF243CB74200CA1EDB /* NewsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsCell.xib; sourceTree = "<group>"; };
 		2303D2B5243DEE3400CA1EDB /* IdaoManager-Teams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IdaoManager-Teams.swift"; sourceTree = "<group>"; };
 		2303D2B8243E0D2400CA1EDB /* AlertViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViews.swift; sourceTree = "<group>"; };
-		23062CE7249B8CEB00F2D7FE /* AppKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppKeys.swift; sourceTree = "<group>"; };
 		230D86AE242F8C1C00AFCF04 /* PersonalDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalDataViewController.swift; sourceTree = "<group>"; };
 		230D86B9242FA79800AFCF04 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		230EF15E248C2BBA002BADDF /* ActionSheetStylePicker.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ActionSheetStylePicker.storyboard; sourceTree = "<group>"; };
@@ -389,7 +387,6 @@
 				238D6BD2235E4CEB008BF849 /* Assets.xcassets */,
 				238D6BD7235E4CEB008BF849 /* Info.plist */,
 				238D6BCF235E4CEA008BF849 /* IDAO.xcdatamodeld */,
-				23062CE7249B8CEB00F2D7FE /* AppKeys.swift */,
 			);
 			path = IDAO;
 			sourceTree = "<group>";
@@ -643,7 +640,6 @@
 				238D6BD1235E4CEA008BF849 /* IDAO.xcdatamodeld in Sources */,
 				23573AAC2499128C00C26697 /* Reachibility.swift in Sources */,
 				236DE76C2432290600FBF8AB /* IdaoManager.swift in Sources */,
-				23062CE8249B8CEB00F2D7FE /* AppKeys.swift in Sources */,
 				23437CC4243798BC00322757 /* Teams.swift in Sources */,
 				23BB042A243F532300B4CB6B /* IdaoManager-Invites.swift in Sources */,
 				239E299624531DE800375216 /* DetailContestViewController.swift in Sources */,

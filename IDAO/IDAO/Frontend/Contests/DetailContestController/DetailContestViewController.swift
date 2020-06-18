@@ -90,8 +90,20 @@ class DetailContestViewController: UIViewController, UICollectionViewDelegate, U
     @IBAction func takePartButtonTapped(_ sender: Any) {
         var teamNames = [String]()
         var teams = [Team]()
-        IdaoStorage.teams.getAllTeams(filter: { team in return team.status == "OPEN" && team.amILeader() }) { tms in
+        IdaoStorage.teams.getAllTeams(filter: { team in
+            var isGoodTeam = team.status == "OPEN" && team.amILeader()
+            if let settings = self.contest?.settings,
+                let memberCount = team.teamMembers?.count {
+                isGoodTeam = isGoodTeam && (memberCount >= settings.minTeamSize) && (memberCount <= settings.maxTeamSize)
+            }
+            return isGoodTeam
+            
+        }) { tms in
             teams = tms
+        }
+        if teams.count == 0 {
+            self.present(AlertViewsFactory.newAlert(title: "Error", message: "No teams match parameters"), animated: true)
+            return
         }
         for team in teams {
             teamNames.append(team.name)

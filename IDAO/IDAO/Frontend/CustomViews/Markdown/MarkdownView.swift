@@ -66,7 +66,6 @@ open class MarkdownView: UIView {
         self.webView?.navigationDelegate = nil
         self.webView?.stopLoading()
         self.webView?.removeFromSuperview()
-        self.webView = nil
 
         if let url = htmlURL {
             let templateRequest = URLRequest(url: url)
@@ -92,10 +91,10 @@ open class MarkdownView: UIView {
             wv.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
             wv.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
             wv.backgroundColor = self.backgroundColor
-
+            
             self.webView = wv
             
-            wv.load(templateRequest)
+            self.webView?.load(templateRequest)
         }
     }
     

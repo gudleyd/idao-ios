@@ -39,6 +39,7 @@ class IdaoStorage {
     }
     
     func setTestData() {
+        IdaoManager.shared.setTestData()
         IdaoStorage.news = TestNewsStorage()
         IdaoStorage.teams = TestTeamsStorage()
         IdaoStorage.invites = TestInvitesStorage()

@@ -64,8 +64,10 @@ class ActionSheetStylePickerViewController: UIViewController {
     }
     
     @IBAction func submitButtonTapped(_ sender: Any) {
-        let selectedRow = self.picker.selectedRow(inComponent: 0)
-        self.delegate?.valuePicked(value: (selectedRow, self.options[selectedRow], self.data?[selectedRow]))
+        if self.options.count > 0 {
+            let selectedRow = self.picker.selectedRow(inComponent: 0)
+            self.delegate?.valuePicked(value: (selectedRow, self.options[selectedRow], self.data?[selectedRow]))
+        }
         self.dismiss(animated: true, completion: nil)
     }
     /*

@@ -68,20 +68,28 @@ class TestTeamsStorage: ITeamsStorage {
     
     final override func get(teamId: Int, completionHandler: @escaping (Team) -> ()) {
         switch teamId {
-        case 1: completionHandler(Team(id: teamId, name: "Team name with me as LEADER", status: "ACTIVE", registrationDate: Date(), teamMembers: [Team.TeamMember(id: 1, teamId: teamId, userId: 0, role: "LEADER", status: "ACCEPTED"), Team.TeamMember(id: 2, teamId: teamId, userId: 4, role: "OTHER", status: "INVITED")]))
-        case 2: completionHandler(Team(id: teamId, name: "Team WITH VERY VERY LONG NAME", status: "ACTIVE", registrationDate: Date(), teamMembers: [Team.TeamMember(id: 1, teamId: teamId, userId: 0, role: "LEADER", status: "ACCEPTED"), Team.TeamMember(id: 2, teamId: teamId, userId: 8, role: "OTHER", status: "INVITED")]))
-        case 3: completionHandler(Team(id: teamId, name: "Team name with 3 members", status: "ACTIVE", registrationDate: Date(), teamMembers: [Team.TeamMember(id: 1, teamId: teamId, userId: 1, role: "LEADER", status: "ACCEPTED"), Team.TeamMember(id: 2, teamId: teamId, userId: 2, role: "OTHER", status: "INVITED"), Team.TeamMember(id: 3, teamId: teamId, userId: 3, role: "OTHER", status: "ACCEPTED")]))
+        case 1: completionHandler(Team(id: teamId, name: "Team name with me as LEADER", status: "LOCKED", registrationDate: Date(), teamMembers: [Team.TeamMember(id: 1, teamId: teamId, userId: 0, role: "LEADER", status: "ACCEPTED"), Team.TeamMember(id: 2, teamId: teamId, userId: 4, role: "OTHER", status: "INVITED")]))
+        case 2: completionHandler(Team(id: teamId, name: "Team WITH VERY VERY LONG NAME", status: "OPEN", registrationDate: Date(), teamMembers: [Team.TeamMember(id: 1, teamId: teamId, userId: 0, role: "LEADER", status: "ACCEPTED"), Team.TeamMember(id: 2, teamId: teamId, userId: 8, role: "OTHER", status: "INVITED")]))
+        case 3: completionHandler(Team(id: teamId, name: "Team name with 3 members", status: "OPEN", registrationDate: Date(), teamMembers: [Team.TeamMember(id: 1, teamId: teamId, userId: 1, role: "LEADER", status: "ACCEPTED"), Team.TeamMember(id: 2, teamId: teamId, userId: 2, role: "OTHER", status: "INVITED"), Team.TeamMember(id: 3, teamId: teamId, userId: 3, role: "OTHER", status: "ACCEPTED")]))
         case 4: completionHandler(Team(id: teamId, name: "Team name but LOCKED", status: "LOCKED", registrationDate: Date(), teamMembers: [Team.TeamMember(id: 1, teamId: teamId, userId: 4, role: "LEADER", status: "ACCEPTED"), Team.TeamMember(id: 2, teamId: teamId, userId: 5, role: "OTHER", status: "ACCEPTED"), Team.TeamMember(id: 3, teamId: teamId, userId: 6, role: "OTHER", status: "ACCEPTED")]))
         case 5: completionHandler(Team(id: teamId, name: "long long team name but locked long long longlong long", status: "LOCKED", registrationDate: Date(), teamMembers: [Team.TeamMember(id: 1, teamId: teamId, userId: 2, role: "LEADER", status: "ACCEPTED"), Team.TeamMember(id: 2, teamId: teamId, userId: 4, role: "OTHER", status: "ACCEPTED")]))
-        case 6: completionHandler(Team(id: teamId, name: "FBI", status: "ACTIVE", registrationDate: Date(), teamMembers: [Team.TeamMember(id: 1, teamId: teamId, userId: 7, role: "LEADER", status: "ACCEPTED")]))
-        case 7: completionHandler(Team(id: teamId, name: "Winners", status: "ACTIVE", registrationDate: Date(), teamMembers: [Team.TeamMember(id: 1, teamId: teamId, userId: 4, role: "LEADER", status: "ACCEPTED")]))
-        case 8: completionHandler(Team(id: teamId, name: "Antihype", status: "ACTIVE", registrationDate: Date(), teamMembers: [Team.TeamMember(id: 1, teamId: teamId, userId: 2, role: "LEADER", status: "ACCEPTED")]))
-        default: completionHandler(Team(id: teamId, name: "Team name", status: "ACTIVE", registrationDate: Date(), teamMembers: [Team.TeamMember(id: 1, teamId: teamId, userId: 0, role: "LEADER", status: "ACCEPTED"), Team.TeamMember(id: 2, teamId: teamId, userId: 9, role: "OTHER", status: "INVITED")]))
+        case 6: completionHandler(Team(id: teamId, name: "FBI", status: "OPEN", registrationDate: Date(), teamMembers: [Team.TeamMember(id: 1, teamId: teamId, userId: 7, role: "LEADER", status: "ACCEPTED")]))
+        case 7: completionHandler(Team(id: teamId, name: "Winners", status: "OPEN", registrationDate: Date(), teamMembers: [Team.TeamMember(id: 1, teamId: teamId, userId: 4, role: "LEADER", status: "ACCEPTED")]))
+        case 8: completionHandler(Team(id: teamId, name: "Antihype", status: "OPEN", registrationDate: Date(), teamMembers: [Team.TeamMember(id: 1, teamId: teamId, userId: 2, role: "LEADER", status: "ACCEPTED")]))
+        default: completionHandler(Team(id: teamId, name: "Team name", status: "OPEN", registrationDate: Date(), teamMembers: [Team.TeamMember(id: 1, teamId: teamId, userId: 0, role: "LEADER", status: "ACCEPTED"), Team.TeamMember(id: 2, teamId: teamId, userId: 9, role: "OTHER", status: "INVITED")]))
         }
     }
     
     final override func getAllTeams(filter: @escaping (Team) -> (Bool), completionHandler: @escaping ([Team]) -> ()) {
-        completionHandler([])
+        var teams = [Team]()
+        for teamId in self.items {
+            self.get(teamId: teamId) { team in
+                if filter(team) {
+                    teams.append(team)
+                }
+            }
+        }
+        completionHandler(teams)
     }
     
     final override func update(forceUpdate: Bool = false, completionHandler: @escaping () -> ()) {

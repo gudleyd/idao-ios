@@ -5,12 +5,11 @@
       "scale" : "1x"
     },
     {
-      "filename" : "SF_rosette.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "SF_rosette@2x.png",
+      "filename" : "SF_speedometer.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

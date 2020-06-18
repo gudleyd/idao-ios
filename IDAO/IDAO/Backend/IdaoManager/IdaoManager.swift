@@ -50,4 +50,8 @@ class IdaoManager {
     func isAuthorized() -> Bool {
         return self.token != nil
     }
+    
+    func setTestData() {
+        self.appUserId = 0
+    }
 }
