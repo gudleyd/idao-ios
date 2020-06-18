@@ -35,6 +35,10 @@ struct Team: Codable {
         return self.status == "LOCKED"
     }
     
+    func isOpen() -> Bool {
+        return self.status == "OPEN"
+    }
+    
     func amILeader() -> Bool {
         return (self.teamMembers?.filter({ $0.userId == IdaoManager.shared.myUserId() && $0.role == "LEADER"}).count != 0)
     }

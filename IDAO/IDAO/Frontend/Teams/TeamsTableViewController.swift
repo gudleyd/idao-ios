@@ -37,7 +37,6 @@ class TeamsTableViewController: UITableViewController {
         self.warning.textAlignment = .center
         self.warning.backgroundColor = .clear
         self.warning.isHidden = true
-        self.warning.alpha = 0
         self.view.addSubview(self.warning)
         
         IdaoStorage.teams.subscribe(TeamsStorage.StorageObserver(delegate: self))

@@ -39,7 +39,6 @@ extension IdaoManager {
         
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
             if let response = response as? HTTPURLResponse {
-                print(response.statusCode)
                 if response.statusCode == 200 {
                     completionHandler(.success)
                 } else if response.statusCode < 500 {
@@ -47,6 +46,8 @@ extension IdaoManager {
                         let details = ((try? JSONSerialization.jsonObject(with: data, options: [])) as? [String : Any])?["details"] as? String {
                             completionHandler(.inUse(details: details))
                     }
+                } else {
+                    completionHandler(.unknownError)
                 }
             } else {
                 completionHandler(.unknownError)

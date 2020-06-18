@@ -63,6 +63,7 @@ extension IdaoManager {
         let request = self.baseRequest(mapping: "/api/contests/\(id)/stages")
         
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
+            
             if let data = data,
                 let stages = try? self.getJsonDecoder().decode([Contest.Stage].self, from: data) {
                 

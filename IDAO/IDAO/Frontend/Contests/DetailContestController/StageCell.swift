@@ -20,5 +20,7 @@ class StageCell: UICollectionViewCell {
         self.endDateLabel.text = "End: \(IdaoManager.shared.getDateFormatter().string(from: stage?.endDate ?? Date()))"
         
         self.layer.cornerRadius = 8
+        self.stageNameLabel.numberOfLines = 2
+        self.stageNameLabel.minimumScaleFactor = 0.25
     }
 }

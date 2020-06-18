@@ -27,11 +27,11 @@ class NewsStorage: INewsStorage {
             IdaoManager.shared.getNews { status, news in
                 if status == .success {
                     self.items = news
-                    print(news)
                 }
                 mainGroup.leave()
             }
             mainGroup.wait()
+            self.items.sort(by: { n1, n2 in return n1.publicationDate > n2.publicationDate })
             self.notify()
             self.isUpdating = false
             self.queue.async {

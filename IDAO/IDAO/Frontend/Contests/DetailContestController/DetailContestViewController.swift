@@ -64,8 +64,17 @@ class DetailContestViewController: UIViewController, UICollectionViewDelegate, U
         self.contestTitleLabel.text = self.contest?.name
         self.bodyMd.load(markdown: "<style>body {background-color: #f2f2f7;}</style><font color=\"#000000\">\n" + (self.contest?.description ?? ""))
         
+        guard let contest = self.contest else { return }
         let now = Date()
-        if Calendar.current.compare(now, to: contest?.startDate ?? Date(), toGranularity: .day) == .orderedDescending {
+        if Calendar.current.compare(now, to: contest.startDate, toGranularity: .second) == .orderedAscending {
+            self.takePartButton.setTitle("Registration is closed", for: .disabled)
+            self.takePartButton.setTitleColor(.systemRed, for: .disabled)
+            self.takePartButton.isEnabled = false
+        } else if Calendar.current.compare(now, to: contest.endDate, toGranularity: .second) == .orderedAscending {
+            self.takePartButton.setTitle("Become a participant", for: .normal)
+            self.takePartButton.setTitleColor(.systemBlue, for: .disabled)
+            self.takePartButton.isEnabled = true
+        } else {
             self.takePartButton.setTitle("Registration is closed", for: .disabled)
             self.takePartButton.setTitleColor(.systemRed, for: .disabled)
             self.takePartButton.isEnabled = false
@@ -91,7 +100,7 @@ class DetailContestViewController: UIViewController, UICollectionViewDelegate, U
         var teamNames = [String]()
         var teams = [Team]()
         IdaoStorage.teams.getAllTeams(filter: { team in
-            var isGoodTeam = team.status == "OPEN" && team.amILeader()
+            var isGoodTeam = team.isOpen() && team.amILeader()
             if let settings = self.contest?.settings,
                 let memberCount = team.teamMembers?.count {
                 isGoodTeam = isGoodTeam && (memberCount >= settings.minTeamSize) && (memberCount <= settings.maxTeamSize)

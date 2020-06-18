@@ -49,6 +49,7 @@
 		238D6BD3235E4CEB008BF849 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 238D6BD2235E4CEB008BF849 /* Assets.xcassets */; };
 		238D6BD6235E4CEB008BF849 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 238D6BD4235E4CEB008BF849 /* LaunchScreen.storyboard */; };
 		238D6BE6235F43A5008BF849 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D6BE5235F43A5008BF849 /* ProfileViewController.swift */; };
+		239524C1249BA4CF002E5DEB /* AppKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 239524C0249BA4CF002E5DEB /* AppKeys.swift */; };
 		239E298924523B9F00375216 /* ContestsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 239E298824523B9F00375216 /* ContestsStorage.swift */; };
 		239E298B2453098600375216 /* ContestsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 239E298A2453098600375216 /* ContestsViewController.swift */; };
 		239E298F24530A7A00375216 /* ContestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 239E298D24530A7A00375216 /* ContestCell.swift */; };
@@ -123,6 +124,7 @@
 		238D6BD5235E4CEB008BF849 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		238D6BD7235E4CEB008BF849 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		238D6BE5235F43A5008BF849 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		239524C0249BA4CF002E5DEB /* AppKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppKeys.swift; sourceTree = "<group>"; };
 		239E298824523B9F00375216 /* ContestsStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContestsStorage.swift; sourceTree = "<group>"; };
 		239E298A2453098600375216 /* ContestsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContestsViewController.swift; sourceTree = "<group>"; };
 		239E298D24530A7A00375216 /* ContestCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContestCell.swift; sourceTree = "<group>"; };
@@ -387,6 +389,7 @@
 				238D6BD2235E4CEB008BF849 /* Assets.xcassets */,
 				238D6BD7235E4CEB008BF849 /* Info.plist */,
 				238D6BCF235E4CEA008BF849 /* IDAO.xcdatamodeld */,
+				239524C0249BA4CF002E5DEB /* AppKeys.swift */,
 			);
 			path = IDAO;
 			sourceTree = "<group>";
@@ -650,6 +653,7 @@
 				23B3A84B2449D1DD00F59C32 /* DetailNewsViewController.swift in Sources */,
 				2303D2B6243DEE3400CA1EDB /* IdaoManager-Teams.swift in Sources */,
 				236DE7672432222600FBF8AB /* NewsViewController.swift in Sources */,
+				239524C1249BA4CF002E5DEB /* AppKeys.swift in Sources */,
 				23BB042C243F533700B4CB6B /* IdaoManager-News.swift in Sources */,
 				230D86AF242F8C1C00AFCF04 /* PersonalDataViewController.swift in Sources */,
 				23BB04392448702000B4CB6B /* IdaoManager-Contests.swift in Sources */,

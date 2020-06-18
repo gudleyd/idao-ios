@@ -53,10 +53,10 @@ class ContestCell: UITableViewCell {
         
         self.contestsTitleLabel.text = contest.name
         let now = Date()
-        if Calendar.current.compare(now, to: contest.startDate, toGranularity: .day) == .orderedAscending {
+        if Calendar.current.compare(now, to: contest.startDate, toGranularity: .second) == .orderedAscending {
             self.registrationLabel.text = "Registration will open on \(IdaoManager.shared.getDateFormatter().string(from: contest.startDate))"
             self.registrationLabel.textColor = .systemBlue
-        } else if Calendar.current.compare(now, to: contest.endDate, toGranularity: .day) == .orderedAscending {
+        } else if Calendar.current.compare(now, to: contest.endDate, toGranularity: .second) == .orderedAscending {
             self.registrationLabel.text = "Registration is open until \(IdaoManager.shared.getDateFormatter().string(from:contest.endDate))"
             self.registrationLabel.textColor = .systemGreen
         } else {

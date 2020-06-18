@@ -31,4 +31,5 @@ struct Contest: Codable {
     var status: String
     var settings: Settings?
     var stages: [Stage]?
+    
 }
