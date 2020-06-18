@@ -7,11 +7,10 @@
 //
 
 import UIKit
-import MarkdownView
 
 class DetailContestViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
-    @IBOutlet weak var contestNameLabel: UILabel!
+    @IBOutlet weak var contestTitleLabel: UILabel!
     @IBOutlet weak var bodyView: UIView!
     @IBOutlet weak var bodyViewHeight: NSLayoutConstraint!
     @IBOutlet weak var takePartButton: UIButton!
@@ -27,6 +26,9 @@ class DetailContestViewController: UIViewController, UICollectionViewDelegate, U
         super.viewDidLoad()
         
         bodyViewHeight.isActive = false
+        
+        self.contestTitleLabel.adjustsFontSizeToFitWidth = true
+        self.contestTitleLabel.minimumScaleFactor = 0.33
 
         self.bodyView.addSubview(self.bodyMd)
         self.bodyMd.backgroundColor = .clear
@@ -59,7 +61,7 @@ class DetailContestViewController: UIViewController, UICollectionViewDelegate, U
             let regEnd = self.contest?.endDate {
             self.infoLabel2.text = "Registration from \(IdaoManager.shared.getDateFormatter().string(from: regStart)) to \(IdaoManager.shared.getDateFormatter().string(from: regEnd))"
         }
-        self.contestNameLabel.text = self.contest?.name
+        self.contestTitleLabel.text = self.contest?.name
         self.bodyMd.load(markdown: "<style>body {background-color: #f2f2f7;}</style><font color=\"#000000\">\n" + (self.contest?.description ?? ""))
         
         let now = Date()

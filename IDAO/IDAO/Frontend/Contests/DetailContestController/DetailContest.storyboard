@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="n1Z-6M-J4K">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -35,7 +36,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="08A-id-nVb">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="510.5"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CxY-Eu-koC">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CxY-Eu-koC">
                                                 <rect key="frame" x="8" y="8" width="398" height="38.5"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="32"/>
                                                 <nil key="textColor"/>
@@ -205,7 +206,7 @@
                         <outlet property="bodyView" destination="9bs-Zm-2sP" id="lyy-dH-BKd"/>
                         <outlet property="bodyViewHeight" destination="UDn-iB-Tbp" id="dYg-U3-FzB"/>
                         <outlet property="collectionView" destination="rbC-QC-vqE" id="Mfq-43-JTb"/>
-                        <outlet property="contestNameLabel" destination="CxY-Eu-koC" id="QAe-hx-119"/>
+                        <outlet property="contestTitleLabel" destination="CxY-Eu-koC" id="QAe-hx-119"/>
                         <outlet property="infoLabel1" destination="jmA-KW-7To" id="w6i-3Y-5T2"/>
                         <outlet property="infoLabel2" destination="uq5-0H-lno" id="28j-qQ-gDo"/>
                         <outlet property="takePartButton" destination="mKb-Xe-P4y" id="rMD-3p-IGh"/>

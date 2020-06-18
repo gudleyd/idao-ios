@@ -9,7 +9,12 @@
 import Foundation
 
 
-class AppUserStorage: BaseStorage<User> {
+class IAppUserStorage: BaseStorage<User> {
+    
+}
+
+
+class AppUserStorage: IAppUserStorage {
 
     override func update(forceUpdate: Bool = false, completionHandler: @escaping () -> ()) {
         if self.isUpdating {

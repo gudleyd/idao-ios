@@ -11,6 +11,7 @@ import UIKit
 class ContestsViewController: UITableViewController {
     
     var contests: [Contest] = []
+    var heights: [IndexPath: CGFloat] = [:]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,8 +46,17 @@ class ContestsViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ContestCell", for: indexPath) as! ContestCell
         cell.delegate = self
+        cell.indexPath = indexPath
         cell.setContest(contest: self.contests[indexPath.row])
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return self.heights[indexPath] ?? UITableView.automaticDimension
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return self.heights[indexPath] ?? UITableView.automaticDimension
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -54,6 +64,11 @@ class ContestsViewController: UITableViewController {
         self.tableView.deselectRow(at: indexPath, animated: false)
         
         self.performSegue(withIdentifier: "DetailContest", sender: self.contests[indexPath.row])
+    }
+    
+    override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard let cell = cell as? ContestCell else { return }
+        cell.cancelRendering()
     }
 
     // MARK: - Navigation
@@ -77,10 +92,12 @@ extension ContestsViewController: StorageObserverDelegate {
 }
 
 extension ContestsViewController: AutomaticHeightCellDelegate {
-    func contentDidChange() {
-        UIView.animate(withDuration: 0) {
-            self.tableView.beginUpdates()
-            self.tableView.endUpdates()
+    func contentDidChange(height: CGFloat?, at: IndexPath?) {
+        guard let height = height else { return }
+        guard let at = at else { return }
+        self.heights[at] = height
+        UIView.performWithoutAnimation {
+            self.tableView.performBatchUpdates(nil, completion: nil)
         }
     }
 }

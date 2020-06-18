@@ -9,7 +9,12 @@
 import Foundation
 
 
-class NewsStorage: BaseStorage<News> {
+class INewsStorage: BaseStorage<News> {
+    
+}
+
+
+class NewsStorage: INewsStorage {
     
     final override func update(forceUpdate: Bool = false, completionHandler: @escaping () -> ()) {
         if self.isUpdating {
@@ -22,6 +27,7 @@ class NewsStorage: BaseStorage<News> {
             IdaoManager.shared.getNews { status, news in
                 if status == .success {
                     self.items = news
+                    print(news)
                 }
                 mainGroup.leave()
             }

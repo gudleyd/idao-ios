@@ -8,6 +8,4 @@ target 'IDAO' do
   # Pods for IDAO
   pod 'Eureka', '~> 5.2'
   pod 'KeychainSwift', '~> 19.0'
-  pod 'MarkdownView', '~> 1.6'
-
 end

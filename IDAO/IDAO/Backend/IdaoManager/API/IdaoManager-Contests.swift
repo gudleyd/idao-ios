@@ -10,7 +10,23 @@ import Foundation
 
 extension IdaoManager {
     
-    func getPublishedContests(completionHandler: @escaping (SimpleRequestStatus, [Contest]) -> ()) {
+    func getOpenedContests(completionHandler: @escaping (SimpleRequestStatus, [Contest]) -> ()) {
+        
+        let request = self.baseRequest(mapping: "/api/contests/status/OPENED")
+        
+        let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
+            if let data = data,
+                let contests = try? self.getJsonDecoder().decode([Contest].self, from: data) {
+                
+                completionHandler(.success, contests)
+            } else {
+                completionHandler(.unknownError, [])
+            }
+        }
+        task.resume()
+    }
+    
+    func getClosedContests(completionHandler: @escaping (SimpleRequestStatus, [Contest]) -> ()) {
         
         let request = self.baseRequest(mapping: "/api/contests/status/CLOSED")
         

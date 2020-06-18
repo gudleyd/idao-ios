@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -55,8 +55,8 @@
                                             <constraint firstAttribute="height" relation="lessThanOrEqual" priority="999" constant="80" id="epp-YZ-KgW"/>
                                         </constraints>
                                     </view>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qCd-Us-2Ob">
-                                        <rect key="frame" x="8" y="32" width="310" height="396"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qCd-Us-2Ob">
+                                        <rect key="frame" x="16" y="32" width="294" height="396"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="32"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -64,14 +64,14 @@
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
-                                    <constraint firstItem="qCd-Us-2Ob" firstAttribute="leading" secondItem="Er3-7J-o9V" secondAttribute="leading" constant="8" id="4TJ-FW-xT1"/>
+                                    <constraint firstItem="qCd-Us-2Ob" firstAttribute="leading" secondItem="Er3-7J-o9V" secondAttribute="leading" constant="16" id="4TJ-FW-xT1"/>
                                     <constraint firstItem="5rD-iX-1ew" firstAttribute="top" secondItem="qCd-Us-2Ob" secondAttribute="bottom" constant="12" id="688-9j-XNi"/>
                                     <constraint firstAttribute="trailing" secondItem="5rD-iX-1ew" secondAttribute="trailing" constant="8" id="8MR-H2-ygx"/>
                                     <constraint firstAttribute="trailing" secondItem="udF-hx-Cge" secondAttribute="trailing" id="Uzv-8k-hDV"/>
                                     <constraint firstItem="qCd-Us-2Ob" firstAttribute="top" secondItem="Er3-7J-o9V" secondAttribute="top" constant="32" id="d9l-2R-UWg"/>
                                     <constraint firstItem="udF-hx-Cge" firstAttribute="leading" secondItem="Er3-7J-o9V" secondAttribute="leading" id="eAn-G8-vSc"/>
                                     <constraint firstItem="5rD-iX-1ew" firstAttribute="leading" secondItem="Er3-7J-o9V" secondAttribute="leading" constant="8" id="emT-BZ-8L7"/>
-                                    <constraint firstAttribute="trailing" secondItem="qCd-Us-2Ob" secondAttribute="trailing" constant="8" id="icU-aw-d9S"/>
+                                    <constraint firstAttribute="trailing" secondItem="qCd-Us-2Ob" secondAttribute="trailing" constant="16" id="icU-aw-d9S"/>
                                     <constraint firstAttribute="bottom" secondItem="5rD-iX-1ew" secondAttribute="bottom" constant="8" id="km6-Fx-gjD"/>
                                     <constraint firstAttribute="bottom" secondItem="udF-hx-Cge" secondAttribute="bottom" id="vp6-Wd-sxk"/>
                                 </constraints>

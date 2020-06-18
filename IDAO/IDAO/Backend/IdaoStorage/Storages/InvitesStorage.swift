@@ -9,7 +9,12 @@
 import Foundation
 
 
-class InvitesStorage: BaseStorage<Int> {
+class IInvitesStorage: BaseStorage<Int> {
+    
+}
+
+
+class InvitesStorage: IInvitesStorage {
     
     final override func update(forceUpdate: Bool = false, completionHandler: @escaping () -> ()) {
         if self.isUpdating {

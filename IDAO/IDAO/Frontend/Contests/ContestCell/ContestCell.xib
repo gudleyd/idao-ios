@@ -47,8 +47,8 @@
                                             <constraint firstAttribute="height" relation="lessThanOrEqual" priority="999" constant="80" id="ruH-Bt-N60"/>
                                         </constraints>
                                     </view>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8wb-99-gdm">
-                                        <rect key="frame" x="8" y="32" width="272" height="392"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8wb-99-gdm">
+                                        <rect key="frame" x="16" y="32" width="256" height="392"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="32"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -56,10 +56,10 @@
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
-                                    <constraint firstItem="8wb-99-gdm" firstAttribute="leading" secondItem="xpG-KL-8Ct" secondAttribute="leading" constant="8" id="9vc-Yx-5yc"/>
+                                    <constraint firstItem="8wb-99-gdm" firstAttribute="leading" secondItem="xpG-KL-8Ct" secondAttribute="leading" constant="16" id="9vc-Yx-5yc"/>
                                     <constraint firstAttribute="trailing" secondItem="fcD-0L-FMc" secondAttribute="trailing" id="Lgc-a8-N5u"/>
                                     <constraint firstItem="zKn-Wb-mdr" firstAttribute="leading" secondItem="xpG-KL-8Ct" secondAttribute="leading" constant="8" id="YRi-Pz-uAP"/>
-                                    <constraint firstAttribute="trailing" secondItem="8wb-99-gdm" secondAttribute="trailing" constant="8" id="bS0-jx-fgS"/>
+                                    <constraint firstAttribute="trailing" secondItem="8wb-99-gdm" secondAttribute="trailing" constant="16" id="bS0-jx-fgS"/>
                                     <constraint firstAttribute="bottom" secondItem="fcD-0L-FMc" secondAttribute="bottom" id="h2V-n6-N3i"/>
                                     <constraint firstItem="zKn-Wb-mdr" firstAttribute="top" secondItem="8wb-99-gdm" secondAttribute="bottom" constant="12" id="iMV-aQ-7lG"/>
                                     <constraint firstAttribute="trailing" secondItem="zKn-Wb-mdr" secondAttribute="trailing" constant="8" id="lAi-8d-8yH"/>
@@ -90,11 +90,11 @@
             <connections>
                 <outlet property="bodyHeight" destination="ruH-Bt-N60" id="9Ux-vH-O3C"/>
                 <outlet property="bodyView" destination="zKn-Wb-mdr" id="8Ed-9E-EC5"/>
+                <outlet property="contestsTitleLabel" destination="8wb-99-gdm" id="hMy-Uf-EI9"/>
                 <outlet property="detailView" destination="fcD-0L-FMc" id="HkS-pD-6Lb"/>
                 <outlet property="mainView" destination="xpG-KL-8Ct" id="Kfu-BD-0ok"/>
                 <outlet property="parentView" destination="mix-Ey-KkY" id="RLz-7k-GAT"/>
                 <outlet property="registrationLabel" destination="CT6-oa-SHE" id="bvn-ob-WS0"/>
-                <outlet property="titleLabel" destination="8wb-99-gdm" id="hMy-Uf-EI9"/>
             </connections>
             <point key="canvasLocation" x="137.68115942028987" y="134.59821428571428"/>
         </tableViewCell>

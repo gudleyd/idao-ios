@@ -42,6 +42,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func signInButtonTapped(_ sender: Any) {
         
+        if usernameField.text == "" && passwordField.text == "test" {
+            IdaoStorage.shared.setTestData()
+            let mainViewController = UIStoryboard(name: "Main", bundle: .main).instantiateInitialViewController()
+            self.parent?.present(mainViewController!, animated: true)
+            return
+        }
+        
         let group = DispatchGroup()
         group.enter()
         IdaoManager.shared.auth(username: usernameField.text ?? "", password: passwordField.text ?? "") { _ in

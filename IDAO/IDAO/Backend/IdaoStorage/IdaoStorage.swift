@@ -14,12 +14,12 @@ class IdaoStorage {
     
     private var isValid: Bool = true
     
-    static private(set) var news = NewsStorage(makeUpdate: false)
-    static private(set) var teams = TeamsStorage(makeUpdate: false)
-    static private(set) var invites = InvitesStorage(makeUpdate: false)
-    static private(set) var contests = ContestsStorage(makeUpdate: false)
-    static private(set) var appUser = AppUserStorage(makeUpdate: false)
-    static private(set) var accounts = UserAccountsStorage(makeUpdate: false)
+    static private(set) var news: INewsStorage = NewsStorage(makeUpdate: false)
+    static private(set) var teams: ITeamsStorage = TeamsStorage(makeUpdate: false)
+    static private(set) var invites: IInvitesStorage = InvitesStorage(makeUpdate: false)
+    static private(set) var contests: IContestsStorage = ContestsStorage(makeUpdate: false)
+    static private(set) var appUser: IAppUserStorage = AppUserStorage(makeUpdate: false)
+    static private(set) var accounts: IUserAccountsStorage = UserAccountsStorage(makeUpdate: false)
     
     private init() { }
     
@@ -29,13 +29,22 @@ class IdaoStorage {
     
     func updateOnInvalidState() {
         if !self.isValid {
-            IdaoStorage.news.update { }
-            IdaoStorage.teams.update { }
-            IdaoStorage.invites.update { }
-            IdaoStorage.contests.update { }
-            IdaoStorage.appUser.update { }
-            IdaoStorage.accounts.update { }
+            IdaoStorage.news = NewsStorage(makeUpdate: true)
+            IdaoStorage.teams = TeamsStorage(makeUpdate: true)
+            IdaoStorage.invites = InvitesStorage(makeUpdate: true)
+            IdaoStorage.contests = ContestsStorage(makeUpdate: true)
+            IdaoStorage.appUser = AppUserStorage(makeUpdate: true)
+            IdaoStorage.accounts = UserAccountsStorage(makeUpdate: true)
         }
+    }
+    
+    func setTestData() {
+        IdaoStorage.news = TestNewsStorage()
+        IdaoStorage.teams = TestTeamsStorage()
+        IdaoStorage.invites = TestInvitesStorage()
+        IdaoStorage.contests = TestContestsStorage()
+        IdaoStorage.appUser = TestAppUserStorage()
+        IdaoStorage.accounts = TestUserAccountsStorage()
     }
 }
 

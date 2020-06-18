@@ -1,24 +1,20 @@
 PODS:
   - Eureka (5.2.1)
   - KeychainSwift (19.0.0)
-  - MarkdownView (1.6.0)
 
 DEPENDENCIES:
   - Eureka (~> 5.2)
   - KeychainSwift (~> 19.0)
-  - MarkdownView (~> 1.6)
 
 SPEC REPOS:
   trunk:
     - Eureka
     - KeychainSwift
-    - MarkdownView
 
 SPEC CHECKSUMS:
   Eureka: c883105488e05bc65539f583246ecf9657cabbfe
   KeychainSwift: a06190cf933ad46b1e0abc3d77d29c06331715c7
-  MarkdownView: 25c1c2d7ff9706624a575556296e188be3dd3f6b
 
-PODFILE CHECKSUM: 2168806201ea56d7d3e8eb106dab250fa896fe1e
+PODFILE CHECKSUM: 736a20397f75bf0f2880d79ae6334f2ff13435d5
 
 COCOAPODS: 1.9.1

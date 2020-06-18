@@ -7,20 +7,20 @@
 //
 
 import UIKit
-import MarkdownView
 
 
 class ContestCell: UITableViewCell {
 
     @IBOutlet weak var parentView: UIView!
     @IBOutlet weak var mainView: UIView!
-    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var contestsTitleLabel: UILabel!
     @IBOutlet weak var bodyView: UIView!
     @IBOutlet weak var registrationLabel: UILabel!
     @IBOutlet weak var detailView: UIView!
     @IBOutlet weak var bodyHeight: NSLayoutConstraint!
     
     weak var delegate: AutomaticHeightCellDelegate?
+    var indexPath: IndexPath!
     
     private let bodyMd = MarkdownView()
     private let gradient = CAGradientLayer()
@@ -34,8 +34,6 @@ class ContestCell: UITableViewCell {
                 } else {
                     self?.bodyHeight.constant = height + 50
                 }
-                self?.layoutIfNeeded()
-                self?.bodyMd.layoutIfNeeded()
                 
                 if let bounds = self?.detailView.bounds {
                     self?.gradient.frame = bounds
@@ -44,12 +42,16 @@ class ContestCell: UITableViewCell {
                 if let view = self?.detailView {
                     self?.detailView.superview?.bringSubviewToFront(view)
                 }
+                self?.contestsTitleLabel.sizeToFit()
+                // 68 is sum of all vertical insects
+                let cellHeight = (self?.contestsTitleLabel.frame.height ?? 0) + (self?.bodyHeight.constant ?? 0) + 68
                 self?.parentView.isHidden = false
-                self?.delegate?.contentDidChange()
+                self?.delegate?.contentDidChange(height: cellHeight, at: self?.indexPath)
             }
         }
+        self.bodyMd.load(markdown: contest.description, enableImage: true)
         
-        self.titleLabel.text = contest.name
+        self.contestsTitleLabel.text = contest.name
         let now = Date()
         if Calendar.current.compare(now, to: contest.startDate, toGranularity: .day) == .orderedAscending {
             self.registrationLabel.text = "Registration will open on \(IdaoManager.shared.getDateFormatter().string(from: contest.startDate))"
@@ -57,19 +59,24 @@ class ContestCell: UITableViewCell {
         } else if Calendar.current.compare(now, to: contest.endDate, toGranularity: .day) == .orderedAscending {
             self.registrationLabel.text = "Registration is open until \(IdaoManager.shared.getDateFormatter().string(from:contest.endDate))"
             self.registrationLabel.textColor = .systemGreen
-        } else if Calendar.current.compare(now, to: contest.endDate, toGranularity: .day) == .orderedDescending {
+        } else {
             self.registrationLabel.text = "Registration is closed"
             self.registrationLabel.textColor = .systemRed
         }
-        self.bodyMd.load(markdown: contest.description, enableImage: true)
     }
     
+    func cancelRendering() {
+        self.bodyMd.cancel()
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         
         self.selectionStyle = .none
+        
+        self.contestsTitleLabel.adjustsFontSizeToFitWidth = true
+        self.contestsTitleLabel.minimumScaleFactor = 0.33
         
         self.parentView.layer.cornerRadius = 8
         self.parentView.layer.shadowOffset = CGSize(width: 5, height: 3)

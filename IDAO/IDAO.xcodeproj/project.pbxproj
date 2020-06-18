@@ -18,6 +18,8 @@
 		232CF07F24768196001BB14F /* utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232CF07E24768196001BB14F /* utils.swift */; };
 		232CF08124768B91001BB14F /* AppUserStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232CF08024768B91001BB14F /* AppUserStorage.swift */; };
 		23336F0A2491198F005710BE /* TeamActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23336F092491198F005710BE /* TeamActionSheet.swift */; };
+		2339F7C4249A82C1001BAB0E /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 2339F7B7249A8132001BAB0E /* index.html */; };
+		2339F7C5249A82C4001BAB0E /* main.css in Resources */ = {isa = PBXBuildFile; fileRef = 2339F7B8249A8132001BAB0E /* main.css */; };
 		23437CC4243798BC00322757 /* Teams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23437CC3243798BC00322757 /* Teams.swift */; };
 		23437CC92438926100322757 /* IdaoStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23437CC82438926100322757 /* IdaoStorage.swift */; };
 		23437CCD24389C9400322757 /* IdaoManager-Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23437CCC24389C9400322757 /* IdaoManager-Base.swift */; };
@@ -65,6 +67,9 @@
 		23BB04352441FBEB00B4CB6B /* InvitesStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23BB04342441FBEB00B4CB6B /* InvitesStorage.swift */; };
 		23BB043724486F9000B4CB6B /* Contests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23BB043624486F8F00B4CB6B /* Contests.swift */; };
 		23BB04392448702000B4CB6B /* IdaoManager-Contests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23BB04382448702000B4CB6B /* IdaoManager-Contests.swift */; };
+		23BC5EEF249A834D003ABF3A /* main.js in Resources */ = {isa = PBXBuildFile; fileRef = 2339F7B9249A8132001BAB0E /* main.js */; };
+		23BDC96B249A7FE400149303 /* MarkdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23BDC96A249A7FE400149303 /* MarkdownView.swift */; };
+		23FEC37A249AB03600F73E6F /* TestStorages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23FEC379249AB03600F73E6F /* TestStorages.swift */; };
 		46F1DEBBEFA95937EC730EBC /* Pods_IDAO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 298EE67C573699E7B7DF2746 /* Pods_IDAO.framework */; };
 /* End PBXBuildFile section */
 
@@ -81,6 +86,9 @@
 		232CF07E24768196001BB14F /* utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = utils.swift; sourceTree = "<group>"; };
 		232CF08024768B91001BB14F /* AppUserStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppUserStorage.swift; sourceTree = "<group>"; };
 		23336F092491198F005710BE /* TeamActionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamActionSheet.swift; sourceTree = "<group>"; };
+		2339F7B7249A8132001BAB0E /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = index.html; path = webassets/dist/index.html; sourceTree = "<group>"; };
+		2339F7B8249A8132001BAB0E /* main.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; name = main.css; path = webassets/dist/main.css; sourceTree = "<group>"; };
+		2339F7B9249A8132001BAB0E /* main.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = main.js; path = webassets/dist/main.js; sourceTree = "<group>"; };
 		23437CC3243798BC00322757 /* Teams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Teams.swift; sourceTree = "<group>"; };
 		23437CC82438926100322757 /* IdaoStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdaoStorage.swift; sourceTree = "<group>"; };
 		23437CCC24389C9400322757 /* IdaoManager-Base.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IdaoManager-Base.swift"; sourceTree = "<group>"; };
@@ -130,6 +138,8 @@
 		23BB04342441FBEB00B4CB6B /* InvitesStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitesStorage.swift; sourceTree = "<group>"; };
 		23BB043624486F8F00B4CB6B /* Contests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contests.swift; sourceTree = "<group>"; };
 		23BB04382448702000B4CB6B /* IdaoManager-Contests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IdaoManager-Contests.swift"; sourceTree = "<group>"; };
+		23BDC96A249A7FE400149303 /* MarkdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownView.swift; sourceTree = "<group>"; };
+		23FEC379249AB03600F73E6F /* TestStorages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestStorages.swift; sourceTree = "<group>"; };
 		298EE67C573699E7B7DF2746 /* Pods_IDAO.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IDAO.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4338BECDB83D42DA1042F33C /* Pods-IDAO.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IDAO.debug.xcconfig"; path = "Target Support Files/Pods-IDAO/Pods-IDAO.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -212,6 +222,7 @@
 		230EF15C248C2B9A002BADDF /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
+				23BC5EF0249A836C003ABF3A /* Markdown */,
 				2303D2B7243E0D0000CA1EDB /* AlertViews */,
 				23336F082491197C005710BE /* TeamActionSheet */,
 				230EF15D248C2BA1002BADDF /* ActionSheetStylePicker */,
@@ -234,6 +245,17 @@
 				23336F092491198F005710BE /* TeamActionSheet.swift */,
 			);
 			path = TeamActionSheet;
+			sourceTree = "<group>";
+		};
+		2339F7BA249A8132001BAB0E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				2339F7B7249A8132001BAB0E /* index.html */,
+				2339F7B8249A8132001BAB0E /* main.css */,
+				2339F7B9249A8132001BAB0E /* main.js */,
+			);
+			name = Resources;
+			path = MarkdownView;
 			sourceTree = "<group>";
 		};
 		23437CCA24389C0100322757 /* IdaoManager */ = {
@@ -418,8 +440,18 @@
 				232CF08024768B91001BB14F /* AppUserStorage.swift */,
 				239E298824523B9F00375216 /* ContestsStorage.swift */,
 				239F0F3C2474695B0047C942 /* UserAccountsStorage.swift */,
+				23FEC379249AB03600F73E6F /* TestStorages.swift */,
 			);
 			path = Storages;
+			sourceTree = "<group>";
+		};
+		23BC5EF0249A836C003ABF3A /* Markdown */ = {
+			isa = PBXGroup;
+			children = (
+				23BDC96A249A7FE400149303 /* MarkdownView.swift */,
+				2339F7BA249A8132001BAB0E /* Resources */,
+			);
+			path = Markdown;
 			sourceTree = "<group>";
 		};
 		8DDE167902E7DC713642C713 /* Frameworks */ = {
@@ -499,8 +531,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				23BC5EEF249A834D003ABF3A /* main.js in Resources */,
 				239E299024530A7A00375216 /* ContestCell.xib in Resources */,
 				23839FE3243F28D500B4CF89 /* InvitesView.storyboard in Resources */,
+				2339F7C5249A82C4001BAB0E /* main.css in Resources */,
 				23555FAD24955BA700A08081 /* News.storyboard in Resources */,
 				2303D2B1243CB74200CA1EDB /* NewsCell.xib in Resources */,
 				23555FB124955CD400A08081 /* Contests.storyboard in Resources */,
@@ -515,6 +549,7 @@
 				238D6BD3235E4CEB008BF849 /* Assets.xcassets in Resources */,
 				230EF15F248C2BBA002BADDF /* ActionSheetStylePicker.storyboard in Resources */,
 				238D6BCE235E4CEA008BF849 /* Login.storyboard in Resources */,
+				2339F7C4249A82C1001BAB0E /* index.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -551,13 +586,9 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-IDAO/Pods-IDAO-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			inputPaths = (
-			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-IDAO/Pods-IDAO-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -585,6 +616,7 @@
 				239E298B2453098600375216 /* ContestsViewController.swift in Sources */,
 				232CF07F24768196001BB14F /* utils.swift in Sources */,
 				232CF08124768B91001BB14F /* AppUserStorage.swift in Sources */,
+				23BDC96B249A7FE400149303 /* MarkdownView.swift in Sources */,
 				230EF161248C2BE8002BADDF /* ActionSheetStylePickerViewController.swift in Sources */,
 				238D6BD1235E4CEA008BF849 /* IDAO.xcdatamodeld in Sources */,
 				23573AAC2499128C00C26697 /* Reachibility.swift in Sources */,
@@ -611,6 +643,7 @@
 				23BB043724486F9000B4CB6B /* Contests.swift in Sources */,
 				23573AB3249A348100C26697 /* RootViewController.swift in Sources */,
 				23BB04352441FBEB00B4CB6B /* InvitesStorage.swift in Sources */,
+				23FEC37A249AB03600F73E6F /* TestStorages.swift in Sources */,
 				23336F0A2491198F005710BE /* TeamActionSheet.swift in Sources */,
 				2385CC4C24688B9A00B9A1B3 /* StageCell.swift in Sources */,
 			);

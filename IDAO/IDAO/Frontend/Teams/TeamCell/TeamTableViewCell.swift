@@ -19,23 +19,20 @@ class TeamTableViewCell: UITableViewCell, UITableViewDelegate, UITableViewDataSo
     @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var teamNameLabel: UILabel!
     
-    var delegate: AutomaticHeightCellDelegate?
+    weak var delegate: AutomaticHeightCellDelegate?
+    var indexPath: IndexPath!
     
     func setTeam(teamId: Int) {
-        DispatchQueue.global().async { [weak self] in
-            IdaoStorage.teams.get(teamId: teamId) { team in
-                DispatchQueue.main.async {
-                    self?.team = team
-                    self?.teamNameLabel.text = team.name
-                    if self?.team?.isLocked() ?? false {
-                        self?.mainView.backgroundColor = .systemPink
-                    }
-                    self?.tableView.reloadData()
-                    self?.tableView.layoutIfNeeded()
-                    self?.tableHeight.constant = self?.tableView.contentSize.height ?? 0
-                    self?.delegate?.contentDidChange()
-                }
+        IdaoStorage.teams.get(teamId: teamId) { team in
+            self.team = team
+            self.teamNameLabel.text = team.name
+            if self.team?.isLocked() ?? false {
+                self.mainView.backgroundColor = UIColor.systemPink.withAlphaComponent(0.1)
             }
+            self.tableView.reloadData()
+            self.tableView.layoutIfNeeded()
+            self.tableHeight.constant = self.tableView.contentSize.height
+            self.delegate?.contentDidChange(height: self.tableHeight.constant, at: self.indexPath)
         }
     }
     
@@ -45,6 +42,9 @@ class TeamTableViewCell: UITableViewCell, UITableViewDelegate, UITableViewDataSo
         
         self.mainView.layer.cornerRadius = 8
         self.selectionStyle = .none
+        
+        self.teamNameLabel.adjustsFontSizeToFitWidth = true
+        self.teamNameLabel.minimumScaleFactor = 0.33
         
         self.contentView.autoresizingMask = [.flexibleHeight]
         
@@ -71,6 +71,7 @@ class TeamTableViewCell: UITableViewCell, UITableViewDelegate, UITableViewDataSo
         let cell = tableView.dequeueReusableCell(withIdentifier: "TeamMemberCell") ?? UITableViewCell(style: .subtitle, reuseIdentifier: "TeamMemberCell")
         
         cell.backgroundColor = .clear
+        cell.backgroundView = nil
         cell.accessoryView = nil
     
         if let member = self.team?.teamMembers?[indexPath.row] {

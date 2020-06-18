@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import MarkdownView
 
 class DetailNewsViewController: UIViewController {
     @IBOutlet weak var newsTitleLabel: UILabel!
@@ -26,6 +25,9 @@ class DetailNewsViewController: UIViewController {
         // Do any additional setup after loading the view.
         
         bodyHeight.isActive = false
+        
+        self.newsTitleLabel.adjustsFontSizeToFitWidth = true
+        self.newsTitleLabel.minimumScaleFactor = 0.33
         
         self.bodyView.addSubview(self.bodyMd)
         self.bodyMd.translatesAutoresizingMaskIntoConstraints = false

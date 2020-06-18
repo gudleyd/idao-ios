@@ -9,7 +9,13 @@
 import Foundation
 
 
-class UserAccountsStorage: BaseStorage<Int> {
+class IUserAccountsStorage: BaseStorage<Int> {
+    
+    func get(userId: Int, completionHandler: ((User.Account) -> ())) { }
+}
+
+
+class UserAccountsStorage: IUserAccountsStorage {
     
     internal var accountsCache = [Int: (User.Account, Double)]()
     internal let accountsCacheTrustInterval: Double = 300 // in seconds
@@ -40,7 +46,7 @@ class UserAccountsStorage: BaseStorage<Int> {
         }
     }
     
-    final func get(userId: Int, completionHandler: ((User.Account) -> ())) {
+    final override func get(userId: Int, completionHandler: ((User.Account) -> ())) {
         self.queue.sync() {
             if let account = accountsCache[userId] {
                 if Date().timeIntervalSince1970 - account.1 < accountsCacheTrustInterval {

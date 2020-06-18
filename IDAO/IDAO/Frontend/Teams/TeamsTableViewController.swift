@@ -12,6 +12,7 @@ import UIKit
 class TeamsTableViewController: UITableViewController {
     
     var teams: [Int] = []
+    var warning: UILabel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +30,15 @@ class TeamsTableViewController: UITableViewController {
         
         let teamTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(teamTapped))
         self.view.addGestureRecognizer(teamTapGestureRecognizer)
+        
+        self.warning = UILabel(frame: CGRect(x: 0, y: self.navigationController?.navigationBar.frame.height ?? -50 + 20, width: self.view.frame.width, height: 44))
+        self.warning.text = "You are not a member of any team"
+        self.warning.textColor = .black
+        self.warning.textAlignment = .center
+        self.warning.backgroundColor = .clear
+        self.warning.isHidden = true
+        self.warning.alpha = 0
+        self.view.addSubview(self.warning)
         
         IdaoStorage.teams.subscribe(TeamsStorage.StorageObserver(delegate: self))
         IdaoStorage.teams.update { }
@@ -61,7 +71,7 @@ class TeamsTableViewController: UITableViewController {
             IdaoStorage.invites.update(forceUpdate: true) { }
         }
     }
-
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -70,7 +80,6 @@ class TeamsTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-
         return self.teams.count
     }
 
@@ -78,8 +87,8 @@ class TeamsTableViewController: UITableViewController {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "TeamCell", for: indexPath) as! TeamTableViewCell
         cell.delegate = self
+        cell.indexPath = indexPath
         cell.setTeam(teamId: self.teams[indexPath.row])
-        cell.layoutIfNeeded()
         return cell
     }
 
@@ -121,15 +130,20 @@ extension TeamsTableViewController {
 
 extension TeamsTableViewController: StorageObserverDelegate {
     func update(_ sender: Any?, _ data: Any?) {
-        if (sender as? TeamsStorage) != nil {
+        if (sender as? ITeamsStorage) != nil {
             DispatchQueue.main.async { [weak self] in
+                self?.tableView.refreshControl?.endRefreshing()
                 guard let teams = data as? [Int] else { return }
+                if teams.count == 0 {
+                    self?.warning.isHidden = false
+                } else {
+                    self?.warning.isHidden = true
+                }
                 self?.teams = teams
                 self?.tableView.reloadData()
             }
         } else {
             DispatchQueue.main.async { [weak self] in
-                self?.tableView.refreshControl?.endRefreshing()
                 guard let invites = data as? [Int] else { return }
                 self?.navigationItem.leftBarButtonItem?.title = "Invites(\(invites.count))"
             }
@@ -138,7 +152,7 @@ extension TeamsTableViewController: StorageObserverDelegate {
 }
 
 extension TeamsTableViewController: AutomaticHeightCellDelegate {
-    func contentDidChange() {
+    func contentDidChange(height: CGFloat?, at: IndexPath?) {
         UIView.animate(withDuration: 0) {
             self.tableView.beginUpdates()
             self.tableView.endUpdates()

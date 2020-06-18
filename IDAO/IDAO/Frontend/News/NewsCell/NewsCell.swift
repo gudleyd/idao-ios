@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import MarkdownView
+
 
 class NewsCell: UITableViewCell {
 
@@ -21,49 +21,56 @@ class NewsCell: UITableViewCell {
     @IBOutlet weak var parentView: UIView!
     
     weak var delegate: AutomaticHeightCellDelegate?
+    var indexPath: IndexPath!
     
     private let bodyMd = MarkdownView()
     private let gradient = CAGradientLayer()
+    private var renderingNow: Bool = false
     
     func setNews(news: News) {
         self.bodyMd.onRendered = { [weak self] height in
-            DispatchQueue.main.async {
-                
-                if height > 300 {
-                    self?.bodyHeight.constant = 260
-                } else {
-                    self?.bodyHeight.constant = height + 50
-                }
-                self?.layoutIfNeeded()
-                self?.bodyMd.layoutIfNeeded()
-                
-                if let bounds = self?.detailView.bounds {
-                    self?.gradient.frame = bounds
-                }
-                
-                if let view = self?.detailView {
-                    self?.detailView.superview?.bringSubviewToFront(view)
-                }
-                self?.parentView.isHidden = false
-                self?.delegate?.contentDidChange()
+            if height > 300 {
+                self?.bodyHeight.constant = 260
+            } else {
+                self?.bodyHeight.constant = height + 50
             }
+            
+            if let bounds = self?.detailView.bounds {
+                self?.gradient.frame = bounds
+            }
+            
+            if let view = self?.detailView {
+                self?.detailView.superview?.bringSubviewToFront(view)
+            }
+            self?.newsTitleLabel.sizeToFit()
+            // 68 is sum of all vertical insects
+            let cellHeight = (self?.newsTitleLabel.frame.height ?? 0) + (self?.bodyHeight.constant ?? 0) + 68
+            self?.parentView.isHidden = false
+            self?.delegate?.contentDidChange(height: cellHeight, at: self?.indexPath)
         }
         
         self.newsTitleLabel.text = news.header
         self.dateLabel.text = "\(IdaoManager.shared.getDateFormatter().string(from: news.publicationDate))"
         self.bodyMd.load(markdown: news.body, enableImage: true)
         
+        
         IdaoStorage.accounts.get(userId: news.authorId) { author in
             self.authorLabel.text = "@\(author.username)"
         }
     }
     
+    func cancelRendering() {
+        self.bodyMd.cancel()
+    }
 
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         
         self.selectionStyle = .none
+        
+        self.newsTitleLabel.adjustsFontSizeToFitWidth = true
+        self.newsTitleLabel.minimumScaleFactor = 0.33
         
         self.parentView.layer.cornerRadius = 8
         self.parentView.layer.shadowOffset = CGSize(width: 5, height: 3)

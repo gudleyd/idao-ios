@@ -14,7 +14,7 @@ protocol StorageObserverDelegate: class {
 }
 
 
-class BaseStorage<Item> {
+class Subscriable {
     
     class StorageObserver {
         var id = UUID()
@@ -25,19 +25,9 @@ class BaseStorage<Item> {
         }
     }
     
-    internal let queue = DispatchQueue(label: "base-queue-\(UUID())", qos: .userInitiated, attributes: .concurrent)
-    internal var items = [Item]()
-    internal var isUpdating: Bool = false
-    
     internal var observersQueue = DispatchQueue(label: "observers-queue-\(UUID())", qos: .userInitiated, attributes: .concurrent)
     internal lazy var observers = [StorageObserver]()
     
-    init(makeUpdate: Bool = true) {
-        if makeUpdate {
-            self.update(completionHandler: {})
-        }
-    }
-
     final func subscribe(_ observer: StorageObserver) {
         self.observersQueue.async(flags: .barrier) { [weak self] in
             guard self?.observers.contains(where: { $0.id == observer.id }) == false else {
@@ -54,8 +44,38 @@ class BaseStorage<Item> {
             }
         }
     }
+    
+    func notify() {
+        fatalError("notify should be overwritten")
+    }
+}
 
-    final func notify() {
+
+protocol IBaseStorage {
+    associatedtype T
+    
+    func get(completionHandler: @escaping ([T]) -> ())
+    func clear()
+    func update(forceUpdate: Bool, completionHandler: @escaping () -> ())
+}
+
+
+class BaseStorage<Item>: Subscriable, IBaseStorage {
+    typealias T = Item
+    
+    internal let queue = DispatchQueue(label: "base-queue-\(UUID())", qos: .userInitiated, attributes: .concurrent)
+    internal var items = [Item]()
+    internal var isUpdating: Bool = false
+    
+    init(makeUpdate: Bool = true) {
+        super.init()
+        
+        if makeUpdate {
+            self.update(completionHandler: {})
+        }
+    }
+
+    final override func notify() {
         self.observersQueue.async(flags: .barrier) { [weak self] in
             self?.observers = self?.observers.filter { observer in return observer.delegate != nil } ?? []
             if let items = self?.items {
