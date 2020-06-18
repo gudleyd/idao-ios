@@ -7,15 +7,13 @@
 //
 
 
+//
+
 import Foundation
 import UIKit
 import WebKit
 
-/**
- Markdown View for iOS.
- 
- - Note: [How to get height of entire document with javascript](https://stackoverflow.com/questions/1145850/how-to-get-height-of-entire-document-with-javascript)
- */
+
 open class MarkdownView: UIView {
 
     private var webView: WKWebView?
@@ -98,8 +96,6 @@ open class MarkdownView: UIView {
             self.webView = wv
             
             wv.load(templateRequest)
-        } else {
-            // TODO: raise error
         }
     }
     

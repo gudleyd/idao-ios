@@ -110,9 +110,11 @@ extension IdaoManager {
             if error != nil {
                 completionHandler(.unknownError)
             } else {
-                guard let data = data else { fatalError("No DATA") }
-                guard let response = response as? HTTPURLResponse else { return }
-                completionHandler(.success)
+                if let _ = data,
+                    let _ = response as? HTTPURLResponse {
+                    
+                    completionHandler(.success)
+                }
             }
         }
         task.resume()

@@ -15,7 +15,6 @@ class IdaoManager {
     static let shared: IdaoManager = IdaoManager()
 
     internal var baseUrl: String = "https://api.idao.world"
-    internal var apptoken: String = "sJ6-Pz7ufOpkZzppLbGOqE8lUS5YuWXhkNLudL1pWS4="
     internal var token: Token?
     
     internal var appUserId: Int?

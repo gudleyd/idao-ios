@@ -35,7 +35,7 @@ class PersonalDataViewController: FormViewController {
     
     func dataForRegistration() -> UserWithPasswordAndData {
         return UserWithPasswordAndData(name: (self.form.rowBy(tag: "name") as? TextRow)?.value ?? "",
-                                       username: (self.form.rowBy(tag: "username") as? AccountRow)?.value ?? "",
+                                       username: (self.form.rowBy(tag: "username") as? TextRow)?.value ?? "",
                                        password: (self.form.rowBy(tag: "password") as? PasswordRow)?.value ?? "",
                                        email: (self.form.rowBy(tag: "email") as? EmailRow)?.value ?? "",
                                        birthday: (self.form.rowBy(tag: "birthday") as? DateRow)?.value ?? Date(),
@@ -96,20 +96,32 @@ class PersonalDataViewController: FormViewController {
             .onCellSelection { [weak self] (cell, row) in
                 let invalid = self?.form.validate()
                 if invalid ?? [] == [] {
-                    IdaoManager.shared.register(userData: self?.dataForRegistration()) { status in
-                        DispatchQueue.main.async {
-                            switch status {
-                            case .success:
-                                self?.present(AlertViewsFactory.newAlert(title: "Success", message: """
-                                    You successfully created account.
-                                    Please, check your email to complete registration
-                                    Please, check your spam folder
-                                """, handler: { _ in self?.dismiss(animated: true)}), animated: true, completion: nil)
-                            case .inUse(let details):
-                                self?.present(AlertViewsFactory.newAlert(title: "Error", message: details), animated: true)
-                            default:
-                                self?.present(AlertViewsFactory.unknownError(), animated: true)
+                    guard let agreementViewController = UIStoryboard(name: "Agreement", bundle: .main).instantiateInitialViewController() as? AgreementViewController else { return }
+                    agreementViewController.onAgree = {
+                        IdaoManager.shared.register(userData: self?.dataForRegistration()) { status in
+                            DispatchQueue.main.async {
+                                switch status {
+                                case .success:
+                                    self?.present(AlertViewsFactory.newAlert(title: "Success", message: """
+                                        You successfully created account.
+                                        Please, check your email to complete registration
+                                        Please, check your spam folder
+                                    """, handler: { _ in self?.dismiss(animated: true)}), animated: true, completion: nil)
+                                case .inUse(let details):
+                                    self?.present(AlertViewsFactory.newAlert(title: "Error", message: details), animated: true)
+                                default:
+                                    self?.present(AlertViewsFactory.unknownError(), animated: true)
+                                }
                             }
+                        }
+                    }
+                    let newNavController = UINavigationController(rootViewController: agreementViewController)
+                    self?.present(newNavController, animated: true) {
+                        if let rtfPath = Bundle.main.url(forResource: "RegistrationAgreement", withExtension: "rtf"),
+                            let attributedStringWithRtf: NSAttributedString = try? NSAttributedString(url: rtfPath, options: [NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.rtf], documentAttributes: nil) {
+                            agreementViewController.loadAgreement(attributedStringWithRtf: attributedStringWithRtf)
+                        } else {
+                            return
                         }
                     }
                 }
@@ -151,6 +163,7 @@ class PersonalDataViewController: FormViewController {
             }
             .cellUpdate { cell, row in
                 cell.textField.textAlignment = .right
+                cell.textField.keyboardType = .asciiCapable
                 if !row.isValid {
                     cell.titleLabel?.textColor = .red
                 }
@@ -207,6 +220,8 @@ class PersonalDataViewController: FormViewController {
                 $0.value = user?.personalData.university
             }
             .cellUpdate { cell, row in
+                cell.textField.textAlignment = .right
+                cell.textField.keyboardType = .asciiCapable
                 if !row.isValid {
                     cell.textLabel?.textColor = .red
                 }
@@ -222,6 +237,8 @@ class PersonalDataViewController: FormViewController {
                 $0.value = user?.personalData.studyProgram
             }
             .cellUpdate { cell, row in
+                cell.textField.textAlignment = .right
+                cell.textField.keyboardType = .asciiCapable
                 if !row.isValid {
                     cell.textLabel?.textColor = .red
                 }
@@ -246,6 +263,8 @@ class PersonalDataViewController: FormViewController {
                 $0.value = user?.personalData.company
             }
             .cellUpdate { cell, row in
+                cell.textField.textAlignment = .right
+                cell.textField.keyboardType = .asciiCapable
                 if !row.isValid {
                     cell.textLabel?.textColor = .red
                 }
@@ -276,12 +295,13 @@ class PersonalDataViewController: FormViewController {
             }
             .cellUpdate { cell, row in
                 cell.textField.textAlignment = .right
+                cell.textField.keyboardType = .asciiCapable
                 if !row.isValid {
                     cell.titleLabel?.textColor = .red
                 }
             }
             
-            <<< AccountRow("username") {
+            <<< TextRow("username") {
                 $0.title = "Username"
                 $0.titlePercentage = 0.3
                 $0.add(rule: RuleRequired())
@@ -289,6 +309,7 @@ class PersonalDataViewController: FormViewController {
             }
             .cellUpdate { cell, row in
                 cell.textField.textAlignment = .right
+                cell.textField.keyboardType = .asciiCapable
                 if !row.isValid {
                     cell.titleLabel?.textColor = .red
                 }

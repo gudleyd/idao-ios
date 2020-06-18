@@ -30,6 +30,24 @@ class TestNewsStorage: INewsStorage {
             body: " [++HSE Faculty of Computer Science++](https://cs.hse.ru/en/) and Yandex launch registration for the 3rd International Data Analysis Olympiad ([++IDAO 2020++](https://idao.world/)). The platinum partner of IDAO 2020 is Qiwi. \n\nThe Olympiad includes two stages:\n\n**Online Stage:**\n\n- Traditional machine learning competition on Yandex.Contest platform. You will need to make new predictions and upload them to the automatic verification system.\n- Track 2: Come up with a solution for the same problem, keeping within a rigid framework of time and memory used.\n\n**Offline Stage (Final):**\n\n- The top 30 teams according to the Online Stage results will be invited to the on-site final, which will be held on April 2-5 in Yandex office, Moscow .\n- In the final 36 hours of the competition, participants will try not just to train the model, but to create a full-fledged prototype, which will be tested both in terms of accuracy and performance. \n\nAs part of IDAO Final, performances and master classes of world experts in machine learning and data analysis are also planned.\n\nIn 2019, 2187 participants from 78 countries took part in IDAO, and 79 participants from 7 countries met in the final in Moscow. \n\nWinners and prize-winners of IDAO 2020 will receive valuable prizes and gifts, as well as an advantage in entering Yandex School of Data Analysis and master\'s programmes at the HSE Faculty of Computer Science.\n",
             publicationDate: Date(),
             authorId: 2020)])
+            if i % 5 == 0 {
+                self.items.append(News(id: 1,
+                header: "Simple Header",
+                body: "Simple body",
+                publicationDate: Date(),
+                authorId: 2020))
+            }
+            if i % 10 == 0 {
+                self.items.append(contentsOf: [News(id: 1,
+                header: "Simple Header",
+                body: "Simple body",
+                publicationDate: Date(),
+                authorId: 2020), News(id: 1,
+                header: "Simple Header",
+                body: "Simple body",
+                publicationDate: Date(),
+                authorId: 2020)])
+            }
         }
     }
     

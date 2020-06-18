@@ -11,6 +11,7 @@
 		2303D2B1243CB74200CA1EDB /* NewsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2303D2AF243CB74200CA1EDB /* NewsCell.xib */; };
 		2303D2B6243DEE3400CA1EDB /* IdaoManager-Teams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2303D2B5243DEE3400CA1EDB /* IdaoManager-Teams.swift */; };
 		2303D2B9243E0D2400CA1EDB /* AlertViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2303D2B8243E0D2400CA1EDB /* AlertViews.swift */; };
+		23062CE8249B8CEB00F2D7FE /* AppKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23062CE7249B8CEB00F2D7FE /* AppKeys.swift */; };
 		230D86AF242F8C1C00AFCF04 /* PersonalDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230D86AE242F8C1C00AFCF04 /* PersonalDataViewController.swift */; };
 		230D86BA242FA79800AFCF04 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 230D86B9242FA79800AFCF04 /* Main.storyboard */; };
 		230EF15F248C2BBA002BADDF /* ActionSheetStylePicker.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 230EF15E248C2BBA002BADDF /* ActionSheetStylePicker.storyboard */; };
@@ -70,6 +71,9 @@
 		23BC5EEF249A834D003ABF3A /* main.js in Resources */ = {isa = PBXBuildFile; fileRef = 2339F7B9249A8132001BAB0E /* main.js */; };
 		23BDC96B249A7FE400149303 /* MarkdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23BDC96A249A7FE400149303 /* MarkdownView.swift */; };
 		23FEC37A249AB03600F73E6F /* TestStorages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23FEC379249AB03600F73E6F /* TestStorages.swift */; };
+		23FEC37C249B693300F73E6F /* RegistrationAgreement.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 23FEC37B249B693300F73E6F /* RegistrationAgreement.rtf */; };
+		23FEC382249B69B500F73E6F /* Agreement.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 23FEC381249B69B500F73E6F /* Agreement.storyboard */; };
+		23FEC384249B69CF00F73E6F /* AgreementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23FEC383249B69CF00F73E6F /* AgreementViewController.swift */; };
 		46F1DEBBEFA95937EC730EBC /* Pods_IDAO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 298EE67C573699E7B7DF2746 /* Pods_IDAO.framework */; };
 /* End PBXBuildFile section */
 
@@ -79,6 +83,7 @@
 		2303D2AF243CB74200CA1EDB /* NewsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsCell.xib; sourceTree = "<group>"; };
 		2303D2B5243DEE3400CA1EDB /* IdaoManager-Teams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IdaoManager-Teams.swift"; sourceTree = "<group>"; };
 		2303D2B8243E0D2400CA1EDB /* AlertViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViews.swift; sourceTree = "<group>"; };
+		23062CE7249B8CEB00F2D7FE /* AppKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppKeys.swift; sourceTree = "<group>"; };
 		230D86AE242F8C1C00AFCF04 /* PersonalDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalDataViewController.swift; sourceTree = "<group>"; };
 		230D86B9242FA79800AFCF04 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		230EF15E248C2BBA002BADDF /* ActionSheetStylePicker.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ActionSheetStylePicker.storyboard; sourceTree = "<group>"; };
@@ -140,6 +145,9 @@
 		23BB04382448702000B4CB6B /* IdaoManager-Contests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IdaoManager-Contests.swift"; sourceTree = "<group>"; };
 		23BDC96A249A7FE400149303 /* MarkdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownView.swift; sourceTree = "<group>"; };
 		23FEC379249AB03600F73E6F /* TestStorages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestStorages.swift; sourceTree = "<group>"; };
+		23FEC37B249B693300F73E6F /* RegistrationAgreement.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = RegistrationAgreement.rtf; sourceTree = "<group>"; };
+		23FEC381249B69B500F73E6F /* Agreement.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Agreement.storyboard; sourceTree = "<group>"; };
+		23FEC383249B69CF00F73E6F /* AgreementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgreementViewController.swift; sourceTree = "<group>"; };
 		298EE67C573699E7B7DF2746 /* Pods_IDAO.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IDAO.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4338BECDB83D42DA1042F33C /* Pods-IDAO.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IDAO.debug.xcconfig"; path = "Target Support Files/Pods-IDAO/Pods-IDAO.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -222,6 +230,7 @@
 		230EF15C248C2B9A002BADDF /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
+				23FEC37F249B696900F73E6F /* Agreement */,
 				23BC5EF0249A836C003ABF3A /* Markdown */,
 				2303D2B7243E0D0000CA1EDB /* AlertViews */,
 				23336F082491197C005710BE /* TeamActionSheet */,
@@ -253,6 +262,7 @@
 				2339F7B7249A8132001BAB0E /* index.html */,
 				2339F7B8249A8132001BAB0E /* main.css */,
 				2339F7B9249A8132001BAB0E /* main.js */,
+				23FEC37B249B693300F73E6F /* RegistrationAgreement.rtf */,
 			);
 			name = Resources;
 			path = MarkdownView;
@@ -373,11 +383,13 @@
 			children = (
 				230EF15B248C2B76002BADDF /* Frontend */,
 				236DE76A243228F700FBF8AB /* Backend */,
+				2339F7BA249A8132001BAB0E /* Resources */,
 				238D6BC6235E4CEA008BF849 /* AppDelegate.swift */,
 				238D6BD4235E4CEB008BF849 /* LaunchScreen.storyboard */,
 				238D6BD2235E4CEB008BF849 /* Assets.xcassets */,
 				238D6BD7235E4CEB008BF849 /* Info.plist */,
 				238D6BCF235E4CEA008BF849 /* IDAO.xcdatamodeld */,
+				23062CE7249B8CEB00F2D7FE /* AppKeys.swift */,
 			);
 			path = IDAO;
 			sourceTree = "<group>";
@@ -449,9 +461,17 @@
 			isa = PBXGroup;
 			children = (
 				23BDC96A249A7FE400149303 /* MarkdownView.swift */,
-				2339F7BA249A8132001BAB0E /* Resources */,
 			);
 			path = Markdown;
+			sourceTree = "<group>";
+		};
+		23FEC37F249B696900F73E6F /* Agreement */ = {
+			isa = PBXGroup;
+			children = (
+				23FEC381249B69B500F73E6F /* Agreement.storyboard */,
+				23FEC383249B69CF00F73E6F /* AgreementViewController.swift */,
+			);
+			path = Agreement;
 			sourceTree = "<group>";
 		};
 		8DDE167902E7DC713642C713 /* Frameworks */ = {
@@ -537,6 +557,8 @@
 				2339F7C5249A82C4001BAB0E /* main.css in Resources */,
 				23555FAD24955BA700A08081 /* News.storyboard in Resources */,
 				2303D2B1243CB74200CA1EDB /* NewsCell.xib in Resources */,
+				23FEC37C249B693300F73E6F /* RegistrationAgreement.rtf in Resources */,
+				23FEC382249B69B500F73E6F /* Agreement.storyboard in Resources */,
 				23555FB124955CD400A08081 /* Contests.storyboard in Resources */,
 				230D86BA242FA79800AFCF04 /* Main.storyboard in Resources */,
 				237F559E2434B5A5001D1A86 /* TeamTableViewCell.xib in Resources */,
@@ -621,6 +643,7 @@
 				238D6BD1235E4CEA008BF849 /* IDAO.xcdatamodeld in Sources */,
 				23573AAC2499128C00C26697 /* Reachibility.swift in Sources */,
 				236DE76C2432290600FBF8AB /* IdaoManager.swift in Sources */,
+				23062CE8249B8CEB00F2D7FE /* AppKeys.swift in Sources */,
 				23437CC4243798BC00322757 /* Teams.swift in Sources */,
 				23BB042A243F532300B4CB6B /* IdaoManager-Invites.swift in Sources */,
 				239E299624531DE800375216 /* DetailContestViewController.swift in Sources */,
@@ -644,6 +667,7 @@
 				23573AB3249A348100C26697 /* RootViewController.swift in Sources */,
 				23BB04352441FBEB00B4CB6B /* InvitesStorage.swift in Sources */,
 				23FEC37A249AB03600F73E6F /* TestStorages.swift in Sources */,
+				23FEC384249B69CF00F73E6F /* AgreementViewController.swift in Sources */,
 				23336F0A2491198F005710BE /* TeamActionSheet.swift in Sources */,
 				2385CC4C24688B9A00B9A1B3 /* StageCell.swift in Sources */,
 			);

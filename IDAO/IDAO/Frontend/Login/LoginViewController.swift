@@ -17,7 +17,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var passwordField: UITextField!
     
     @IBOutlet weak var mainLoginView: UIView!
-
+    @IBOutlet weak var forgotTextView: UITextView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -31,6 +32,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
         mainLoginView.layer.cornerRadius = 12
         self.addDoneButtonOnKeyboard()
+        
+        let link = NSMutableAttributedString(string: "Forgot username or password?")
+        link.addAttribute(.link, value: "https://register.idao.world/#/reset", range: .init(location: 0, length: link.length))
+        self.forgotTextView.attributedText = link
     }
     
     func moveIfAuthorized() {

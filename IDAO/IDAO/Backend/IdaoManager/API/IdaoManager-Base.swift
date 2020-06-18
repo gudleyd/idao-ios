@@ -37,7 +37,7 @@ extension IdaoManager {
         var request = URLRequest(url: URL(string: self.baseUrl + mapping)!)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
-        request.addValue("\(self.apptoken)", forHTTPHeaderField: "App-Token")
+        request.addValue("\(AppKeys.apptoken)", forHTTPHeaderField: "App-Token")
         if let token = self.token {
             request.addValue("\(token.tokenType) \(token.accessToken)", forHTTPHeaderField: "Authorization")
         }

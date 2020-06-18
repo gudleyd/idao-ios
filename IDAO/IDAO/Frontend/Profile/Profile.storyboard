@@ -274,7 +274,7 @@
                             <outlet property="delegate" destination="dqu-QO-48v" id="4d7-Zj-jTw"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Profile" image="person" catalog="system" id="auV-jQ-AId"/>
+                    <tabBarItem key="tabBarItem" title="Profile" image="SF_person_crop_circle_badge_xmark_fill" id="auV-jQ-AId"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
                     <connections>
                         <outlet property="nameLabel" destination="pun-La-wqz" id="4Kw-Xq-fzw"/>
@@ -296,7 +296,7 @@
         <image name="Innopolis" width="768" height="639"/>
         <image name="MLTrainings" width="150" height="150"/>
         <image name="Qiwi" width="600" height="346"/>
+        <image name="SF_person_crop_circle_badge_xmark_fill" width="44" height="44"/>
         <image name="Yandex" width="336" height="193"/>
-        <image name="person" catalog="system" width="128" height="117"/>
     </resources>
 </document>
