@@ -18,8 +18,6 @@
 		232CF07F24768196001BB14F /* utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232CF07E24768196001BB14F /* utils.swift */; };
 		232CF08124768B91001BB14F /* AppUserStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232CF08024768B91001BB14F /* AppUserStorage.swift */; };
 		23336F0A2491198F005710BE /* TeamActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23336F092491198F005710BE /* TeamActionSheet.swift */; };
-		2339F7C4249A82C1001BAB0E /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 2339F7B7249A8132001BAB0E /* index.html */; };
-		2339F7C5249A82C4001BAB0E /* main.css in Resources */ = {isa = PBXBuildFile; fileRef = 2339F7B8249A8132001BAB0E /* main.css */; };
 		23437CC4243798BC00322757 /* Teams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23437CC3243798BC00322757 /* Teams.swift */; };
 		23437CC92438926100322757 /* IdaoStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23437CC82438926100322757 /* IdaoStorage.swift */; };
 		23437CCD24389C9400322757 /* IdaoManager-Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23437CCC24389C9400322757 /* IdaoManager-Base.swift */; };
@@ -50,6 +48,10 @@
 		238D6BD6235E4CEB008BF849 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 238D6BD4235E4CEB008BF849 /* LaunchScreen.storyboard */; };
 		238D6BE6235F43A5008BF849 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D6BE5235F43A5008BF849 /* ProfileViewController.swift */; };
 		239524C1249BA4CF002E5DEB /* AppKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 239524C0249BA4CF002E5DEB /* AppKeys.swift */; };
+		239524CC249BBE4E002E5DEB /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 239524C8249BBE4D002E5DEB /* index.html */; };
+		239524CD249BBE4E002E5DEB /* main.js in Resources */ = {isa = PBXBuildFile; fileRef = 239524C9249BBE4D002E5DEB /* main.js */; };
+		239524CE249BBE4E002E5DEB /* RegistrationAgreement.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 239524CA249BBE4E002E5DEB /* RegistrationAgreement.rtf */; };
+		239524CF249BBE4E002E5DEB /* main.css in Resources */ = {isa = PBXBuildFile; fileRef = 239524CB249BBE4E002E5DEB /* main.css */; };
 		239E298924523B9F00375216 /* ContestsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 239E298824523B9F00375216 /* ContestsStorage.swift */; };
 		239E298B2453098600375216 /* ContestsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 239E298A2453098600375216 /* ContestsViewController.swift */; };
 		239E298F24530A7A00375216 /* ContestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 239E298D24530A7A00375216 /* ContestCell.swift */; };
@@ -68,10 +70,8 @@
 		23BB04352441FBEB00B4CB6B /* InvitesStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23BB04342441FBEB00B4CB6B /* InvitesStorage.swift */; };
 		23BB043724486F9000B4CB6B /* Contests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23BB043624486F8F00B4CB6B /* Contests.swift */; };
 		23BB04392448702000B4CB6B /* IdaoManager-Contests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23BB04382448702000B4CB6B /* IdaoManager-Contests.swift */; };
-		23BC5EEF249A834D003ABF3A /* main.js in Resources */ = {isa = PBXBuildFile; fileRef = 2339F7B9249A8132001BAB0E /* main.js */; };
 		23BDC96B249A7FE400149303 /* MarkdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23BDC96A249A7FE400149303 /* MarkdownView.swift */; };
 		23FEC37A249AB03600F73E6F /* TestStorages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23FEC379249AB03600F73E6F /* TestStorages.swift */; };
-		23FEC37C249B693300F73E6F /* RegistrationAgreement.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 23FEC37B249B693300F73E6F /* RegistrationAgreement.rtf */; };
 		23FEC382249B69B500F73E6F /* Agreement.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 23FEC381249B69B500F73E6F /* Agreement.storyboard */; };
 		23FEC384249B69CF00F73E6F /* AgreementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23FEC383249B69CF00F73E6F /* AgreementViewController.swift */; };
 		46F1DEBBEFA95937EC730EBC /* Pods_IDAO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 298EE67C573699E7B7DF2746 /* Pods_IDAO.framework */; };
@@ -90,9 +90,6 @@
 		232CF07E24768196001BB14F /* utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = utils.swift; sourceTree = "<group>"; };
 		232CF08024768B91001BB14F /* AppUserStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppUserStorage.swift; sourceTree = "<group>"; };
 		23336F092491198F005710BE /* TeamActionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamActionSheet.swift; sourceTree = "<group>"; };
-		2339F7B7249A8132001BAB0E /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = index.html; path = webassets/dist/index.html; sourceTree = "<group>"; };
-		2339F7B8249A8132001BAB0E /* main.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; name = main.css; path = webassets/dist/main.css; sourceTree = "<group>"; };
-		2339F7B9249A8132001BAB0E /* main.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = main.js; path = webassets/dist/main.js; sourceTree = "<group>"; };
 		23437CC3243798BC00322757 /* Teams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Teams.swift; sourceTree = "<group>"; };
 		23437CC82438926100322757 /* IdaoStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdaoStorage.swift; sourceTree = "<group>"; };
 		23437CCC24389C9400322757 /* IdaoManager-Base.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IdaoManager-Base.swift"; sourceTree = "<group>"; };
@@ -125,6 +122,10 @@
 		238D6BD7235E4CEB008BF849 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		238D6BE5235F43A5008BF849 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		239524C0249BA4CF002E5DEB /* AppKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppKeys.swift; sourceTree = "<group>"; };
+		239524C8249BBE4D002E5DEB /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = index.html; path = ../IDAO/Resources/index.html; sourceTree = "<group>"; };
+		239524C9249BBE4D002E5DEB /* main.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = main.js; path = ../IDAO/Resources/main.js; sourceTree = "<group>"; };
+		239524CA249BBE4E002E5DEB /* RegistrationAgreement.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = RegistrationAgreement.rtf; path = ../IDAO/Resources/RegistrationAgreement.rtf; sourceTree = "<group>"; };
+		239524CB249BBE4E002E5DEB /* main.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; name = main.css; path = ../IDAO/Resources/main.css; sourceTree = "<group>"; };
 		239E298824523B9F00375216 /* ContestsStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContestsStorage.swift; sourceTree = "<group>"; };
 		239E298A2453098600375216 /* ContestsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContestsViewController.swift; sourceTree = "<group>"; };
 		239E298D24530A7A00375216 /* ContestCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContestCell.swift; sourceTree = "<group>"; };
@@ -145,7 +146,6 @@
 		23BB04382448702000B4CB6B /* IdaoManager-Contests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IdaoManager-Contests.swift"; sourceTree = "<group>"; };
 		23BDC96A249A7FE400149303 /* MarkdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownView.swift; sourceTree = "<group>"; };
 		23FEC379249AB03600F73E6F /* TestStorages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestStorages.swift; sourceTree = "<group>"; };
-		23FEC37B249B693300F73E6F /* RegistrationAgreement.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = RegistrationAgreement.rtf; sourceTree = "<group>"; };
 		23FEC381249B69B500F73E6F /* Agreement.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Agreement.storyboard; sourceTree = "<group>"; };
 		23FEC383249B69CF00F73E6F /* AgreementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgreementViewController.swift; sourceTree = "<group>"; };
 		298EE67C573699E7B7DF2746 /* Pods_IDAO.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IDAO.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -256,18 +256,6 @@
 			path = TeamActionSheet;
 			sourceTree = "<group>";
 		};
-		2339F7BA249A8132001BAB0E /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				2339F7B7249A8132001BAB0E /* index.html */,
-				2339F7B8249A8132001BAB0E /* main.css */,
-				2339F7B9249A8132001BAB0E /* main.js */,
-				23FEC37B249B693300F73E6F /* RegistrationAgreement.rtf */,
-			);
-			name = Resources;
-			path = MarkdownView;
-			sourceTree = "<group>";
-		};
 		23437CCA24389C0100322757 /* IdaoManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -363,6 +351,7 @@
 		238D6BBA235E4CE9008BF849 = {
 			isa = PBXGroup;
 			children = (
+				239524D0249BBE54002E5DEB /* Resources */,
 				238D6BC5235E4CEA008BF849 /* IDAO */,
 				238D6BC4235E4CEA008BF849 /* Products */,
 				CFE8527EE62565454F248CC9 /* Pods */,
@@ -383,7 +372,6 @@
 			children = (
 				230EF15B248C2B76002BADDF /* Frontend */,
 				236DE76A243228F700FBF8AB /* Backend */,
-				2339F7BA249A8132001BAB0E /* Resources */,
 				238D6BC6235E4CEA008BF849 /* AppDelegate.swift */,
 				238D6BD4235E4CEB008BF849 /* LaunchScreen.storyboard */,
 				238D6BD2235E4CEB008BF849 /* Assets.xcassets */,
@@ -401,6 +389,17 @@
 				23555FAA24955B5F00A08081 /* Profile.storyboard */,
 			);
 			path = Profile;
+			sourceTree = "<group>";
+		};
+		239524D0249BBE54002E5DEB /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				239524C8249BBE4D002E5DEB /* index.html */,
+				239524CB249BBE4E002E5DEB /* main.css */,
+				239524C9249BBE4D002E5DEB /* main.js */,
+				239524CA249BBE4E002E5DEB /* RegistrationAgreement.rtf */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		239E298724523A2700375216 /* Contests */ = {
@@ -551,13 +550,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23BC5EEF249A834D003ABF3A /* main.js in Resources */,
+				239524CC249BBE4E002E5DEB /* index.html in Resources */,
+				239524CD249BBE4E002E5DEB /* main.js in Resources */,
+				239524CE249BBE4E002E5DEB /* RegistrationAgreement.rtf in Resources */,
+				239524CF249BBE4E002E5DEB /* main.css in Resources */,
 				239E299024530A7A00375216 /* ContestCell.xib in Resources */,
 				23839FE3243F28D500B4CF89 /* InvitesView.storyboard in Resources */,
-				2339F7C5249A82C4001BAB0E /* main.css in Resources */,
 				23555FAD24955BA700A08081 /* News.storyboard in Resources */,
 				2303D2B1243CB74200CA1EDB /* NewsCell.xib in Resources */,
-				23FEC37C249B693300F73E6F /* RegistrationAgreement.rtf in Resources */,
 				23FEC382249B69B500F73E6F /* Agreement.storyboard in Resources */,
 				23555FB124955CD400A08081 /* Contests.storyboard in Resources */,
 				230D86BA242FA79800AFCF04 /* Main.storyboard in Resources */,
@@ -571,7 +571,6 @@
 				238D6BD3235E4CEB008BF849 /* Assets.xcassets in Resources */,
 				230EF15F248C2BBA002BADDF /* ActionSheetStylePicker.storyboard in Resources */,
 				238D6BCE235E4CEA008BF849 /* Login.storyboard in Resources */,
-				2339F7C4249A82C1001BAB0E /* index.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
